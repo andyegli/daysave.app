@@ -1,0 +1,16 @@
+@startuml
+left to right direction
+actor User
+rectangle Comments {
+  ( Add comment )
+  User --> ( Add comment )
+  ( View comment )
+  User --> ( View comment )
+  ( Edit comment )
+  User --> ( Edit comment )
+  ( Delete comment )
+  User --> ( Delete comment )
+  ( Moderate reported comments )
+  User --> ( Moderate reported comments )
+}
+@enduml

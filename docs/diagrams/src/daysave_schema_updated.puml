@@ -1,0 +1,119 @@
+// Title: DaySave V1 Database Schema
+@startuml DaySaveV1
+skinparam style strictuml
+left to right direction
+skinparam packageStyle rectangle
+
+entity userProfile {
+  *id : int <<PK>>
+  uuid : UUID
+  username : string
+  email : string
+  passwordHash : text
+  role : enum
+  createdAt : datetime
+  updatedAt : datetime
+}
+
+entity authProvider {
+  *id : int <<PK>>
+  uuid : UUID
+  userId : int <<FK>>
+  provider : string
+  providerId : string
+  accessToken : text
+  refreshToken : text
+  createdAt : datetime
+}
+
+entity contact {
+  *id : int <<PK>>
+  uuid : UUID
+  userId : int <<FK>>
+  name : string
+  email : string
+  phone : string
+  notes : text
+  createdAt : datetime
+  updatedAt : datetime
+}
+
+entity contactGroup {
+  *id : int <<PK>>
+  uuid : UUID
+  userId : int <<FK>>
+  name : string
+  createdAt : datetime
+}
+
+entity contactSocialProfile {
+  *id : int <<PK>>
+  uuid : UUID
+  contactId : int <<FK>>
+  platformId : int <<FK>>
+  profileUrl : string
+}
+
+entity socialPlatforms {
+  *id : int <<PK>>
+  name : string
+}
+
+entity content {
+  *id : int <<PK>>
+  uuid : UUID
+  userId : int <<FK>>
+  url : text
+  title : string
+  summary : text
+  location : string
+  creatorType : string
+  savedAt : datetime
+  updatedAt : datetime
+}
+
+entity tag {
+  *id : int <<PK>>
+  uuid : UUID
+  name : string
+  creatorType : string
+}
+
+entity comment {
+  *id : int <<PK>>
+  uuid : UUID
+  userId : int <<FK>>
+  contactId : int <<FK>>
+  contentId : int <<FK>>
+  text : text
+  creatorType : string
+  createdAt : datetime
+}
+
+entity content_tag {
+  *contentId : int <<PK>>
+  *tagId : int <<PK>>
+}
+
+entity content_comment {
+  *contentId : int <<PK>>
+  *commentId : int <<PK>>
+}
+
+userProfile ||--o{ authProvider : has
+userProfile ||--o{ contact : owns
+userProfile ||--o{ content : posts
+userProfile ||--o{ comment : writes
+
+contact ||--o{ contactSocialProfile : links
+contact ||--o{ comment : mentions
+contactSocialProfile }o--|| socialPlatforms : on
+
+content ||--o{ comment : has
+content ||--o{ content_tag : tagged
+content ||--o{ content_comment : discussed
+
+tag ||--o{ content_tag : used
+comment ||--o{ content_comment : added
+
+@enduml

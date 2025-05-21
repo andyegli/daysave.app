@@ -1,0 +1,21 @@
+@startuml  oAuth Sequence diagram  
+actor User
+participant "Your Web App\n(Client)" as App
+participant "Google OAuth\n(Authorization Server)" as Google
+participant "Google API\n(Resource Server)" as GoogleAPI
+participant "Your Database" as DB
+
+User -> App : Clicks “Login with Google”
+App -> Google : Redirect with Client ID + Scope + State
+User -> Google : Logs in + Approves Scopes
+Google -> App : Redirect back with Auth Code
+
+App -> Google : Exchange Auth Code for Tokens
+Google -> App : Access Token + ID Token + Refresh Token
+
+App -> GoogleAPI : GET /userinfo with Access Token
+GoogleAPI -> App : User Profile (name, email, avatar)
+
+App -> DB : Find or Create user by email
+App -> User : Logged in
+@enduml

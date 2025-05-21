@@ -1,0 +1,56 @@
+@startuml daysave_problem_domain
+left to right direction
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+actor "Admin" as Admin
+actor "Member" as Member
+actor "Guest" as Guest
+actor "Payment Provider" as Payment
+
+package "User & Access" {
+  rectangle "user_profiles" as UP
+  rectangle "auth_providers"
+  rectangle "mfa_methods"
+  rectangle "roles"
+  rectangle "permissions"
+}
+
+package "Content System" {
+  rectangle "content"
+  rectangle "comments"
+  rectangle "tags"
+  rectangle "content_reminders"
+  rectangle "content_shares"
+}
+
+package "Contact System" {
+  rectangle "contacts"
+  rectangle "contact_groups"
+  rectangle "contact_comments"
+  rectangle "contact_tags"
+  rectangle "social_profiles"
+}
+
+package "Subscription & Payment" {
+  rectangle "subscriptions"
+  rectangle "payment_providers"
+  rectangle "subscription_grace_periods"
+}
+
+package "Security & Tracking" {
+  rectangle "fingerprints"
+}
+
+' User Interaction
+Admin --> UP : create, update, deactivate
+Member --> UP : register, update profile
+Guest --> auth_providers : login/signup
+Member --> content : create, view, delete
+Member --> content_reminders : set reminders
+Member --> comments : write comment
+Member --> contacts : manage contacts
+Member --> subscriptions : subscribe
+Payment --> payment_providers : notify/payment status
+
+@enduml

@@ -1,0 +1,20 @@
+@startgantt
+title daysave.app v1.0.1 Project Timeline - 19-05-2025
+
+[Project Setup and Configuration] happens from 19-05-2025 to 21-05-2025
+[Database Schema and Migrations] happens from 21-05-2025 to 24-05-2025 :2
+[Authentication and Authorization] happens from 24-05-2025 to 28-05-2025 :3
+[Content Management] happens from 28-05-2025 to 01-06-2025 :3
+[Contact Management] happens from 01-06-2025 to 04-06-2025 :2
+[Frontend (Web UI)] happens from 04-06-2025 to 08-06-2025 :3
+[Subscriptions and Payments] happens from 08-06-2025 to 11-06-2025 :2
+[Monitoring and Auditing] happens from 11-06-2025 to 13-06-2025 :2
+[Mobile Apps] happens from 13-06-2025 to 20-06-2025 :5
+[Browser Extensions] happens from 20-06-2025 to 25-06-2025 :3
+[Testing] happens from 25-06-2025 to 28-06-2025 :2
+[CI/CD and Deployment] happens from 28-06-2025 to 01-07-2025 :2
+[Polising and Testing] happens from 01-07-2025 to 05-07-2025 :2
+[Project Finallized] happens from 16-07-2025 to 16-07-2025 :2
+[Presentng and Defending Projec] happens from 16-07-2025 to 22-07-2025 :2
+
+@endgantt

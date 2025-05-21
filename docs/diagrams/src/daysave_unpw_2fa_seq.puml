@@ -1,0 +1,72 @@
+@startuml daysave unpw 2fa seq
+actor User
+participant "Auth System" as Auth
+database "Database" as DB
+participant "SMS Service" as SMS
+participant "Email Service" as Email
+
+== Registration ==
+User -> Auth: Submit registration (username, password, etc.)
+Auth -> DB: Insert new user record into Users
+Auth -> DB: Store hashed password & salt in Credentials:contentReference[oaicite:16]{index=16}
+opt User enables TOTP during sign-up
+    Auth -> Auth: Generate TOTP secret for user
+    Auth -> DB: Save TOTP secret in User_MFA_Methods:contentReference[oaicite:17]{index=17}
+    Auth -> User: Display QR code for authenticator app (TOTP secret)
+end opt
+opt User enables SMS 2FA
+    User -> Auth: Provide phone number for 2FA
+    Auth -> DB: Save phone number in User_MFA_Methods
+    Auth -> SMS: Send verification code via SMS to phone
+    SMS -> User: SMS with verification code
+    User -> Auth: Enter SMS code to confirm phone
+    Auth -> DB: Mark phone as verified for 2FA
+end opt
+opt User enables Email 2FA
+    Auth -> DB: Add email method in User_MFA_Methods (using user's email)
+end opt
+opt User generates backup codes:contentReference[oaicite:18]{index=18}
+    Auth -> DB: Generate multiple one-time backup codes (store hashes):contentReference[oaicite:19]{index=19}
+    Auth -> User: Show backup codes to save (for 2FA recovery):contentReference[oaicite:20]{index=20}
+end opt
+
+== Login ==
+User -> Auth: Enter username & password (login request)
+Auth -> DB: Retrieve user by username
+Auth -> DB: Verify password hash matches (credentials check)
+alt Password valid
+    Auth -> DB: Reset failed_attempts, update last_login_at
+    alt 2FA is enabled for this user
+        Auth -> User: Prompt for 2FA code (TOTP, SMS, email or backup)
+        alt User uses TOTP (authenticator app)
+            User -> Auth: Enter 6-digit TOTP code
+            Auth -> DB: Retrieve TOTP secret for user
+            Auth -> Auth: Validate TOTP code using the secret
+        else User uses SMS code
+            Auth -> SMS: Send one-time code via SMS
+            SMS -> User: SMS with verification code
+            User -> Auth: Enter SMS code from phone
+            Auth -> DB: Verify the code against Auth_Codes (check value & expiry)
+        else User uses Email code
+            Auth -> Email: Send one-time code via email
+            Email -> User: Email with verification code
+            User -> Auth: Enter email code from inbox
+            Auth -> DB: Verify the code against Auth_Codes (check value & expiry)
+        else User uses backup code
+            User -> Auth: Enter one of the backup codes
+            Auth -> DB: Verify the code by comparing hash in Backup_Codes
+        end alt
+        alt Second factor success
+            Auth -> DB: If backup code used, mark it as used
+            Auth -> User: Login successful (access granted)
+        else Second factor failure
+            Auth -> User: 2FA verification failed – prompt for another method:contentReference[oaicite:21]{index=21}
+        end alt
+    else No 2FA enabled for user
+        Auth -> User: Login successful (access granted)
+    end alt
+else Password invalid
+    Auth -> DB: Increment failed_attempts count:contentReference[oaicite:22]{index=22}
+    Auth -> User: Login failed (invalid credentials)
+end alt
+@enduml

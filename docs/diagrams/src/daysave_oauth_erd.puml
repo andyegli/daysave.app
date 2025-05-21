@@ -1,0 +1,22 @@
+@startuml daysave_oauth_erd
+entity "user_profile" {
+  *id : UUID <<PK>>
+  email : VARCHAR
+  display_name : VARCHAR
+  avatar_url : TEXT
+  created_at : TIMESTAMP
+}
+
+entity "auth_oauth_providers" {
+  *id : UUID <<PK>>
+  user_id : UUID <<FK>>
+  provider_name : VARCHAR
+  provider_user_id : VARCHAR
+  access_token : TEXT
+  refresh_token : TEXT
+  token_expiry : TIMESTAMP
+  created_at : TIMESTAMP
+}
+
+user_profile ||--o{ auth_oauth_providers : "has"
+@enduml

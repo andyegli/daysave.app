@@ -1,0 +1,27 @@
+@startuml daysave_UNPW_seq
+actor User
+participant "Frontend\nBrowser" as Frontend
+participant "Backend API" as Backend
+participant "Database" as DB
+
+== Registration ==
+User -> Frontend : Enters email, username, password
+Frontend -> Backend : POST /register
+Backend -> Backend : Hash password (e.g., bcrypt)
+Backend -> DB : INSERT INTO user_profile
+Backend -> DB : INSERT INTO auth_passwords
+Backend -> Frontend : Return success
+
+== Login ==
+User -> Frontend : Enters username + password
+Frontend -> Backend : POST /login
+Backend -> DB : SELECT user_profile + password_hash by username
+Backend -> Backend : Compare hashed password
+alt Match
+    Backend -> DB : UPDATE last_login
+    Backend -> Frontend : Success + Issue session/token
+else No match
+    Backend -> DB : Increment failed_attempts
+    Backend -> Frontend : Show login error
+end
+@enduml

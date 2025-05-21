@@ -1,0 +1,12 @@
+@startuml daysave Accessibility
+left to right direction
+actor User
+rectangle Accessibility {
+  ( Share-to integration )
+  User --> ( Share-to integration )
+  ( WCAG-compliant markup and styles )
+  User --> ( WCAG-compliant markup and styles )
+  ( Service worker for offline )
+  User --> ( Service worker for offline )
+}
+@enduml

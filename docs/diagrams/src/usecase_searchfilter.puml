@@ -1,0 +1,14 @@
+@startuml
+left to right direction
+actor User
+rectangle SearchFilter {
+  ( Full-text search )
+  User --> ( Full-text search )
+  ( Tag/category filter )
+  User --> ( Tag/category filter )
+  ( Location/time-based filtering )
+  User --> ( Location/time-based filtering )
+  ( Saved views or bookmarks )
+  User --> ( Saved views or bookmarks )
+}
+@enduml

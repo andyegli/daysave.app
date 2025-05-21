@@ -1,0 +1,14 @@
+@startuml
+left to right direction
+actor User
+rectangle AdminMonitoring {
+  ( Admin dashboard )
+  User --> ( Admin dashboard )
+  ( Audit log access )
+  User --> ( Audit log access )
+  ( Tag/category moderation tools )
+  User --> ( Tag/category moderation tools )
+  ( Abuse report resolution )
+  User --> ( Abuse report resolution )
+}
+@enduml

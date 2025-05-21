@@ -1,0 +1,196 @@
+@startuml daysave_erd
+!define table(x) class x << (T,#FFAAAA) >>
+!define primary_key(x) <u>x</u>
+skinparam classAttributeIconSize 0
+
+' === USER MANAGEMENT ===
+table(user_profiles) {
+  primary_key(id): UUID
+  email: VARCHAR
+  display_name: VARCHAR
+  created_at: DATETIME
+  updated_at: DATETIME
+}
+
+table(auth_providers) {
+  primary_key(id): UUID
+  user_profile_id: UUID
+  provider: ENUM
+  provider_user_id: VARCHAR
+  hashed_password: TEXT
+  passkey_data: JSON
+  is_active: BOOLEAN
+}
+
+table(mfa_methods) {
+  primary_key(id): UUID
+  user_profile_id: UUID
+  type: ENUM
+  config: JSON
+  is_primary: BOOLEAN
+}
+
+table(roles) {
+  primary_key(id): UUID
+  name: VARCHAR
+}
+
+table(user_roles) {
+  primary_key(id): UUID
+  user_profile_id: UUID
+  role_id: UUID
+}
+
+table(permissions) {
+  primary_key(id): UUID
+  name: VARCHAR
+  description: TEXT
+}
+
+table(role_permissions) {
+  primary_key(id): UUID
+  role_id: UUID
+  permission_id: UUID
+}
+
+table(fingerprints) {
+  primary_key(id): UUID
+  user_profile_id: UUID
+  fingerprint_hash: VARCHAR
+}
+
+' === CONTACTS ===
+table(contacts) {
+  primary_key(id): UUID
+  user_profile_id: UUID
+  contact_type_id: UUID
+  name: VARCHAR
+}
+
+table(contact_groups) {
+  primary_key(id): UUID
+  user_profile_id: UUID
+  name: VARCHAR
+}
+
+table(contact_group_members) {
+  primary_key(id): UUID
+  contact_group_id: UUID
+  contact_id: UUID
+}
+
+table(contact_types) {
+  primary_key(id): UUID
+  name: VARCHAR
+}
+
+table(country_codes) {
+  primary_key(id): UUID
+  code: VARCHAR
+}
+
+table(phone_numbers) {
+  primary_key(id): UUID
+  contact_id: UUID
+  country_code_id: UUID
+  number: VARCHAR
+}
+
+table(email_addresses) {
+  primary_key(id): UUID
+  contact_id: UUID
+  email: VARCHAR
+}
+
+table(physical_addresses) {
+  primary_key(id): UUID
+  contact_id: UUID
+  city: VARCHAR
+  country: VARCHAR
+}
+
+table(social_providers) {
+  primary_key(id): UUID
+  name: VARCHAR
+}
+
+table(social_profiles) {
+  primary_key(id): UUID
+  contact_id: UUID
+  social_provider_id: UUID
+}
+
+' === CONTENT ===
+table(content) {
+  primary_key(id): UUID
+  user_profile_id: UUID
+  title: VARCHAR
+  url: TEXT
+}
+
+table(comments) {
+  primary_key(id): UUID
+  content_id: UUID
+  commenter_id: UUID
+}
+
+table(tags) {
+  primary_key(id): UUID
+  name: VARCHAR
+}
+
+table(content_tags) {
+  primary_key(id): UUID
+  content_id: UUID
+  tag_id: UUID
+}
+
+table(content_shares) {
+  primary_key(id): UUID
+  content_id: UUID
+  contact_id: UUID
+}
+
+table(contact_comments) {
+  primary_key(id): UUID
+  content_id: UUID
+  contact_id: UUID
+}
+
+table(contact_tags) {
+  primary_key(id): UUID
+  content_id: UUID
+  contact_id: UUID
+  tag_id: UUID
+}
+
+table(content_reminders) {
+  primary_key(id): UUID
+  user_profile_id: UUID
+  content_id: UUID
+  remind_at: DATETIME
+}
+
+' === SUBSCRIPTIONS ===
+table(payment_providers) {
+  primary_key(id): UUID
+  name: ENUM
+}
+
+table(subscriptions) {
+  primary_key(id): UUID
+  user_profile_id: UUID
+  payment_provider_id: UUID
+  start_date: DATETIME
+  end_date: DATETIME
+}
+
+table(subscription_grace_periods) {
+  primary_key(id): UUID
+  subscription_id: UUID
+  granted_by: UUID
+  grace_start: DATETIME
+  grace_end: DATETIME
+}
+
+@enduml

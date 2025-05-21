@@ -1,0 +1,14 @@
+@startuml
+left to right direction
+actor User
+rectangle TimelineExport {
+  ( Generate timeline view )
+  User --> ( Generate timeline view )
+  ( Export data )
+  User --> ( Export data )
+  ( Print content bundle )
+  User --> ( Print content bundle )
+  ( Calendar view filtering )
+  User --> ( Calendar view filtering )
+}
+@enduml

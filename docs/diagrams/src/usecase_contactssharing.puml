@@ -1,0 +1,13 @@
+@startuml daysave_contactssharing
+title Contacts Sharing Use Case Diagram
+left to right direction
+actor User
+rectangle ContactsSharing {
+  ( Add/edit/delete contact or group )
+  User --> ( Add/edit/delete contact or group )
+  ( Share content with contact )
+  User --> ( Share content with contact )
+  ( Manage visibility and access levels )
+  User --> ( Manage visibility and access levels )
+}
+@enduml

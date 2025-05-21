@@ -1,0 +1,13 @@
+@startuml daysave_UN/PW_auth_erd
+entity "user_profile" {
+  *id : UUID <<PK>>
+  username : VARCHAR <<UNIQUE>>
+  email : VARCHAR <<UNIQUE>>
+  password_hash : VARCHAR
+  created_at : TIMESTAMP
+  last_login : TIMESTAMP
+  failed_attempts : INT
+  is_locked : BOOLEAN
+  is_verified : BOOLEAN
+}
+@enduml

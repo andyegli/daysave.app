@@ -1,0 +1,19 @@
+
+{
+  "name": "DaySave DevContainer",
+  "dockerComposeFile": "../docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/app",
+  "settings": {
+    "terminal.integrated.shell.linux": "/bin/bash"
+  },
+  "extensions": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "ms-azuretools.vscode-docker",
+    "GraphQL.vscode-graphql",
+    "eamodio.gitlens"
+  ],
+  "postCreateCommand": "npm install",
+  "remoteUser": "node"
+}

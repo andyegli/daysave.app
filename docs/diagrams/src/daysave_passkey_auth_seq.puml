@@ -1,0 +1,28 @@
+@startuml Passkey_Auth_Sequence
+actor User
+participant "Browser/Device" as Client
+participant "Web Server\n(Backend API)" as Server
+participant "Database"
+participant "Authenticator\n(e.g. Secure Enclave)" as Authenticator
+
+== Registration (Creating Passkey) ==
+
+User -> Client : Start registration
+Client -> Server : Request registration challenge
+Server -> Database : Lookup user / create registration record
+Server -> Client : Return challenge (random + user ID)
+Client -> Authenticator : Create public/private key pair
+Client -> Server : Send public key + credential ID
+Server -> Database : Store public key, credential ID
+
+== Login (Authentication) ==
+
+User -> Client : Start login
+Client -> Server : Request authentication challenge
+Server -> Database : Fetch public key and credential ID
+Server -> Client : Return challenge + credential ID
+Client -> Authenticator : Sign challenge with private key
+Client -> Server : Send signature
+Server -> Database : Verify signature with stored public key
+Server -> Client : Authenticated!
+@enduml

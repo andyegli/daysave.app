@@ -1,0 +1,19 @@
+@startuml daysave sso_auth_seq
+title SSO Authentication Sequence Diagram
+actor User
+participant "Your App\n(Service Provider)" as SP
+participant "Identity Provider\n(IdP: e.g. Okta)" as IdP
+participant "Your Database" as DB
+
+User -> SP : Clicks “Login via SSO”
+SP -> IdP : Redirect to authorization endpoint
+User -> IdP : Login & Consent
+IdP -> SP : Redirect with authorization code
+
+SP -> IdP : Exchange code for ID token
+IdP -> SP : Return ID token (JWT)
+
+SP -> SP : Validate JWT signature
+SP -> DB : Find or create user by ID token email
+SP -> User : Authenticated + Redirected
+@enduml

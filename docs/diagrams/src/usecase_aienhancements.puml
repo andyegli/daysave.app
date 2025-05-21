@@ -1,0 +1,14 @@
+@startuml
+left to right direction
+actor User
+rectangle AIEnhancements {
+  ( Run summarizer and tagger on new URLs )
+  User --> ( Run summarizer and tagger on new URLs )
+  ( Update content with AI output )
+  User --> ( Update content with AI output )
+  ( Flag low-confidence items for review )
+  User --> ( Flag low-confidence items for review )
+  ( Track processing status per URL )
+  User --> ( Track processing status per URL )
+}
+@enduml
