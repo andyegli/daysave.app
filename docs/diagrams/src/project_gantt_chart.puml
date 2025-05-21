@@ -1,20 +1,16 @@
 @startgantt
-title daysave.app v1.0.1 Project Timeline - 19-05-2025
+Project starts 2025-05-26
 
-[Project Setup and Configuration] happens from 19-05-2025 to 21-05-2025
-[Database Schema and Migrations] happens from 21-05-2025 to 24-05-2025 :2
-[Authentication and Authorization] happens from 24-05-2025 to 28-05-2025 :3
-[Content Management] happens from 28-05-2025 to 01-06-2025 :3
-[Contact Management] happens from 01-06-2025 to 04-06-2025 :2
-[Frontend (Web UI)] happens from 04-06-2025 to 08-06-2025 :3
-[Subscriptions and Payments] happens from 08-06-2025 to 11-06-2025 :2
-[Monitoring and Auditing] happens from 11-06-2025 to 13-06-2025 :2
-[Mobile Apps] happens from 13-06-2025 to 20-06-2025 :5
-[Browser Extensions] happens from 20-06-2025 to 25-06-2025 :3
-[Testing] happens from 25-06-2025 to 28-06-2025 :2
-[CI/CD and Deployment] happens from 28-06-2025 to 01-07-2025 :2
-[Polising and Testing] happens from 01-07-2025 to 05-07-2025 :2
-[Project Finallized] happens from 16-07-2025 to 16-07-2025 :2
-[Presentng and Defending Projec] happens from 16-07-2025 to 22-07-2025 :2
+[Project plan submission deadline] happens at 2025-05-25
+[Research, requirements, schema design, user stories, Project Management setup] starts 2025-05-26 and ends 2025-06-08
+[Frontend layout, user authentication (OAuth/email), sessions] starts 2025-06-09 and ends 2025-06-29
+[Content submission, tagging, search & sort dashboard] starts 2025-06-30 and ends 2025-07-20
+[Contact system and content sharing functionality] starts 2025-07-21 and ends 2025-08-03
+[Admin audit log, testing and documentation] starts 2025-08-04 and ends 2025-08-10
+[Polishing and improving] starts 2025-08-11 and ends 2025-08-17
+[Project submission for assessment] happens at 2025-08-16
+[Final deployment, report writing, peer review] starts 2025-08-18 and ends 2025-08-24
+[End of class] starts 2025-08-25 and ends 2025-08-31
+
 
 @endgantt

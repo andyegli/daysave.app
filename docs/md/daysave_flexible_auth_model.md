@@ -1,6 +1,6 @@
 can you provide a schema where a user_profile can register and authenticate using the following auth_methodes: multiple (username and password), multiple oauth, sso and / or passkeys and offer the user_profile can select a combination for multi factor authentication  via OTP, pass_code_list, email, sms or a auth_method above
 
-✅ Summary
+Summary
 The schema supports multiple authentication methods per user
 
 Enables flexible MFA with user preferences and enforcement
@@ -10,7 +10,7 @@ Separate tables for each auth method help with scalability and auditing
 Secure design with support for TOTP, email, SMS, passkey-based MFA
 
 
-✅ Supported Authentication Methods
+Supported Authentication Methods
 
 1. Primary Authentication
 
@@ -23,6 +23,7 @@ SSO (via SAML or OIDC)
 Passkey / WebAuthn
 
 2. Multi-Factor Authentication (MFA)
+
 OTP (TOTP via Authenticator app)
 
 Email verification code
@@ -33,8 +34,8 @@ Printed Passcode list (HOTP style)
 
 Any of the above primary methods as a secondary factor
 
-🗂️ DATABASE SCHEMA
-💡 Design Goals:
+DATABASE SCHEMA
+Design Goals:
 Decouple methods from user_profile to allow flexible combinations
 
 Each auth method (e.g., passkey, oauth, etc.) has its own table

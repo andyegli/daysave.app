@@ -13,11 +13,12 @@ May 2025
 Contents 
 
 1. Introduction 
-   1.1. Project Team
+1.1. Motivation and inspiration
+1.2. Project Team
 
 2. Scope 
-   2.2 Constraints 
-   2.2 Constraints 
+2.2. Constraints 
+2.2. Constraints 
 
 3. User stories and use cases 
 
@@ -41,9 +42,13 @@ is desinged as SelfHosted first.
 1.1 Motivation and inspiration
 
 While "scripting" in IT  for a livetime and occationally "tinkering" with small applications I have joind FutureSkills MCSD51 to gain a more in depth and structured understanding of how software projects are comming to live. I have chosen this project as my project, knowing that it may exeed the complexity and scope of the class requirements. I am intrested in not only the basics but also how AI can support the learning and effects efficiency in aspiring developers. The application is derived from my dayly needs in storing a variate of content for futer reserch. 
+
 I wentured out and bought a the daysave domain name to use in the project then started the reseach. (see alternatives_inspiration.md).
+
 To my surprise a found may similar projects some of them even opensource and some of them commersical.
-I also tried to keep the techstack close to what has been tought in class but did want to explore technologies assiting advanced authentication (passoport) and ways to be able to change the database schema dynamically (Squalize). See the full techstack in tech_tools_accounts.md
+
+I also tried to keep the techstack close to what has been tought in class but did want to explore technologies assiting advanced authentication (passoport) and ways to be able to change the database schema dynamically (Squalize). See the full techstack in [daysave.app/docs/md/tech_tools_accounts.md](https://github.com/andyegli/daysave.app/blob/main/docs/md/tech_tools_accounts.md)
+
 Since I have a need in my every day live to work with docker, clouod hosting and devops, I also wanted to learn more about devcontainers.
 And lastly I struggled producing quality diagrams untill i discovered PlantUML allowing me to generate these dynamically from code.
 Therefore I included PlantUML in my techstack.
@@ -66,7 +71,6 @@ see project_wbs.md. I would like to see the schema generation to come to live an
 Landing page, Login page, Conent management, Contact management to meet the requiremens for the coourse.
 Depending on the progress I hope I will be able to present the project runing hosted in google cloud with is wehere we manage most of our clients systems in real live and provide servises for our customers.     
 
-
 2. Scope 
 
 Given the time constraints and limited resources, in phase 1 we will will focus on delivering a propperly structured and well documented project scafold including functional web app that allows users to:
@@ -82,7 +86,7 @@ Since our intrest is in devops style deployment we aim to deliver the project co
 
 2.1 Additional Phases (Out Of Scope) 
 
-I leave pase numbers off at this stage as we are not sure yet in what order we are going forward.
+I leave phase numbering off at this stage as we are not sure yet in what order we are moving forward.
 
  Phase: Deployment to google cloud implemented
  Phese: CI/DI tested and implemented
@@ -105,8 +109,10 @@ Privacy is a big topic and we will have to investigate how the privacy laws impa
 
 3. User Stories and Use Cases 
 
-More aore and detailded user stories are
-At this stage we have not introduced a identification of user stories 
+More aore and detailded user stories are documented in the repo at 
+[docs/md/daysave_user_stories.md](https://github.com/andyegli/daysave.app/blob/main/docs/md/daysave_user_stories.md)
+
+At this stage we have not introduced a identification system for use cases and  user stories 
 
 3.1. User Stories: 
 
@@ -164,7 +170,7 @@ In this project we intend to use the Scrum methodology combined with DevOps prac
 Scrum allows for fast, iterative development where features can be reviewed and improved with feedback. DevOps ensures code is tested, built, and deployed through automated pipelines. 
   
 - Work will be split into weekly sprints 
-- Tasks are tracked using Trello 
+- Tasks are tracked potenionally using Trello 
 - Docker and GitHub Actions manage the CI/CD (Continuous Delivery or Continuous Deployment) pipeline if there is enough time 
 
 6. Project Timeline 
@@ -193,7 +199,7 @@ These diagrams are included as supporting files and visual references in the pro
 
 8. References 
 
-Project references are managed in the repo at /docs/md/references.md
+Project references are managed in the repo at docs/md/daysave_references.md
 
 Future Skills Academy. (2025). Software Development Workbook. 
 

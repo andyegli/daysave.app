@@ -1,6 +1,10 @@
 {
-  "plantuml.render": "PlantUMLServer",
-  "plantuml.server": "http://localhost:8080/plantuml",
+  //"plantuml.render": "PlantUMLServer",
+  "plantuml.render": "Local",
+  //"plantuml.server": "http://localhost:8080/plantuml",
   "plantuml.previewAutoUpdate": true,
-  "plantuml.trace.server": "verbose"
+  "plantuml.trace.server": "false",
+  "plantuml.java": "java",
+  "plantuml.graphvizDot": "dot"
 }
+
