@@ -32,7 +32,7 @@ Run tests with: `npm test`
 
 The project is described in the [Project Plan](https://github.com/andyegli/daysave.app/blob/main/docs/md/daysave_projcet_plan.md) 
 
-![Folder Tree](../diagrams/out/usecases_searchfilter.png)
+![Folder Tree](../docs/diagrams/out/usecases_searchfilter.png)
 
 
 See `docs/` for diagrams, reports, and presentations.
