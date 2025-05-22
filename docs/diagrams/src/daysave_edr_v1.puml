@@ -1,0 +1,289 @@
+@startuml
+
+' ERD for daysave.app v1.0.1
+skinparam monochrome true
+skinparam linetype ortho
+skinparam shadowing false
+
+' Entities
+entity user_profiles {
+  * id : UUID <<PK>>
+  --
+  * email : STRING(255)
+  display_name : STRING(255)
+  created_at : DATE
+  updated_at : DATE
+  deleted_at : DATE
+}
+
+entity auth_providers {
+  * id : UUID <<PK>>
+  --
+  * user_profile_id : UUID <<FK>>
+  * provider : ENUM
+  provider_user_id : STRING(255)
+  hashed_password : STRING(255)
+  passkey_data : JSON
+}
+
+entity mfa_methods {
+  * id : UUID <<PK>>
+  --
+  * user_profile_id : UUID <<FK>>
+  * type : ENUM
+  config : JSON
+  is_primary : BOOLEAN
+}
+
+entity roles {
+  * id : UUID <<PK>>
+  --
+  * name : STRING(50)
+}
+
+entity permissions {
+  * id : UUID <<PK>>
+  --
+  * name : STRING(50)
+  description : STRING(255)
+}
+
+entity role_permissions {
+  * id : UUID <<PK>>
+  --
+  * role_id : UUID <<FK>>
+  * permission_id : UUID <<FK>>
+}
+
+entity user_roles {
+  * id : UUID <<PK>>
+  --
+  * user_profile_id : UUID <<FK>>
+  * role_id : UUID <<FK>>
+}
+
+entity social_providers {
+  * id : UUID <<PK>>
+  --
+  * name : STRING(50)
+}
+
+entity social_profiles {
+  * id : UUID <<PK>>
+  --
+  * contact_id : UUID <<FK>>
+  * social_provider_id : UUID <<FK>>
+  social_id : STRING(255)
+}
+
+entity fingerprints {
+  * id : UUID <<PK>>
+  --
+  * user_profile_id : UUID <<FK>>
+  ip_history : JSON
+  locale : JSON
+  browser_headers : JSON
+  created_at : DATE
+  updated_at : DATE
+}
+
+entity contacts {
+  * id : UUID <<PK>>
+  --
+  * user_profile_id : UUID <<FK>>
+  * first_name : STRING(50)
+  last_name : STRING(50)
+  birthday : DATEONLY
+  notes : TEXT
+  phone_numbers : JSON
+  addresses : JSON
+  emails : JSON
+  social_profiles : JSON
+  created_at : DATE
+  updated_at : DATE
+}
+
+entity contact_groups {
+  * id : UUID <<PK>>
+  --
+  * user_profile_id : UUID <<FK>>
+  * name : STRING(50)
+  created_at : DATE
+  updated_at : DATE
+}
+
+entity contact_group_members {
+  * id : UUID <<PK>>
+  --
+  * contact_id : UUID <<FK>>
+  * group_id : UUID <<FK>>
+}
+
+entity content {
+  * id : UUID <<PK>>
+  --
+  * user_profile_id : UUID <<FK>>
+  title : STRING(255)
+  url : TEXT
+  summary : TEXT
+  * type : ENUM
+  source_id : UUID <<FK>>
+  created_at : DATE
+  updated_at : DATE
+  deleted_at : DATE
+}
+
+entity content_sources {
+  * id : UUID <<PK>>
+  --
+  * name : ENUM
+}
+
+entity content_analysis {
+  * id : UUID <<PK>>
+  --
+  * content_id : UUID <<FK>>
+  keywords : JSON
+  summary : TEXT
+  transcription : TEXT
+  objects : JSON
+  created_at : DATE
+  updated_at : DATE
+}
+
+entity content_shares {
+  * id : UUID <<PK>>
+  --
+  * content_id : UUID <<FK>>
+  * contact_id : UUID <<FK>>
+  shared_at : DATE
+  created_at : DATE
+  updated_at : DATE
+}
+
+entity tags {
+  * id : UUID <<PK>>
+  --
+  * name : STRING(50)
+}
+
+entity content_tags {
+  * id : UUID <<PK>>
+  --
+  * content_id : UUID <<FK>>
+  * tag_id : UUID <<FK>>
+}
+
+entity comments {
+  * id : UUID <<PK>>
+  --
+  * content_id : UUID <<FK>>
+  * commenter_id : UUID <<FK>>
+  * comment : TEXT
+  created_at : DATE
+  updated_at : DATE
+}
+
+entity subscriptions {
+  * id : UUID <<PK>>
+  --
+  * user_profile_id : UUID <<FK>>
+  * subscription_type : ENUM
+  start_date : DATE
+  end_date : DATE
+  created_at : DATE
+  updated_at : DATE
+}
+
+entity subscription_grace_periods {
+  * id : UUID <<PK>>
+  --
+  * subscription_id : UUID <<FK>>
+  * extended_end_date : DATE
+  created_at : DATE
+  updated_at : DATE
+}
+
+entity payment_providers {
+  * id : UUID <<PK>>
+  --
+  * name : STRING(50)
+}
+
+entity payment_transactions {
+  * id : UUID <<PK>>
+  --
+  * subscription_id : UUID <<FK>>
+  * payment_provider_id : UUID <<FK>>
+  * amount : DECIMAL(10,2)
+  * currency : STRING(3)
+  * status : ENUM
+  transaction_date : DATE
+  created_at : DATE
+  updated_at : DATE
+}
+
+entity audit_logs {
+  * id : UUID <<PK>>
+  --
+  * user_profile_id : UUID <<FK>>
+  * action : STRING(50)
+  details : JSON
+  timestamp : DATE
+  created_at : DATE
+  updated_at : DATE
+}
+
+entity statistics {
+  * id : UUID <<PK>>
+  --
+  * user_profile_id : UUID <<FK>>
+  * metric : STRING(50)
+  * value : INTEGER
+  recorded_at : DATE
+  created_at : DATE
+  updated_at : DATE
+}
+
+' Relationships
+user_profiles ||--o{ auth_providers
+user_profiles ||--o{ mfa_methods
+user_profiles ||--o{ user_roles
+user_profiles ||--o{ fingerprints
+user_profiles ||--o{ contacts
+user_profiles ||--o{ content
+user_profiles ||--o{ contact_groups
+user_profiles ||--o{ subscriptions
+user_profiles ||--o{ audit_logs
+user_profiles ||--o{ statistics
+
+roles ||--o{ user_roles
+roles ||--o{ role_permissions
+
+permissions ||--o{ role_permissions
+
+contacts ||--o{ social_profiles
+contacts ||--o{ contact_group_members
+contacts ||--o{ content_shares
+
+social_providers ||--o{ social_profiles
+
+contact_groups ||--o{ contact_group_members
+
+content ||--o{ comments
+content ||--o{ content_tags
+content ||--o{ content_shares
+content ||--o{ content_analysis
+
+content_sources ||--o{ content
+
+tags ||--o{ content_tags
+
+subscriptions ||--o{ subscription_grace_periods
+subscriptions ||--o{ payment_transactions
+
+payment_providers ||--o{ payment_transactions
+
+comments }o--|| user_profiles : commenter_id
+
+@enduml
