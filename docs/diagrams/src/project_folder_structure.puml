@@ -1,0 +1,175 @@
+@startuml daysave.app Folder Structure
+
+skinparam packageStyle rectangle
+title daysave.app Project Folder Structure
+
+package "daysave.app" {
+
+  package ".devcontainer" {
+    class "devcontainer.json"
+    class "Dockerfile"
+    class "docker-compose.yml"
+    note right of ".devcontainer"
+      VS Code Dev Container setup
+      for local development in Docker
+    end note
+  }
+
+  package ".vscodeconfig" {
+    class "settings.json"
+    note right of ".vscodeconfig"
+      VS Code specific settings (e.g. PlantUML preview config)
+    end note
+  }
+
+  package ".github" {
+    package "workflows" {
+      class "nodejs.yml"
+      note right of "nodejs.yml"
+        GitHub Actions workflow for Node.js CI/CD
+      end note
+    }
+    note right of ".github"
+      CI/CD automation via GitHub Actions
+    end note
+  }
+
+  package "public" {
+    package "css"
+    package "images"
+    package "js"
+    note right of "public"
+      Static frontend assets (CSS, images, JS)
+    end note
+  }
+
+  package "src" {
+    package "config" {
+      class "database.js"
+      class "passport.js"
+      class "config.js"
+      note right of "config"
+        Configuration for DB, auth, environment
+      end note
+    }
+
+    package "controllers" {
+      class "authController.js"
+      note right of "controllers"
+        Handles business logic for routes
+      end note
+    }
+
+    package "middlewares" {
+      class "authMiddleware.js"
+      note right of "middlewares"
+        Custom Express middleware (e.g. auth check)
+      end note
+    }
+
+    package "models" {
+      class "user.js"
+      note right of "models"
+        Sequelize ORM models for DB tables
+      end note
+    }
+
+    package "routes" {
+      class "authRoutes.js"
+      note right of "routes"
+        Express routes for application
+      end note
+    }
+
+    package "views" {
+      package "partials"
+      package "pages"
+      note right of "views"
+        EJS templates: partials + page views
+      end note
+    }
+
+    class "app.js"
+    note right of "app.js"
+      Main Express application entry point
+    end note
+  }
+
+  package "mobile" {
+    package "ios"
+    package "android"
+    note right of "mobile"
+      Mobile apps (Xcode + Android Studio projects)
+    end note
+  }
+
+  package "browser-extensions" {
+    package "chrome"
+    package "edge"
+    package "firefox"
+    note right of "browser-extensions"
+      Browser add-ons (Chrome, Edge, Firefox)
+    end note
+  }
+
+  package "docs" {
+    package "diagrams" {
+      package "src" {
+        class "schema.puml"
+        class "usecases.puml"
+        class "domain_model.puml"
+      }
+      package "out"
+      note right of "diagrams"
+        PlantUML source and exported diagrams
+      end note
+    }
+
+    package "reports" {
+      class "project-plan.md"
+      class "references.docx"
+      class "final-report.pdf"
+    }
+
+    package "presentations" {
+      class "kickoff-slides.pptx"
+      class "final-presentation.pdf"
+    }
+
+    note right of "docs"
+      Documentation (diagrams, reports, slides)
+    end note
+  }
+
+  package "test" {
+    class "auth.test.js"
+    note right of "test"
+      Unit and integration tests
+    end note
+  }
+
+  package "scripts" {
+    class "seed.js"
+    note right of "scripts"
+      Setup and seed scripts (e.g. DB seeding)
+    end note
+  }
+
+  class ".env"
+  class ".env.example"
+  class ".gitignore"
+  class ".nvmrc"
+  class "package.json"
+  class "README.md"
+
+  note right of ".env"
+    Secrets and environment variables
+    (excluded from version control)
+  end note
+
+  note right of "README.md"
+    Project overview and usage instructions
+  end note
+}
+
+@enduml

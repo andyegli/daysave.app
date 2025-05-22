@@ -3,7 +3,13 @@
 // README.md
 # daysave.app v1.0.1
 
-A privacy-focused web application for managing content and contacts, with support for web, mobile, and browser extensions.
+This project is under active development and by no means stable.
+
+It represents my current work as part of FutureSkills cource I am currently participating
+
+## What is daysave.app
+
+A privacy-focused web application for managing social media content support for web, mobile, and browser extensions.
 
 ## Setup
 
@@ -23,6 +29,11 @@ Run tests with: `npm test`
 [Coverage Badge Placeholder]
 
 ## Documentation
+
+The project is described in the [Project Plan](https://github.com/andyegli/daysave.app/blob/main/docs/md/daysave_projcet_plan.md) 
+
+![Folder Tree](../diagrams/out/usecases_searchfilter.png)
+
 
 See `docs/` for diagrams, reports, and presentations.
 
