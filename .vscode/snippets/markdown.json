@@ -1,0 +1,7 @@
+// .vscode/snippets/markdown.json
+{
+  "Insert Current Date": {
+    "prefix": "nowdate",
+    "body": "_Last updated: ${CURRENT_DATE}_"
+  }
+}

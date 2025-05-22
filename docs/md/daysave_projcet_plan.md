@@ -1,16 +1,16 @@
-DaySave.app Project Proposal 
+# DaySave.app Project Proposal 
 
-Certificate in Software Development – MCSD51 
+### Certificate in Software Development – MCSD51 
 
-Future Skills Training 
+### Future Skills Training 
 
-Andy Egli 
+By: Andy Egli 
 
-May 2025 
+Date: May 2025 
 
  
 
-Contents 
+## Contents 
 
 1. Introduction 
 1.1. Motivation and inspiration
@@ -34,12 +34,11 @@ Contents
 
  
 
-1. Introduction 
+## 1. Introduction 
 
-DaySave.app is designed to solve a modern digital problem: people frequently find valuable or interesting social media and web content but struggle to retrieve it later. Traditional bookmarking tools lack smart tagging, search, and context-aware organization. DaySave.app provides a solution by allowing users to save, tag, and comment on content, while also receiving help from AI features to summarize or categorize the content. Great applications are built with Trust, Security and Compliance in mind and for that reasson DaySave.app
-is desinged as SelfHosted first. 
+DaySave.app is designed to solve a modern digital problem: people frequently find valuable or interesting social media and web content but struggle to retrieve it later. Traditional bookmarking tools lack smart tagging, search, and context-aware organization. DaySave.app provides a solution by allowing users to save, tag, and comment on content, while also receiving help from AI features to summarize or categorize the content. Great applications are built with Trust, Security and Compliance in mind and for that reasson DaySave.appis desinged as SelfHosted first. 
 
-1.1 Motivation and inspiration
+### 1.1 Motivation and inspiration
 
 While "scripting" in IT  for a livetime and occationally "tinkering" with small applications I have joind FutureSkills MCSD51 to gain a more in depth and structured understanding of how software projects are comming to live. I have chosen this project as my project, knowing that it may exeed the complexity and scope of the class requirements. I am intrested in not only the basics but also how AI can support the learning and effects efficiency in aspiring developers. The application is derived from my dayly needs in storing a variate of content for futer reserch. 
 
@@ -53,7 +52,7 @@ Since I have a need in my every day live to work with docker, clouod hosting and
 And lastly I struggled producing quality diagrams untill i discovered PlantUML allowing me to generate these dynamically from code.
 Therefore I included PlantUML in my techstack.
 
-1.2. Project Team
+## 1.2. Project Team
 
 The project sponsor and developer is Andy Egli.  
 
@@ -61,7 +60,7 @@ Stakeholders include Future Skills Academy tutors who will assess the project.
 
 Users of the platform are individuals who regularly browse digital content and wish to organize it intelligently for future access. 
 
-1.3. Outcomes 
+## 1.3. Outcomes 
 
 The expected outcome of this project is a functioning web application (Phase 1) that includes secure registration/login, a conent page
 to search and display saved content also features to tag, conmment, share content with contacts and manage contact groups. 
@@ -71,7 +70,7 @@ see project_wbs.md. I would like to see the schema generation to come to live an
 Landing page, Login page, Conent management, Contact management to meet the requiremens for the coourse.
 Depending on the progress I hope I will be able to present the project runing hosted in google cloud with is wehere we manage most of our clients systems in real live and provide servises for our customers.     
 
-2. Scope 
+## 2. Scope 
 
 Given the time constraints and limited resources, in phase 1 we will will focus on delivering a propperly structured and well documented project scafold including functional web app that allows users to:
 
@@ -84,75 +83,76 @@ Given the time constraints and limited resources, in phase 1 we will will focus 
 The backend will use Node.js with Express, the frontend will use EJS and Bootstrap, and MySQL/MariaDB will handle persistent data.
 Since our intrest is in devops style deployment we aim to deliver the project containerised using devcontainers and deply on GCP. 
 
-2.1 Additional Phases (Out Of Scope) 
+## 2.1 Additional Phases (Out Of Scope) 
 
 I leave phase numbering off at this stage as we are not sure yet in what order we are moving forward.
 
- Phase: Deployment to google cloud implemented
- Phese: CI/DI tested and implemented
- Phase: Testing automation implemented 
- Phase: Users have contacts and groups and can share content
+ - Deployment to google cloud implemented
+ - CI/DI tested and implemented
+ - Testing automation implemented 
+ - Phase: Users have contacts and groups and can share content
         - Share content with selected contacts or contact groups 
         - Allow contacts to tag and comment on shared items 
- Phase: Contacts view shared content and can reply to shared contacts after registration 
- Phase: UX polished and audit implemented 
- Phase: AI Integration on backend for content classification summarization and transcription implemented 
- Phase: Stripe and PayPal integrated 
- Phase: Scheduled content reminders added 
+ - Contacts view shared content and can reply to shared contacts after registration 
+ - UX polished and audit implemented 
+ - AI Integration on backend for content classification summarization and transcription implemented 
+ - Stripe and PayPal integrated 
+ - Scheduled content reminders added 
 
-2.2 Constraints 
+## 2.2 Constraints 
 
 Time constraint: Project end date set to 31/8/2025 
 Resource constraint: Single Novice Developer with limited time currently traveling in Switzerland
 Privacy is a big topic and we will have to investigate how the privacy laws impact the project 
 
 
-3. User Stories and Use Cases 
+## 3. User Stories and Use Cases 
 
 More aore and detailded user stories are documented in the repo at 
 [docs/md/daysave_user_stories.md](https://github.com/andyegli/daysave.app/blob/main/docs/md/daysave_user_stories.md)
 
 At this stage we have not introduced a identification system for use cases and  user stories 
 
-3.1. User Stories: 
+## 3.1. User Stories: 
 
-As a guest, I want to be abler to explore the home page
+Here some of the basic user stories follwoing initial brain storiming:
 
-As a gures, I want to be able to register for a trial and become a user
+- As a guest, I want to be abler to explore the home page
 
-As a user, I want to save and categorize interesting content. 
+- As a gures, I want to be able to register for a trial and become a user
 
-As a user, I want to easily find my stored linkss a user, I want to have  
+- As a user, I want to save and categorize interesting content.  
 
-As a user, I want to securely log in to be abler to submit urls
+- As a user, I want to easily find my stored linkss a user, I want to have  
 
-As a user, I want to share saved content with my contacts. 
+- As a user, I want to securely log in to be abler to submit urls
 
-As a contact, I want to view and comment on shared content. 
+- As a user, I want to share saved content with my contacts. 
 
-As a admin, I want to manage users
+- As a contact, I want to view and comment on shared content. 
 
-As an admin, I want to monitor the system, view and ensure proper use. 
-  
- 
+- As a admin, I want to manage users
 
-3.2. Use Cases: 
+- As an admin, I want to monitor the system, view and ensure proper use. 
 
-Guest, User and Admins can brows home page
 
-Guest, User and Admin registration/login/reset password
+## 3.2. Use Cases: 
 
-User Content submission, tagging, commenting 
+- Guest, User and Admins can brows home page
 
-User Sharing with contacts and group management 
+- Guest, User and Admin registration/login/reset password
 
-User Searching/sorting of saved content 
+- User Content submission, tagging, commenting 
 
-Admin User management
+- User Sharing with contacts and group management 
 
-Admin audit log and dashboard 
+- User Searching/sorting of saved content 
 
-4. Ethical and Cultural Impact 
+- Admin User management
+
+- Admin audit log and dashboard 
+
+## 4. Ethical and Cultural Impact 
 
 The DaySave.app expands traditional NZ values in to a framework of responsible technology for 2025 and beyond: 
  - Equity: regardless of language, culture or device, user can engage with the platform fully. 
@@ -164,7 +164,7 @@ The DaySave.app expands traditional NZ values in to a framework of responsible t
  
 It also avoids addictive behavior loops, respects copyright by not downloading media and ensures AI outputs are monitored for bias or inaccuracy. 
 
-5. SDLC Software Development Life Cycle 
+## 5. SDLC Software Development Life Cycle 
 
 In this project we intend to use the Scrum methodology combined with DevOps practices. 
 Scrum allows for fast, iterative development where features can be reviewed and improved with feedback. DevOps ensures code is tested, built, and deployed through automated pipelines. 
@@ -173,7 +173,7 @@ Scrum allows for fast, iterative development where features can be reviewed and 
 - Tasks are tracked potenionally using Trello 
 - Docker and GitHub Actions manage the CI/CD (Continuous Delivery or Continuous Deployment) pipeline if there is enough time 
 
-6. Project Timeline 
+## 6. Project Timeline 
 
 The project will be developed using a Scrum sprint approach: 
 - Week 22-23: Research, requirements, schema design, user stories, Project Managemnt setup 
@@ -184,11 +184,13 @@ The project will be developed using a Scrum sprint approach:
 - Week 33: Polishing and improving  
 - Week 34: Final deployment, report writing, peer review 
 - Week 35: End of class
-  
+
+[Here access to the updated project Gantt Chart](https://github.com/andyegli/daysave.app/blob/main/docs/diagrams/out/project_gantt_chart.png)
+
 Progress will be tracked using project management tools.  
 Diagrams and logs will be updated as the project progresses. 
 
-7. Diagrams 
+## 7. Diagrams 
 
 The project includes several supporting diagrams: 
  - Problem Domain Sketch: Outlines the environment and core entities 
@@ -196,10 +198,14 @@ The project includes several supporting diagrams:
  - Database Schema: Normalized tables for users, content, tags, comments, contacts and relations etc
   
 These diagrams are included as supporting files and visual references in the project folder and pushed tho the git repo 
+[/docs/diagrams/out/](https://github.com/andyegli/daysave.app/blob/main/docs/diagrams/out/)
 
-8. References 
 
-Project references are managed in the repo at docs/md/daysave_references.md
+## 8. References 
+
+Project references are managed in the repo at [docs/md/daysave_references.md](https://github.com/andyegli/daysave.app/blob/main/docs/md/daysave_references.md)
+
+Additionally here references that where provided as part of the project template:
 
 Future Skills Academy. (2025). Software Development Workbook. 
 
@@ -209,5 +215,5 @@ Otago University. (n.d.). Academic Integrity and Plagiarism. Retrieved from http
 
 
 
-
+As of nowdate this concludes the project plan for daysave.app v1.0.1
  
