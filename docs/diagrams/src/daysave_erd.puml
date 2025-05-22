@@ -1,196 +1,289 @@
-@startuml daysave_erd
-!define table(x) class x << (T,#FFAAAA) >>
-!define primary_key(x) <u>x</u>
-skinparam classAttributeIconSize 0
+@startuml
 
-' === USER MANAGEMENT ===
-table(user_profiles) {
-  primary_key(id): UUID
-  email: VARCHAR
-  display_name: VARCHAR
-  created_at: DATETIME
-  updated_at: DATETIME
+' ERD for daysave.app v1.0.1
+skinparam monochrome true
+skinparam linetype ortho
+skinparam shadowing false
+
+' Entities
+entity user_profiles {
+  * id : UUID <<PK>>
+  --
+  * email : STRING(255)
+  display_name : STRING(255)
+  created_at : DATE
+  updated_at : DATE
+  deleted_at : DATE
 }
 
-table(auth_providers) {
-  primary_key(id): UUID
-  user_profile_id: UUID
-  provider: ENUM
-  provider_user_id: VARCHAR
-  hashed_password: TEXT
-  passkey_data: JSON
-  is_active: BOOLEAN
+entity auth_providers {
+  * id : UUID <<PK>>
+  --
+  * user_profile_id : UUID <<FK>>
+  * provider : ENUM
+  provider_user_id : STRING(255)
+  hashed_password : STRING(255)
+  passkey_data : JSON
 }
 
-table(mfa_methods) {
-  primary_key(id): UUID
-  user_profile_id: UUID
-  type: ENUM
-  config: JSON
-  is_primary: BOOLEAN
+entity mfa_methods {
+  * id : UUID <<PK>>
+  --
+  * user_profile_id : UUID <<FK>>
+  * type : ENUM
+  config : JSON
+  is_primary : BOOLEAN
 }
 
-table(roles) {
-  primary_key(id): UUID
-  name: VARCHAR
+entity roles {
+  * id : UUID <<PK>>
+  --
+  * name : STRING(50)
 }
 
-table(user_roles) {
-  primary_key(id): UUID
-  user_profile_id: UUID
-  role_id: UUID
+entity permissions {
+  * id : UUID <<PK>>
+  --
+  * name : STRING(50)
+  description : STRING(255)
 }
 
-table(permissions) {
-  primary_key(id): UUID
-  name: VARCHAR
-  description: TEXT
+entity role_permissions {
+  * id : UUID <<PK>>
+  --
+  * role_id : UUID <<FK>>
+  * permission_id : UUID <<FK>>
 }
 
-table(role_permissions) {
-  primary_key(id): UUID
-  role_id: UUID
-  permission_id: UUID
+entity user_roles {
+  * id : UUID <<PK>>
+  --
+  * user_profile_id : UUID <<FK>>
+  * role_id : UUID <<FK>>
 }
 
-table(fingerprints) {
-  primary_key(id): UUID
-  user_profile_id: UUID
-  fingerprint_hash: VARCHAR
+entity social_providers {
+  * id : UUID <<PK>>
+  --
+  * name : STRING(50)
 }
 
-' === CONTACTS ===
-table(contacts) {
-  primary_key(id): UUID
-  user_profile_id: UUID
-  contact_type_id: UUID
-  name: VARCHAR
+entity social_profiles {
+  * id : UUID <<PK>>
+  --
+  * contact_id : UUID <<FK>>
+  * social_provider_id : UUID <<FK>>
+  social_id : STRING(255)
 }
 
-table(contact_groups) {
-  primary_key(id): UUID
-  user_profile_id: UUID
-  name: VARCHAR
+entity fingerprints {
+  * id : UUID <<PK>>
+  --
+  * user_profile_id : UUID <<FK>>
+  ip_history : JSON
+  locale : JSON
+  browser_headers : JSON
+  created_at : DATE
+  updated_at : DATE
 }
 
-table(contact_group_members) {
-  primary_key(id): UUID
-  contact_group_id: UUID
-  contact_id: UUID
+entity contacts {
+  * id : UUID <<PK>>
+  --
+  * user_profile_id : UUID <<FK>>
+  * first_name : STRING(50)
+  last_name : STRING(50)
+  birthday : DATEONLY
+  notes : TEXT
+  phone_numbers : JSON
+  addresses : JSON
+  emails : JSON
+  social_profiles : JSON
+  created_at : DATE
+  updated_at : DATE
 }
 
-table(contact_types) {
-  primary_key(id): UUID
-  name: VARCHAR
+entity contact_groups {
+  * id : UUID <<PK>>
+  --
+  * user_profile_id : UUID <<FK>>
+  * name : STRING(50)
+  created_at : DATE
+  updated_at : DATE
 }
 
-table(country_codes) {
-  primary_key(id): UUID
-  code: VARCHAR
+entity contact_group_members {
+  * id : UUID <<PK>>
+  --
+  * contact_id : UUID <<FK>>
+  * group_id : UUID <<FK>>
 }
 
-table(phone_numbers) {
-  primary_key(id): UUID
-  contact_id: UUID
-  country_code_id: UUID
-  number: VARCHAR
+entity content {
+  * id : UUID <<PK>>
+  --
+  * user_profile_id : UUID <<FK>>
+  title : STRING(255)
+  url : TEXT
+  summary : TEXT
+  * type : ENUM
+  source_id : UUID <<FK>>
+  created_at : DATE
+  updated_at : DATE
+  deleted_at : DATE
 }
 
-table(email_addresses) {
-  primary_key(id): UUID
-  contact_id: UUID
-  email: VARCHAR
+entity content_sources {
+  * id : UUID <<PK>>
+  --
+  * name : ENUM
 }
 
-table(physical_addresses) {
-  primary_key(id): UUID
-  contact_id: UUID
-  city: VARCHAR
-  country: VARCHAR
+entity content_analysis {
+  * id : UUID <<PK>>
+  --
+  * content_id : UUID <<FK>>
+  keywords : JSON
+  summary : TEXT
+  transcription : TEXT
+  objects : JSON
+  created_at : DATE
+  updated_at : DATE
 }
 
-table(social_providers) {
-  primary_key(id): UUID
-  name: VARCHAR
+entity content_shares {
+  * id : UUID <<PK>>
+  --
+  * content_id : UUID <<FK>>
+  * contact_id : UUID <<FK>>
+  shared_at : DATE
+  created_at : DATE
+  updated_at : DATE
 }
 
-table(social_profiles) {
-  primary_key(id): UUID
-  contact_id: UUID
-  social_provider_id: UUID
+entity tags {
+  * id : UUID <<PK>>
+  --
+  * name : STRING(50)
 }
 
-' === CONTENT ===
-table(content) {
-  primary_key(id): UUID
-  user_profile_id: UUID
-  title: VARCHAR
-  url: TEXT
+entity content_tags {
+  * id : UUID <<PK>>
+  --
+  * content_id : UUID <<FK>>
+  * tag_id : UUID <<FK>>
 }
 
-table(comments) {
-  primary_key(id): UUID
-  content_id: UUID
-  commenter_id: UUID
+entity comments {
+  * id : UUID <<PK>>
+  --
+  * content_id : UUID <<FK>>
+  * commenter_id : UUID <<FK>>
+  * comment : TEXT
+  created_at : DATE
+  updated_at : DATE
 }
 
-table(tags) {
-  primary_key(id): UUID
-  name: VARCHAR
+entity subscriptions {
+  * id : UUID <<PK>>
+  --
+  * user_profile_id : UUID <<FK>>
+  * subscription_type : ENUM
+  start_date : DATE
+  end_date : DATE
+  created_at : DATE
+  updated_at : DATE
 }
 
-table(content_tags) {
-  primary_key(id): UUID
-  content_id: UUID
-  tag_id: UUID
+entity subscription_grace_periods {
+  * id : UUID <<PK>>
+  --
+  * subscription_id : UUID <<FK>>
+  * extended_end_date : DATE
+  created_at : DATE
+  updated_at : DATE
 }
 
-table(content_shares) {
-  primary_key(id): UUID
-  content_id: UUID
-  contact_id: UUID
+entity payment_providers {
+  * id : UUID <<PK>>
+  --
+  * name : STRING(50)
 }
 
-table(contact_comments) {
-  primary_key(id): UUID
-  content_id: UUID
-  contact_id: UUID
+entity payment_transactions {
+  * id : UUID <<PK>>
+  --
+  * subscription_id : UUID <<FK>>
+  * payment_provider_id : UUID <<FK>>
+  * amount : DECIMAL(10,2)
+  * currency : STRING(3)
+  * status : ENUM
+  transaction_date : DATE
+  created_at : DATE
+  updated_at : DATE
 }
 
-table(contact_tags) {
-  primary_key(id): UUID
-  content_id: UUID
-  contact_id: UUID
-  tag_id: UUID
+entity audit_logs {
+  * id : UUID <<PK>>
+  --
+  * user_profile_id : UUID <<FK>>
+  * action : STRING(50)
+  details : JSON
+  timestamp : DATE
+  created_at : DATE
+  updated_at : DATE
 }
 
-table(content_reminders) {
-  primary_key(id): UUID
-  user_profile_id: UUID
-  content_id: UUID
-  remind_at: DATETIME
+entity statistics {
+  * id : UUID <<PK>>
+  --
+  * user_profile_id : UUID <<FK>>
+  * metric : STRING(50)
+  * value : INTEGER
+  recorded_at : DATE
+  created_at : DATE
+  updated_at : DATE
 }
 
-' === SUBSCRIPTIONS ===
-table(payment_providers) {
-  primary_key(id): UUID
-  name: ENUM
-}
+' Relationships
+user_profiles ||--o{ auth_providers
+user_profiles ||--o{ mfa_methods
+user_profiles ||--o{ user_roles
+user_profiles ||--o{ fingerprints
+user_profiles ||--o{ contacts
+user_profiles ||--o{ content
+user_profiles ||--o{ contact_groups
+user_profiles ||--o{ subscriptions
+user_profiles ||--o{ audit_logs
+user_profiles ||--o{ statistics
 
-table(subscriptions) {
-  primary_key(id): UUID
-  user_profile_id: UUID
-  payment_provider_id: UUID
-  start_date: DATETIME
-  end_date: DATETIME
-}
+roles ||--o{ user_roles
+roles ||--o{ role_permissions
 
-table(subscription_grace_periods) {
-  primary_key(id): UUID
-  subscription_id: UUID
-  granted_by: UUID
-  grace_start: DATETIME
-  grace_end: DATETIME
-}
+permissions ||--o{ role_permissions
+
+contacts ||--o{ social_profiles
+contacts ||--o{ contact_group_members
+contacts ||--o{ content_shares
+
+social_providers ||--o{ social_profiles
+
+contact_groups ||--o{ contact_group_members
+
+content ||--o{ comments
+content ||--o{ content_tags
+content ||--o{ content_shares
+content ||--o{ content_analysis
+
+content_sources ||--o{ content
+
+tags ||--o{ content_tags
+
+subscriptions ||--o{ subscription_grace_periods
+subscriptions ||--o{ payment_transactions
+
+payment_providers ||--o{ payment_transactions
+
+comments }o--|| user_profiles : commenter_id
 
 @enduml
