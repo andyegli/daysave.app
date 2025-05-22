@@ -1,14 +1,16 @@
-PlantUML is a highly versatile tool for creating diagrams
+###DaySave.app Reference List###
+
+**PlantUML** is a highly versatile tool for creating diagrams
 https://marketplace.visualstudio.com/items?itemName=jebbs.plantuml 
 
 Getting Started with PlantUML (Docker)
 https://plantuml.com/starting#google_vignette   
 
-nodejs
+**nodejs**
 Udemy NodeJS - The Complete Guide Created by , Andre Mead and Rob Percival
 https://www.udemy.com/course/nodejs-the-complete-guide/
 
-Passport - oAuth 
+**Passport** - oAuth 
 https://www.passportjs.org/concepts/authentication/oauth/
 
 How To Build Node.js Authentication System With MySQL?
@@ -48,7 +50,7 @@ body-parser: https://www.npmjs.com/package/body-parser
 axios: https://www.npmjs.com/package/axios
 
 
-Doumentation:
+##Doumentation:##
 mysql2: https://www.npmjs.com/package/mysql2
 
 dotenv: https://www.npmjs.com/package/dotenv
@@ -89,6 +91,7 @@ Helmet documentation
 https://www.npmjs.com/package/helmet
 
 
+MarkDonw Tutorial made using CGPT
 
 
 

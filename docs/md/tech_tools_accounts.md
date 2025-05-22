@@ -1,75 +1,77 @@
 ***DaySave.app Tech Tools and Accounts***
 
-Email: daysaveapp@gmail.com
+**Email:** daysaveapp@gmail.com
 
-Domain: daysave.app
+**Domain:** daysave.app
 
-Hardware: Mac Book Pro
+**Hardware:** Mac Book Pro
 
-Software:
+**Software:**
 
-Docker Desktop:         A user-friendly application for building, sharing, and running containerized applications on your desktop.
+**Docker Desktop:**         A user-friendly application for building, sharing, and running containerized applications on your desktop.
 
-GitHub Desktop:         A GUI application that simplifies interacting with your GitHub repositories.
+**GitHub Desktop:**         A GUI application that simplifies interacting with your GitHub repositories.
 
-Parallels Desktop:      Software that allows you to run Windows and other operating systems alongside macOS.
+**Parallels Desktop:**      Software that allows you to run Windows and other operating systems alongside macOS.
 
-Windows 11:             The latest version of Microsoft's widely used operating system for personal computers. (To run familiar MSSMS)
+**Windows 11:**             The latest version of Microsoft's widely used operating system for personal computers. (To run familiar MSSMS)
 
-Microsoft Office 365:   A subscription service providing access to Microsoft Office applications and cloud services. 
+**Microsoft Office 365:**   A subscription service providing access to Microsoft Office applications and cloud services. 
 
-MSS SQL Management Studio: A comprehensive tool for managing and administering Microsoft SQL Server databases.
+**MSS SQL Management Studio:** A comprehensive tool for managing and administering Microsoft SQL Server databases.
 
-SQL Workbench:          A free, platform-independent visual tool for working with various SQL databases. Used for RDS Diagram
+**SQL Workbench:**          A free, platform-independent visual tool for working with various SQL databases. Used for RDS Diagram
 
-VS Code:                A popular and extensible source code editor with support for numerous programming languages.
+**Markdown:**               Markdown is a lightweight markup language for formatting plain text.
 
-MySQL:                  A widely used open-source relational database management system.
+**VS Code:**                A popular and extensible source code editor with support for numerous programming languages.
 
-PlantUML Server in container: A containerized application that generates UML diagrams from textual descriptions.
+**MySQL:**                 A widely used open-source relational database management system.
 
-MS SQL Server 19 in container: A containerized version of Microsoft SQL Server 2019 for development and testing.
+**PlantUML Server in container:** A containerized application that generates UML diagrams from textual descriptions.
 
-npm:                    The package manager for Node.js, used for installing and managing JavaScript libraries.
+**MS SQL Server 19 in container:** A containerized version of Microsoft SQL Server 2019 for development and testing.
 
-node-venv:              A tool for creating isolated Node.js virtual environments.
+n**pm:**                    The package manager for Node.js, used for installing and managing JavaScript libraries.
 
-nodemon:                A utility that automatically restarts Node.js applications when file changes are detected during development.
+**node-venv:**              A tool for creating isolated Node.js virtual environments.
 
-axios:                  A promise-based HTTP client for making requests from browsers and Node.js.
+**nodemon:**                A utility that automatically restarts Node.js applications when file changes are detected during development.
 
-body-parser:            Middleware for Node.js that parses incoming request bodies in various formats.
+**axios:**                  A promise-based HTTP client for making requests from browsers and Node.js.
 
-dotenv:                 A module that loads environment variables from a `.env` file into `process.env`.
+**body-parser:**            Middleware for Node.js that parses incoming request bodies in various formats.
 
-sequelize:              A promise-based Node.js ORM for interacting with SQL databases.
+**dotenv:**                 A module that loads environment variables from a `.env` file into `process.env`.
 
-ejs:                    A simple templating engine for JavaScript that lets you generate HTML markup with plain JavaScript.
+**sequelize:**              A promise-based Node.js ORM for interacting with SQL databases.
 
-express:                A minimal and flexible Node.js web application framework.
+**ejs:**                    A simple templating engine for JavaScript that lets you generate HTML markup with plain JavaScript.
 
-express-session:        Middleware for creating and managing session data in Express.js applications.
+**express:**                A minimal and flexible Node.js web application framework.
 
-mysql2:                 A fast and feature-rich MySQL client for Node.js.
+**express-session:**        Middleware for creating and managing session data in Express.js applications.
 
-uuid:                   A small helper for generating uuid's
+**mysql2:**                 A fast and feature-rich MySQL client for Node.js.
 
-bcryptjs:               A popular library for hashing passwords in Node.js applications.
+**uuid:**                   A small helper for generating uuid's
 
-passport:               A Authentication middleware for Node.js, supporting various authentication strategies including oAuth
+**bcryptjs:**              A popular library for hashing passwords in Node.js applications.
 
-passport-google-oauth20: A Passport strategy for authenticating users with Google using OAuth 2.0.
+**passport:**              A Authentication middleware for Node.js, supporting various authentication strategies including oAuth
 
-passport-azure-ad:      A Passport strategy for authenticating users with Google using OAuth 2.0.
+**passport-google-oauth20:** A Passport strategy for authenticating users with Google using OAuth 2.0.
 
-passport-github2:       A Passport strategy for GitHub authentication is `passport-github2`, which utilizes OAuth 2.0. 
+**passport-azure-ad:**      A Passport strategy for authenticating users with Google using OAuth 2.0.
 
-passport-appleid:       A Passport strategy for Apple authentication based on oAuth
+**passport-github2:**       A Passport strategy for GitHub authentication is `passport-github2`, which utilizes OAuth 2.0. 
 
-passport-twitter-oauth2: A Passport strategy for X (formerly Twitter) based on OAuth
+**passport-appleid:**       A Passport strategy for Apple authentication based on oAuth
 
-passport-facebook:      A  Passport strategy for Facebook authentication leveraging the OAuth 2.0 protocol. 
+**passport-twitter-oauth2:** A Passport strategy for X (formerly Twitter) based on OAuth
 
-helmeet                 A popular Node.js middleware library crucial for protecting against various web vulnerabilities
+**passport-facebook:**     A  Passport strategy for Facebook authentication leveraging the OAuth 2.0 protocol. 
 
-Java                    A popular a cross-platformed software development environment 
+**helmeet:**                 A popular Node.js middleware library crucial for protecting against various web vulnerabilities
+
+**Java:**                   A popular a cross-platformed software development environment 
