@@ -1,14 +1,29 @@
 @startuml
 left to right direction
 actor User
+actor Admin
 rectangle ContentManagement {
-  ( Save content via web form or mobile share )
-  User --> ( Save content via web form or mobile share )
   ( Manual content metadata edit )
-  User --> ( Manual content metadata edit )
+  ( Content moderation )
   ( View, sort, filter saved content )
-  User --> ( View, sort, filter saved content )
   ( Timeline browsing )
-  User --> ( Timeline browsing )
+  ( Save content via web form or mobile share )
+
+
+
+
+  User --> ( Manual content metadata edit )
+  User --> ( View, sort, filter saved content )
+  User --> ( Save content via web form or mobile share )
+  User --> ( Timeline browsing )  
+  User --> ( Content moderation )
+
+
+  ( Manual content metadata edit ) <-- Admin
+  ( Content moderation )<-- Admin
+  ( View, sort, filter saved content ) <-- Admin
+  ( Timeline browsing ) <-- Admin
+  ( Save content via web form or mobile share ) <-- Admin
+
 }
 @enduml

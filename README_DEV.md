@@ -136,3 +136,14 @@ Tasks:
 Create .github/workflows/nodejs.yml for testing and deployment.
 Configure Let’s Encrypt in docker-compose.yml.
 Set up monitoring (e.g., Prometheus) in DevContainer.
+
+
+
+docker run -e 'ACCEPT_EULA=Y' \       
+-e 'MSSQL_SA_PASSWORD=5984Getto’!!! \
+-e 'TZ=America/Los_Angeles' \
+-p 1433:1433 \
+--name sqldocker \
+--hostname sqldocker \
+-v /Users/aeg/Documents/Docker/MSSqlServer/SQLVolume:/var/opt/mssql \
+-d mcr.microsoft.com/mssql/server:2022-preview-ubuntu-22.04

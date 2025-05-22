@@ -139,6 +139,7 @@ Evernote: https://www.evernote.com/
 
 **Open-Source & Self-Hosted Read-it-Later:**
 
+Karakeep:   https://github.com/karakeep-app/karakeep/tree/main
 Omnivore: https://omnivore.app/
 Wallabag: https://www.wallabag.it/
 Readeck: https://github.com/Readeck/readeck
@@ -149,7 +150,11 @@ linkding: https://linkding.link/ / https://github.com/sissbruecker/linkding
 LinkAce: https://www.linkace.org/
 Shiori: https://github.com/go-shiori/shiori
 Shaarli: https://shaarli.me/ / https://github.com/shaarli/Shaarli
-Open-Source & Self-Hosted General Note-Taking/PKM with Web Clipping:
+Monolyth: https://github.com/Y2Z/monolith
+
+Open-Source & Self-Hosted General Note-Taking/PKM with Web 
+
+Clipping:
 
 Memos: https://github.com/usememos/memos
 Karakeep-app: https://github.com/karakeep-app/

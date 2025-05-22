@@ -1,14 +1,34 @@
 @startuml
+header DaySave.app Search Filter System Overview
+
+title Search Filter Use Case Diagram
+
+' Set direction
 left to right direction
+
+' Actors
 actor User
+actor Admin 
+
+' Use case rectangle
 rectangle SearchFilter {
-  ( Full-text search )
-  User --> ( Full-text search )
-  ( Tag/category filter )
-  User --> ( Tag/category filter )
-  ( Location/time-based filtering )
-  User --> ( Location/time-based filtering )
-  ( Saved views or bookmarks )
-  User --> ( Saved views or bookmarks )
+  (Full-text search)
+  (Tag/category filter)
+  (Location/time-based filtering)
+  (Saved views or bookmarks)
 }
+
+' User associations
+User --> (Full-text search)
+User --> (Tag/category filter)
+User --> (Location/time-based filtering)
+User --> (Saved views or bookmarks)
+
+' Admin associations to all use cases
+(Full-text search) --> Admin
+(Tag/category filter) --> Admin
+(Location/time-based filtering) --> Admin
+(Saved views or bookmarks) --> Admin
+
+
 @enduml

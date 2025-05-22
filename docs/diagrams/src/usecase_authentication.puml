@@ -1,16 +1,16 @@
-@startuml
+@startuml DaySave.app Use Case Authentication
 left to right direction
 actor User
 rectangle Authentication {
   ( Register new account )
   User --> ( Register new account )
-  ( Login via email/OAuth )
-  User --> ( Login via email/OAuth )
+  ( Login via ID passwordail )
+  User --> ( Login via ID Password )
+    ( Login via Google oAuth )
+  User --> ( Login via Google oAuth )
   ( Request password reset )
   User --> ( Request password reset )
   ( Manage account )
   User --> ( Manage account )
-  ( Admin role assignment )
-  User --> ( Admin role assignment )
 }
 @enduml

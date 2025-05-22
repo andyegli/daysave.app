@@ -1,4 +1,4 @@
-@startuml daysave Accessibility
+@startuml DaySave.app Mobile Accessibility
 left to right direction
 actor User
 rectangle Accessibility {

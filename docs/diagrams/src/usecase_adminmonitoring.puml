@@ -1,7 +1,7 @@
-@startuml
+@startuml DaySave.app Administation
 left to right direction
 actor User
-rectangle AdminMonitoring {
+rectangle Admin_Administraton {
   ( Admin dashboard )
   User --> ( Admin dashboard )
   ( Audit log access )
