@@ -3,6 +3,7 @@ import { join } from 'path';
 import { Sequelize } from 'sequelize';
 import contentRoutes from './src/routes/contentRoutes.js';
 import contactRoutes from './src/routes/contactRoutes.js';
+import authRoutes from './src/routes/authRoutes.js';
 import authMiddleware from './src/middlewares/authMiddleware.js';
 
 const app = express();
@@ -19,6 +20,7 @@ app.set('views', join(new URL(import.meta.url).pathname, '../views'));
 // Routes
 app.use('/', contentRoutes);
 app.use('/', contactRoutes);
+app.use('/', authRoutes);
 
 // Basic route for homepage
 app.get('/', authMiddleware.isAuthenticated, (req, res) => {
@@ -28,6 +30,7 @@ app.get('/', authMiddleware.isAuthenticated, (req, res) => {
 // Route for contacts
 app.get('/contacts', authMiddleware.isAuthenticated, async (req, res) => {
   try {
+    const db = (await import('./src/models/index.js')).default;
     const contacts = await db.Contacts.findAll();
     res.status(200).json(contacts);
   } catch (error) {
@@ -75,6 +78,10 @@ app.listen(PORT, async () => {
     // Close the temporary connection
     await tempSequelize.close();
     console.log('Temporary connection closed');
+
+    // Dynamically import db to ensure it's resolved
+    console.log('Importing database models...');
+    const db = (await import('./src/models/index.js')).default;
 
     // Use the main Sequelize instance to connect to the new database
     console.log('Connecting to the new database with main Sequelize instance...');
