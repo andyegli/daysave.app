@@ -75,22 +75,24 @@ _ I want to be avlel to share content with contacts
 - As a visually impaired user, I want the app to be screen-reader friendly.
 - As a mobile user, I want offline caching of recent content.
 
+as a Admin I
+- would like to suspend and user_prfile to prevent a user from authenticating
+- like to archive a user profile retaining data but preventing changes
+- would like to be able to remove and userprofile removing all userdata associated with a profile
+- would kike to have a overview of all submissions
+- would like to remove a content if inappropriate
+- like to be able to search for locked out users to enable then again 
+- like to see statistics nr of logins, number of faild logins, top sumitter, ....
+- want to be notified when a user is locked out
+- like to review locked out ip address
+- like to understand where users are connecting from 
+- like to understand what device, os version, browser version is connecting for easier debuging 
+
+
+
 ### Use Cases
 
 - Share-to integration
 - Web Content Accessibility Guidelines (WCAG) markup and styles
 - Service worker for offline
-
-as a Admin 
-I would like to suspend and user_prfile to prevent a user from authenticating
-I like to archive a user profile retaining data but preventing changes
-I would like to be able to remove and userprofile removing all userdata associated with a profile
-I would kike to have a overview of all submissions
-I would like to remove a content if inappropriate
-I like to be able to search for locked out users to enable then again 
-I like to see statistics nr of logins, number of faild logins, top sumitter, ....
-I want to be notified when a user is locked out
-I like to review locked out ip address
-I like to understand where users are connecting from 
-I like to understand what device, os version, browser version is connecting for easier debuging 
 
