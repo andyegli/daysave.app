@@ -19,16 +19,11 @@ app.set('view engine', 'ejs');
 app.set('views', join(new URL(import.meta.url).pathname, '../src/views'));
 
 // Routes
+app.use('/', authRoutes);
 app.use('/', contentRoutes);
 app.use('/', contactRoutes);
-app.use('/', authRoutes);
 
-// Basic route for homepage
-app.get('/', authMiddleware.isAuthenticated, (req, res) => {
-  res.redirect('/content');
-});
-
-// Route for contacts
+// Route for contacts (requires authentication)
 app.get('/contacts', authMiddleware.isAuthenticated, async (req, res) => {
   try {
     const db = (await import('./src/models/index.js')).default;
@@ -46,7 +41,9 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something broke!');
 });
 
-// Start the server
+// Start
+
+ the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, async () => {
   console.log(`Server running on port ${PORT}`);
