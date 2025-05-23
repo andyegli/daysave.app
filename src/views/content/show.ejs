@@ -1,0 +1,16 @@
+<%- include('../partials/header', { title: 'Content Details' }) %>
+
+<h1 class="mb-4">Content Details</h1>
+<div class="card">
+  <div class="card-body">
+    <p class="card-text"><strong>Title:</strong> <%= content.title %></p>
+    <p class="card-text"><strong>Body:</strong> <%= content.body %></p>
+    <a href="/content/<%= content.id %>/edit" class="btn btn-secondary me-2">Edit</a>
+    <form action="/content/<%= content.id %>/delete" method="POST" style="display:inline;">
+      <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
+    <a href="/content" class="btn btn-outline-secondary ms-2">Back to Content List</a>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

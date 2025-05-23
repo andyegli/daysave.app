@@ -1,21 +1,19 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Content</title>
-</head>
-<body>
-  <h1>Content List</h1>
-  <a href="/content/create">Create New Content</a>
-  <ul>
-    <% contents.forEach(content => { %>
-      <li>
-        <a href="/content/<%= content.id %>"><%= content.title %></a>
-        <a href="/content/<%= content.id %>/edit">Edit</a>
+<%- include('../partials/header', { title: 'Content List' }) %>
+
+<h1 class="mb-4">Content List</h1>
+<a href="/content/create" class="btn btn-primary mb-3">Create New Content</a>
+<ul class="list-group">
+  <% contents.forEach(content => { %>
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      <a href="/content/<%= content.id %>"><%= content.title %></a>
+      <div>
+        <a href="/content/<%= content.id %>/edit" class="btn btn-sm btn-secondary me-2">Edit</a>
         <form action="/content/<%= content.id %>/delete" method="POST" style="display:inline;">
-          <button type="submit">Delete</button>
+          <button type="submit" class="btn btn-sm btn-danger">Delete</button>
         </form>
-      </li>
-    <% }); %>
-  </ul>
-</body>
-</html>
+      </div>
+    </li>
+  <% }); %>
+</ul>
+
+<%- include('../partials/footer') %>

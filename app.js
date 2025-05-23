@@ -12,10 +12,11 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(join(new URL(import.meta.url).pathname, '../public')));
+app.use('/bootstrap', express.static(join(new URL(import.meta.url).pathname, '../node_modules/bootstrap/dist')));
 
 // Template engine setup (EJS)
 app.set('view engine', 'ejs');
-app.set('views', join(new URL(import.meta.url).pathname, '../views'));
+app.set('views', join(new URL(import.meta.url).pathname, '../src/views'));
 
 // Routes
 app.use('/', contentRoutes);
