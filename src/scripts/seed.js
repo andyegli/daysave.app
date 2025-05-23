@@ -1,130 +1,84 @@
-import { resolve } from 'path';
-import { existsSync, statSync, readFileSync, constants, accessSync } from 'fs';
+import { v4 as uuidv4 } from 'uuid';
+import { Sequelize } from 'sequelize';
 
-// Resolve the path to models/index.js
-const modelsIndexPath = resolve(new URL(import.meta.url).pathname, '../../models/index.js');
-console.log('Resolved models/index.js path:', modelsIndexPath);
+async function seed() {
+  let sequelize;
+  try {
+    // Initialize Sequelize directly
+    sequelize = new Sequelize(
+      process.env.DB_NAME || 'daysave_db',
+      process.env.DB_USER || 'root',
+      process.env.DB_PASSWORD || 'secret',
+      {
+        host: process.env.DB_HOST || 'db',
+        port: process.env.DB_PORT || 3306,
+        dialect: process.env.DB_DIALECT || 'mysql',
+        logging: process.env.NODE_ENV !== 'production' ? console.log : false,
+      }
+    );
 
-// Check if the file exists
-if (!existsSync(modelsIndexPath)) {
-  console.error('Error: models/index.js file does not exist at:', modelsIndexPath);
-  process.exit(1);
+    console.log('Attempting to connect to the database...');
+    await sequelize.authenticate();
+    console.log('Connection established successfully');
+
+    // Load only the models needed for seeding
+    const UserProfiles = (await import('../models/user_profiles.js')).default(sequelize, Sequelize.DataTypes);
+    const AuthProviders = (await import('../models/auth_providers.js')).default(sequelize, Sequelize.DataTypes);
+    const Content = (await import('../models/content.js')).default(sequelize, Sequelize.DataTypes);
+
+    // Disable foreign key checks
+    console.log('Disabling foreign key checks...');
+    await sequelize.query('SET FOREIGN_KEY_CHECKS = 0');
+
+    // Sync the models (create tables if they don't exist)
+    await sequelize.sync({ force: true });
+    console.log('Database schema synchronized');
+
+    // Re-enable foreign key checks
+    console.log('Re-enabling foreign key checks...');
+    await sequelize.query('SET FOREIGN_KEY_CHECKS = 1');
+
+    // Seed the data
+    const user = await UserProfiles.create({
+      userId: '550e8400-e29b-41d4-a716-446655440000',
+      username: 'testuser',
+      email: 'testuser@example.com',
+    });
+
+    await AuthProviders.create({
+      id: uuidv4(),
+      user_profile_id: user.userId,
+      provider: 'local',
+      hashed_password: 'password123', // Plain text for testing; use bcrypt in production
+    });
+
+    await Content.create({
+      id: '6ba7b810-9dad-11d1-80b4-00c04fd430c8',
+      userId: user.userId,
+      title: 'My First Post',
+      body: 'This is my first post!',
+    });
+
+    await Content.create({
+      id: '6ba7b811-9dad-11d1-80b4-00c04fd430c8',
+      userId: user.userId,
+      title: 'Another Post',
+      body: 'This is another post!',
+    });
+
+    console.log('Database seeded successfully!');
+  } catch (error) {
+    console.error('Error seeding database:', error);
+    throw error; // Rethrow to ensure the script fails visibly if there's an error
+  } finally {
+    if (sequelize) {
+      await sequelize.close();
+      console.log('Sequelize connection closed');
+    }
+  }
 }
 
-// Log file stats
-try {
-  const stats = statSync(modelsIndexPath);
-  console.log('models/index.js file stats:', stats);
-  console.log('File size (bytes):', stats.size);
-  console.log('File permissions:', stats.mode.toString(8));
-  console.log('File is readable:', accessSync(modelsIndexPath, constants.R_OK) === undefined);
-} catch (error) {
-  console.error('Error accessing models/index.js file stats:', error);
+seed().catch(error => {
+  console.error('Seed script failed:', error);
   process.exit(1);
-}
-
-// Attempt to read the file content
-try {
-  const fileContent = readFileSync(modelsIndexPath, 'utf8');
-  console.log('models/index.js file content (first 100 characters):', fileContent.substring(0, 100));
-} catch (error) {
-  console.error('Error reading models/index.js file content:', error);
-  process.exit(1);
-}
-
-// Attempt to import the module
-let db;
-try {
-  console.log('Attempting to import ../models/index...');
-  db = await import(new URL('../models/index.js', import.meta.url).href);
-  console.log('Successfully imported ../models/index');
-} catch (error) {
-  console.error('Error importing ../models/index:', error);
-  console.error('Error stack:', error.stack);
-  process.exit(1);
-}
-
-// Verify sequelize instance and models
-if (!db.sequelize) {
-  console.error('Error: db.sequelize is not defined');
-  process.exit(1);
-}
-console.log('Sequelize instance loaded:', !!db.sequelize);
-
-if (!db.UserProfiles) {
-  console.error('Error: db.UserProfiles is not defined');
-  console.log('Available models in db:', Object.keys(db));
-  process.exit(1);
-}
-console.log('UserProfiles model loaded:', !!db.UserProfiles);
-
-// Synchronize the database schema
-try {
-  console.log('Synchronizing database schema with force: true (drops existing tables)...');
-  await db.sequelize.sync({ force: true });
-  console.log('Database schema synchronized');
-} catch (error) {
-  console.error('Error synchronizing database schema:', error);
-  process.exit(1);
-}
-
-// Resolve the path to seedDatabase.js
-const seedDatabasePath = resolve(new URL(import.meta.url).pathname, '../../seeders/seedDatabase.js');
-console.log('Resolved seedDatabase.js path:', seedDatabasePath);
-
-// Check if the file exists
-if (!existsSync(seedDatabasePath)) {
-  console.error('Error: seedDatabase.js file does not exist at:', seedDatabasePath);
-  process.exit(1);
-}
-
-// Log file stats
-try {
-  const seedStats = statSync(seedDatabasePath);
-  console.log('seedDatabase.js file stats:', seedStats);
-  console.log('File size (bytes):', seedStats.size);
-  console.log('File permissions:', seedStats.mode.toString(8));
-  console.log('File is readable:', accessSync(seedDatabasePath, constants.R_OK) === undefined);
-} catch (error) {
-  console.error('Error accessing seedDatabase.js file stats:', error);
-  process.exit(1);
-}
-
-// Attempt to read the file content
-try {
-  const seedFileContent = readFileSync(seedDatabasePath, 'utf8');
-  console.log('seedDatabase.js file content (first 100 characters):', seedFileContent.substring(0, 100));
-} catch (error) {
-  console.error('Error reading seedDatabase.js file content:', error);
-  process.exit(1);
-}
-
-// Attempt to import the module
-let seedDatabase;
-try {
-  console.log('Attempting to import ../seeders/seedDatabase...');
-  seedDatabase = (await import(new URL('../seeders/seedDatabase.js', import.meta.url).href)).default;
-  console.log('Successfully imported ../seeders/seedDatabase');
-  console.log('Type of seedDatabase:', typeof seedDatabase);
-  console.log('seedDatabase value:', seedDatabase);
-} catch (error) {
-  console.error('Error importing ../seeders/seedDatabase:', error);
-  console.error('Error stack:', error.stack);
-  process.exit(1);
-}
-
-// Verify seedDatabase is a function
-if (typeof seedDatabase !== 'function') {
-  console.error('Error: seedDatabase is not a function. Actual type:', typeof seedDatabase);
-  console.error('seedDatabase value:', seedDatabase);
-  process.exit(1);
-}
-
-try {
-  await seedDatabase(db); // Pass the entire db object
-  console.log('Database seeding completed successfully.');
-  process.exit(0);
-} catch (error) {
-  console.error('Error seeding database:', error);
-  process.exit(1);
-}
+});
