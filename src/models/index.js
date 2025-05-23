@@ -7,7 +7,12 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const db = {};
 
+console.log('Loading sequelize instance...');
 const sequelize = await import(new URL('../config/database.js', import.meta.url).href).then(mod => mod.default);
+
+// Assign sequelize to db immediately
+db.sequelize = sequelize;
+db.Sequelize = Sequelize;
 
 const modelFiles = readdirSync(__dirname)
   .filter(file => {
@@ -87,8 +92,5 @@ for (const modelName of Object.keys(db)) {
     }
   }
 }
-
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
 
 export default db;

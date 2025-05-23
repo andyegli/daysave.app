@@ -68,27 +68,26 @@ app.listen(PORT, async () => {
     await tempSequelize.authenticate();
     console.log('Temporary connection established successfully');
 
-    // Manually drop the database to ensure a clean slate
     console.log('Dropping database if it exists...');
     await tempSequelize.query('DROP DATABASE IF EXISTS daysave_db');
     console.log('Creating database...');
     await tempSequelize.query('CREATE DATABASE daysave_db');
     console.log('Database created successfully');
 
-    // Close the temporary connection
     await tempSequelize.close();
     console.log('Temporary connection closed');
 
-    // Dynamically import db to ensure it's resolved
     console.log('Importing database models...');
     const db = (await import('./src/models/index.js')).default;
 
-    // Use the main Sequelize instance to connect to the new database
+    if (!db.sequelize) {
+      throw new Error('db.sequelize is not defined after import');
+    }
+
     console.log('Connecting to the new database with main Sequelize instance...');
     await db.sequelize.authenticate();
     console.log('Main connection established successfully');
 
-    // Temporarily disable foreign key checks to isolate the issue
     console.log('Disabling foreign key checks...');
     await db.sequelize.query('SET FOREIGN_KEY_CHECKS = 0');
 
@@ -96,12 +95,10 @@ app.listen(PORT, async () => {
     await db.sequelize.sync({ force: true });
     console.log('Database schema synchronized');
 
-    // Re-enable foreign key checks
     console.log('Re-enabling foreign key checks...');
     await db.sequelize.query('SET FOREIGN_KEY_CHECKS = 1');
 
     console.log('Models loaded:', Object.keys(db));
-    // Additional logging to verify table definitions
     console.log('Checking user_profiles table columns...');
     const [userProfilesTable] = await db.sequelize.query("SHOW COLUMNS FROM user_profiles LIKE 'userId';");
     console.log('user_profiles.userId definition:', userProfilesTable);

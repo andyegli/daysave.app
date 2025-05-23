@@ -1,0 +1,9 @@
+node_modules/
+.env
+dist/
+.devcontainer/build/
+docs/prompts/
+docs/md_ori/
+out/
+docs/md/
+
