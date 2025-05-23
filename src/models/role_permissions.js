@@ -1,35 +1,65 @@
-const { v4: uuidv4 } = require('uuid');
+'use strict';
+const { Model } = require('sequelize');
 
-/**
- * Role Permissions model for daysave.app v1.0.1
- * @param {Sequelize} sequelize - Sequelize instance
- * @param {DataTypes} DataTypes - Sequelize data types
- * @returns {Model} RolePermissions model
- */
 module.exports = (sequelize, DataTypes) => {
-  const RolePermissions = sequelize.define('RolePermissions', {
+  class RolePermissions extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      // Defer association setup to avoid circular dependencies
+      if (models.UserProfiles) {
+        RolePermissions.belongsTo(models.UserProfiles, {
+          foreignKey: 'user_profile_id',
+          as: 'userProfile',
+        });
+      } else {
+        console.warn('UserProfiles model not found during RolePermissions association setup');
+      }
+    }
+  }
+
+  const modelDefinition = {
     id: {
       type: DataTypes.UUID,
-      defaultValue: () => uuidv4(),
+      defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
-    role_id: {
+    user_profile_id: {
       type: DataTypes.UUID,
       allowNull: false,
+      references: {
+        model: 'user_profiles',
+        key: 'userId',
+      },
     },
-    permission_id: {
-      type: DataTypes.UUID,
+    permission: {
+      type: DataTypes.STRING,
       allowNull: false,
     },
-  }, {
-    tableName: 'role_permissions',
-    timestamps: false,
-  });
-
-  RolePermissions.associate = models => {
-    RolePermissions.belongsTo(models.Roles, { foreignKey: 'role_id' });
-    RolePermissions.belongsTo(models.Permissions, { foreignKey: 'permission_id' });
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW,
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW,
+    },
   };
+
+  // Log the field definitions for debugging
+  console.log('RolePermissions model definition:', JSON.stringify(modelDefinition, null, 2));
+
+  RolePermissions.init(modelDefinition, {
+    sequelize,
+    modelName: 'RolePermissions',
+    tableName: 'role_permissions',
+    timestamps: true,
+  });
 
   return RolePermissions;
 };

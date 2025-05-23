@@ -1,23 +1,21 @@
 const { Sequelize } = require('sequelize');
-require('dotenv').config();
 
 /**
+ * Database configuration for daysave.app
+ */
+const sequelize = new Sequelize(
+  process.env.DB_DATABASE || 'daysave_db',
+  process.env.DB_USER || 'root',
+  process.env.DB_PASSWORD || '',
+  {
+    host: process.env.DB_HOST || 'db',
+    dialect: process.env.DB_DIALECT || 'mysql',
+    logging: process.env.NODE_ENV !== 'production' ? console.log : false, // Use console.log in development, disable in production
+    retry: {
+      max: 5,
+      timeout: 10000,
+    },
+  }
+);
 
-Sequelize database configuration
-@returns {Sequelize} Configured Sequelize instance */ const sequelize = new Sequelize(process.env.DATABASE_URL, { dialect: 'mysql', dialectOptions: { ssl: { require: true, // Enforce SSL for data in transit }, }, define: { charset: 'utf8mb4', collate: 'utf8mb4_unicode_ci', timestamps: true, paranoid: true, // Soft deletes }, });
 module.exports = sequelize;
-
-// .devcontainer/devcontainer.json
-{
-"name": "daysave-app",
-"dockerComposeFile": "docker-compose.yml",
-"service": "app",
-"workspaceFolder": "/workspace",
-"extensions": [
-"dbaeumer.vscode-eslint",
-"webfreak.plantuml"
-],
-"settings": {
-"plantuml.server": "http://plantuml:8080"
-}
-}

@@ -1,34 +1,73 @@
-const { v4: uuidv4 } = require('uuid');
+'use strict';
+const { Model } = require('sequelize');
 
-/**
- * Subscription Grace Periods model for daysave.app v1.0.1
- * @param {Sequelize} sequelize - Sequelize instance
- * @param {DataTypes} DataTypes - Sequelize data types
- * @returns {Model} SubscriptionGracePeriods model
- */
 module.exports = (sequelize, DataTypes) => {
-  const SubscriptionGracePeriods = sequelize.define('SubscriptionGracePeriods', {
+  class SubscriptionGracePeriods extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      if (models.Subscriptions) {
+        SubscriptionGracePeriods.belongsTo(models.Subscriptions, {
+          foreignKey: 'subscription_id',
+          as: 'subscription',
+        });
+      } else {
+        console.warn('Subscriptions model not found during SubscriptionGracePeriods association setup');
+      }
+    }
+  }
+
+  const modelDefinition = {
     id: {
       type: DataTypes.UUID,
-      defaultValue: () => uuidv4(),
+      defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
     subscription_id: {
       type: DataTypes.UUID,
       allowNull: false,
+      references: {
+        model: 'subscriptions',
+        key: 'id',
+      },
     },
-    extended_end_date: {
+    start_date: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW,
+    },
+    end_date: {
       type: DataTypes.DATE,
       allowNull: false,
     },
-  }, {
+    reason: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW,
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW,
+    },
+  };
+
+  // Log the field definitions for debugging
+  console.log('SubscriptionGracePeriods model definition:', JSON.stringify(modelDefinition, null, 2));
+
+  SubscriptionGracePeriods.init(modelDefinition, {
+    sequelize,
+    modelName: 'SubscriptionGracePeriods',
     tableName: 'subscription_grace_periods',
     timestamps: true,
   });
-
-  SubscriptionGracePeriods.associate = models => {
-    SubscriptionGracePeriods.belongsTo(models.Subscriptions, { foreignKey: 'subscription_id' });
-  };
 
   return SubscriptionGracePeriods;
 };

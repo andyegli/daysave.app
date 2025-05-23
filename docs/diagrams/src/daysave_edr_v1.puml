@@ -1,289 +1,296 @@
-@startuml
-
-' ERD for daysave.app v1.0.1
-skinparam monochrome true
-skinparam linetype ortho
-skinparam shadowing false
+@startuml Daysave App ERD
 
 ' Entities
-entity user_profiles {
-  * id : UUID <<PK>>
+entity "user_profiles" {
+  * userId : UUID
   --
-  * email : STRING(255)
-  display_name : STRING(255)
-  created_at : DATE
-  updated_at : DATE
-  deleted_at : DATE
+  username : VARCHAR(255) <<NOT NULL>> <<UNIQUE>>
+  email : VARCHAR(255) <<NOT NULL>> <<UNIQUE>>
+  createdAt : DATETIME <<NOT NULL>>
+  updatedAt : DATETIME <<NOT NULL>>
 }
 
-entity auth_providers {
-  * id : UUID <<PK>>
+entity "content_sources" {
+  * id : UUID
   --
-  * user_profile_id : UUID <<FK>>
-  * provider : ENUM
-  provider_user_id : STRING(255)
-  hashed_password : STRING(255)
+  name : ENUM('youtube', 'facebook', 'instagram', 'upload', 'weblink', 'whatsapp', 'whatsappbusiness', 'teams', 'zoom', 'threema', 'linkedin', 'messenger', 'telegram', 'discord', 'snapchat', 'threads', 'slack', 'github', 'signal', 'gmail', 'simple', 'tiktok', 'revolut') <<NOT NULL>>
+}
+
+entity "content" {
+  * id : UUID
+  --
+  userId : UUID <<NOT NULL>>
+  title : VARCHAR(255) <<NOT NULL>>
+  body : TEXT <<NOT NULL>>
+  source_id : UUID
+  createdAt : DATETIME <<NOT NULL>>
+  updatedAt : DATETIME <<NOT NULL>>
+}
+
+entity "comments" {
+  * id : UUID
+  --
+  content_id : UUID <<NOT NULL>>
+  commenter_id : UUID <<NOT NULL>>
+  comment : TEXT <<NOT NULL>>
+  created_at : DATETIME
+  createdAt : DATETIME <<NOT NULL>>
+  updatedAt : DATETIME <<NOT NULL>>
+}
+
+entity "auth_providers" {
+  * id : UUID
+  --
+  user_profile_id : UUID <<NOT NULL>>
+  provider : ENUM('local', 'google', 'github', 'apple', 'passkey', 'microsoft', 'facebook', 'twitter', 'instagram') <<NOT NULL>>
+  provider_user_id : VARCHAR(255)
+  hashed_password : VARCHAR(255)
   passkey_data : JSON
 }
 
-entity mfa_methods {
-  * id : UUID <<PK>>
+entity "contact_groups" {
+  * id : UUID
   --
-  * user_profile_id : UUID <<FK>>
-  * type : ENUM
-  config : JSON
-  is_primary : BOOLEAN
+  user_profile_id : UUID <<NOT NULL>>
+  name : VARCHAR(255) <<NOT NULL>>
+  createdAt : DATETIME <<NOT NULL>>
+  updatedAt : DATETIME <<NOT NULL>>
 }
 
-entity roles {
-  * id : UUID <<PK>>
+entity "contacts" {
+  * id : UUID
   --
-  * name : STRING(50)
+  user_profile_id : UUID <<NOT NULL>>
+  group_id : UUID
+  name : VARCHAR(255) <<NOT NULL>>
+  email : VARCHAR(255)
+  phone : VARCHAR(255)
+  createdAt : DATETIME <<NOT NULL>>
+  updatedAt : DATETIME <<NOT NULL>>
 }
 
-entity permissions {
-  * id : UUID <<PK>>
+entity "contact_group_members" {
+  * id : UUID
   --
-  * name : STRING(50)
-  description : STRING(255)
+  group_id : UUID <<NOT NULL>>
+  contact_id : UUID <<NOT NULL>>
+  createdAt : DATETIME <<NOT NULL>>
+  updatedAt : DATETIME <<NOT NULL>>
 }
 
-entity role_permissions {
-  * id : UUID <<PK>>
+entity "content_shares" {
+  * id : UUID
   --
-  * role_id : UUID <<FK>>
-  * permission_id : UUID <<FK>>
+  content_id : UUID <<NOT NULL>>
+  user_profile_id : UUID <<NOT NULL>>
+  shared_at : DATETIME <<NOT NULL>>
+  createdAt : DATETIME <<NOT NULL>>
+  updatedAt : DATETIME <<NOT NULL>>
 }
 
-entity user_roles {
-  * id : UUID <<PK>>
+entity "fingerprints" {
+  * id : UUID
   --
-  * user_profile_id : UUID <<FK>>
-  * role_id : UUID <<FK>>
+  user_profile_id : UUID <<NOT NULL>>
+  fingerprint_data : JSON
+  createdAt : DATETIME <<NOT NULL>>
+  updatedAt : DATETIME <<NOT NULL>>
 }
 
-entity social_providers {
-  * id : UUID <<PK>>
+entity "mfa_methods" {
+  * id : UUID
   --
-  * name : STRING(50)
+  user_profile_id : UUID <<NOT NULL>>
+  method_type : ENUM('totp', 'sms', 'email', 'authenticator_app') <<NOT NULL>>
+  secret : VARCHAR(255)
+  is_active : TINYINT(1) <<NOT NULL>> <<DEFAULT true>>
+  createdAt : DATETIME <<NOT NULL>>
+  updatedAt : DATETIME <<NOT NULL>>
 }
 
-entity social_profiles {
-  * id : UUID <<PK>>
+entity "subscriptions" {
+  * id : UUID
   --
-  * contact_id : UUID <<FK>>
-  * social_provider_id : UUID <<FK>>
-  social_id : STRING(255)
+  user_profile_id : UUID <<NOT NULL>>
+  plan : ENUM('basic', 'premium', 'enterprise') <<NOT NULL>>
+  start_date : DATETIME <<NOT NULL>>
+  end_date : DATETIME
+  createdAt : DATETIME <<NOT NULL>>
+  updatedAt : DATETIME <<NOT NULL>>
 }
 
-entity fingerprints {
-  * id : UUID <<PK>>
+entity "role_permissions" {
+  * id : UUID
   --
-  * user_profile_id : UUID <<FK>>
-  ip_history : JSON
-  locale : JSON
-  browser_headers : JSON
-  created_at : DATE
-  updated_at : DATE
+  user_profile_id : UUID <<NOT NULL>>
+  permission : VARCHAR(255) <<NOT NULL>>
+  createdAt : DATETIME <<NOT NULL>>
+  updatedAt : DATETIME <<NOT NULL>>
 }
 
-entity contacts {
-  * id : UUID <<PK>>
+entity "payment_providers" {
+  * id : UUID
   --
-  * user_profile_id : UUID <<FK>>
-  * first_name : STRING(50)
-  last_name : STRING(50)
-  birthday : DATEONLY
-  notes : TEXT
-  phone_numbers : JSON
-  addresses : JSON
-  emails : JSON
-  social_profiles : JSON
-  created_at : DATE
-  updated_at : DATE
+  name : VARCHAR(255) <<NOT NULL>> <<UNIQUE>>
+  createdAt : DATETIME <<NOT NULL>>
+  updatedAt : DATETIME <<NOT NULL>>
 }
 
-entity contact_groups {
-  * id : UUID <<PK>>
+entity "payment_transactions" {
+  * id : UUID
   --
-  * user_profile_id : UUID <<FK>>
-  * name : STRING(50)
-  created_at : DATE
-  updated_at : DATE
+  user_profile_id : UUID <<NOT NULL>>
+  subscription_id : UUID <<NOT NULL>>
+  provider_id : UUID <<NOT NULL>>
+  amount : DECIMAL(10,2) <<NOT NULL>>
+  status : ENUM('pending', 'completed', 'failed', 'refunded') <<NOT NULL>> <<DEFAULT 'pending'>>
+  transaction_date : DATETIME <<NOT NULL>>
+  createdAt : DATETIME <<NOT NULL>>
+  updatedAt : DATETIME <<NOT NULL>>
 }
 
-entity contact_group_members {
-  * id : UUID <<PK>>
+entity "permissions" {
+  * id : UUID
   --
-  * contact_id : UUID <<FK>>
-  * group_id : UUID <<FK>>
+  name : VARCHAR(255) <<NOT NULL>> <<UNIQUE>>
+  description : VARCHAR(255)
+  createdAt : DATETIME <<NOT NULL>>
+  updatedAt : DATETIME <<NOT NULL>>
 }
 
-entity content {
-  * id : UUID <<PK>>
+entity "roles" {
+  * id : UUID
   --
-  * user_profile_id : UUID <<FK>>
-  title : STRING(255)
-  url : TEXT
-  summary : TEXT
-  * type : ENUM
-  source_id : UUID <<FK>>
-  created_at : DATE
-  updated_at : DATE
-  deleted_at : DATE
+  name : VARCHAR(255) <<NOT NULL>> <<UNIQUE>>
+  description : VARCHAR(255)
+  createdAt : DATETIME <<NOT NULL>>
+  updatedAt : DATETIME <<NOT NULL>>
 }
 
-entity content_sources {
-  * id : UUID <<PK>>
+entity "social_providers" {
+  * id : UUID
   --
-  * name : ENUM
+  name : VARCHAR(255) <<NOT NULL>> <<UNIQUE>>
+  createdAt : DATETIME <<NOT NULL>>
+  updatedAt : DATETIME <<NOT NULL>>
 }
 
-entity content_analysis {
-  * id : UUID <<PK>>
+entity "social_profiles" {
+  * id : UUID
   --
-  * content_id : UUID <<FK>>
-  keywords : JSON
-  summary : TEXT
-  transcription : TEXT
-  objects : JSON
-  created_at : DATE
-  updated_at : DATE
+  user_profile_id : UUID <<NOT NULL>>
+  provider_id : UUID <<NOT NULL>>
+  provider_user_id : VARCHAR(255) <<NOT NULL>>
+  createdAt : DATETIME <<NOT NULL>>
+  updatedAt : DATETIME <<NOT NULL>>
 }
 
-entity content_shares {
-  * id : UUID <<PK>>
+entity "statistics" {
+  * id : UUID
   --
-  * content_id : UUID <<FK>>
-  * contact_id : UUID <<FK>>
-  shared_at : DATE
-  created_at : DATE
-  updated_at : DATE
+  user_profile_id : UUID <<NOT NULL>>
+  metric : VARCHAR(255) <<NOT NULL>>
+  value : INTEGER <<NOT NULL>>
+  recorded_at : DATETIME <<NOT NULL>>
+  createdAt : DATETIME <<NOT NULL>>
+  updatedAt : DATETIME <<NOT NULL>>
 }
 
-entity tags {
-  * id : UUID <<PK>>
+entity "tags" {
+  * id : UUID
   --
-  * name : STRING(50)
+  name : VARCHAR(255) <<NOT NULL>> <<UNIQUE>>
+  createdAt : DATETIME <<NOT NULL>>
+  updatedAt : DATETIME <<NOT NULL>>
 }
 
-entity content_tags {
-  * id : UUID <<PK>>
+entity "content_tags" {
+  * id : UUID
   --
-  * content_id : UUID <<FK>>
-  * tag_id : UUID <<FK>>
+  content_id : UUID <<NOT NULL>>
+  tag_id : UUID <<NOT NULL>>
+  createdAt : DATETIME <<NOT NULL>>
+  updatedAt : DATETIME <<NOT NULL>>
 }
 
-entity comments {
-  * id : UUID <<PK>>
+entity "user_roles" {
+  * id : UUID
   --
-  * content_id : UUID <<FK>>
-  * commenter_id : UUID <<FK>>
-  * comment : TEXT
-  created_at : DATE
-  updated_at : DATE
+  user_profile_id : UUID <<NOT NULL>>
+  role_id : UUID <<NOT NULL>>
+  createdAt : DATETIME <<NOT NULL>>
+  updatedAt : DATETIME <<NOT NULL>>
 }
 
-entity subscriptions {
-  * id : UUID <<PK>>
+entity "content_analysis" {
+  * id : UUID
   --
-  * user_profile_id : UUID <<FK>>
-  * subscription_type : ENUM
-  start_date : DATE
-  end_date : DATE
-  created_at : DATE
-  updated_at : DATE
+  content_id : UUID <<NOT NULL>>
+  analysis_type : VARCHAR(255) <<NOT NULL>>
+  result : JSON
+  createdAt : DATETIME <<NOT NULL>>
+  updatedAt : DATETIME <<NOT NULL>>
 }
 
-entity subscription_grace_periods {
-  * id : UUID <<PK>>
+entity "subscription_grace_periods" {
+  * id : UUID
   --
-  * subscription_id : UUID <<FK>>
-  * extended_end_date : DATE
-  created_at : DATE
-  updated_at : DATE
+  subscription_id : UUID <<NOT NULL>>
+  start_date : DATETIME <<NOT NULL>>
+  end_date : DATETIME <<NOT NULL>>
+  reason : VARCHAR(255)
+  createdAt : DATETIME <<NOT NULL>>
+  updatedAt : DATETIME <<NOT NULL>>
 }
 
-entity payment_providers {
-  * id : UUID <<PK>>
+entity "audit_logs" {
+  * id : UUID
   --
-  * name : STRING(50)
-}
-
-entity payment_transactions {
-  * id : UUID <<PK>>
-  --
-  * subscription_id : UUID <<FK>>
-  * payment_provider_id : UUID <<FK>>
-  * amount : DECIMAL(10,2)
-  * currency : STRING(3)
-  * status : ENUM
-  transaction_date : DATE
-  created_at : DATE
-  updated_at : DATE
-}
-
-entity audit_logs {
-  * id : UUID <<PK>>
-  --
-  * user_profile_id : UUID <<FK>>
-  * action : STRING(50)
+  user_profile_id : UUID <<NOT NULL>>
+  action : VARCHAR(255) <<NOT NULL>>
   details : JSON
-  timestamp : DATE
-  created_at : DATE
-  updated_at : DATE
-}
-
-entity statistics {
-  * id : UUID <<PK>>
-  --
-  * user_profile_id : UUID <<FK>>
-  * metric : STRING(50)
-  * value : INTEGER
-  recorded_at : DATE
-  created_at : DATE
-  updated_at : DATE
+  createdAt : DATETIME <<NOT NULL>>
+  updatedAt : DATETIME <<NOT NULL>>
 }
 
 ' Relationships
-user_profiles ||--o{ auth_providers
-user_profiles ||--o{ mfa_methods
-user_profiles ||--o{ user_roles
-user_profiles ||--o{ fingerprints
-user_profiles ||--o{ contacts
 user_profiles ||--o{ content
+user_profiles ||--o{ comments
+user_profiles ||--o{ auth_providers
 user_profiles ||--o{ contact_groups
+user_profiles ||--o{ contacts
+user_profiles ||--o{ content_shares
+user_profiles ||--o{ fingerprints
+user_profiles ||--o{ mfa_methods
 user_profiles ||--o{ subscriptions
-user_profiles ||--o{ audit_logs
+user_profiles ||--o{ role_permissions
+user_profiles ||--o{ payment_transactions
+user_profiles ||--o{ social_profiles
 user_profiles ||--o{ statistics
-
-roles ||--o{ user_roles
-roles ||--o{ role_permissions
-
-permissions ||--o{ role_permissions
-
-contacts ||--o{ social_profiles
-contacts ||--o{ contact_group_members
-contacts ||--o{ content_shares
-
-social_providers ||--o{ social_profiles
-
-contact_groups ||--o{ contact_group_members
-
-content ||--o{ comments
-content ||--o{ content_tags
-content ||--o{ content_shares
-content ||--o{ content_analysis
+user_profiles ||--o{ user_roles
+user_profiles ||--o{ audit_logs
 
 content_sources ||--o{ content
 
-tags ||--o{ content_tags
+content ||--o{ comments
+content ||--o{ content_shares
+content ||--o{ content_analysis
+content ||--o{ content_tags
 
-subscriptions ||--o{ subscription_grace_periods
+contact_groups ||--o{ contacts
+contact_groups ||--o{ contact_group_members
+
+contacts ||--o{ contact_group_members
+
 subscriptions ||--o{ payment_transactions
+subscriptions ||--o{ subscription_grace_periods
 
 payment_providers ||--o{ payment_transactions
 
-comments }o--|| user_profiles : commenter_id
+roles ||--o{ user_roles
+
+social_providers ||--o{ social_profiles
+
+tags ||--o{ content_tags
 
 @enduml

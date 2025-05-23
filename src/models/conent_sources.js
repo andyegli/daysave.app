@@ -1,36 +1,42 @@
-const { v4: uuidv4 } = require('uuid');
+'use strict';
+const { Model } = require('sequelize');
 
-/**
- * Content Sources model for daysave.app v1.0.1
- * @param {Sequelize} sequelize - Sequelize instance
- * @param {DataTypes} DataTypes - Sequelize data types
- * @returns {Model} ContentSources model
- */
 module.exports = (sequelize, DataTypes) => {
-  const ContentSources = sequelize.define('ContentSources', {
+  class ContentSources extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      ContentSources.hasMany(models.Content, {
+        foreignKey: 'source_id',
+        as: 'contents',
+      });
+    }
+  }
+
+  const modelDefinition = {
     id: {
       type: DataTypes.UUID,
-      defaultValue: () => uuidv4(),
+      defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
     name: {
-      type: DataTypes.ENUM(
-        'youtube', 'facebook', 'instagram', 'upload', 'weblink',
-        'whatsapp', 'whatsappbusiness', 'teams', 'zoom', 'threema',
-        'linkedin', 'messenger', 'telegram', 'discord', 'snapchat',
-        'threads', 'slack', 'github', 'signal', 'gmail', 'simple',
-        'tiktok', 'revolut'
-      ),
+      type: DataTypes.ENUM('youtube', 'facebook', 'instagram', 'upload', 'weblink', 'whatsapp', 'whatsappbusiness', 'teams', 'zoom', 'threema', 'linkedin', 'messenger', 'telegram', 'discord', 'snapchat', 'threads', 'slack', 'github', 'signal', 'gmail', 'simple', 'tiktok', 'revolut'),
       allowNull: false,
     },
-  }, {
+  };
+
+  // Log the field definitions for debugging
+  console.log('ContentSources model definition:', JSON.stringify(modelDefinition, null, 2));
+
+  ContentSources.init(modelDefinition, {
+    sequelize,
+    modelName: 'ContentSources',
     tableName: 'content_sources',
     timestamps: false,
   });
-
-  ContentSources.associate = models => {
-    ContentSources.hasMany(models.Content, { foreignKey: 'source_id' });
-  };
 
   return ContentSources;
 };

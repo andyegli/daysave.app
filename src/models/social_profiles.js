@@ -1,38 +1,81 @@
-const { v4: uuidv4 } = require('uuid');
+'use strict';
+const { Model } = require('sequelize');
 
-/**
- * Social Profiles model for daysave.app v1.0.1
- * @param {Sequelize} sequelize - Sequelize instance
- * @param {DataTypes} DataTypes - Sequelize data types
- * @returns {Model} SocialProfiles model
- */
 module.exports = (sequelize, DataTypes) => {
-  const SocialProfiles = sequelize.define('SocialProfiles', {
+  class SocialProfiles extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      if (models.UserProfiles) {
+        SocialProfiles.belongsTo(models.UserProfiles, {
+          foreignKey: 'user_profile_id',
+          as: 'userProfile',
+        });
+      } else {
+        console.warn('UserProfiles model not found during SocialProfiles association setup');
+      }
+
+      if (models.SocialProviders) {
+        SocialProfiles.belongsTo(models.SocialProviders, {
+          foreignKey: 'provider_id',
+          as: 'provider',
+        });
+      } else {
+        console.warn('SocialProviders model not found during SocialProfiles association setup');
+      }
+    }
+  }
+
+  const modelDefinition = {
     id: {
       type: DataTypes.UUID,
-      defaultValue: () => uuidv4(),
+      defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
-    contact_id: {
+    user_profile_id: {
       type: DataTypes.UUID,
       allowNull: false,
+      references: {
+        model: 'user_profiles',
+        key: 'userId',
+      },
     },
-    social_provider_id: {
+    provider_id: {
       type: DataTypes.UUID,
       allowNull: false,
+      references: {
+        model: 'social_providers',
+        key: 'id',
+      },
     },
-    social_id: {
-      type: DataTypes.STRING(255),
+    provider_user_id: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
-  }, {
-    tableName: 'social_profiles',
-    timestamps: false,
-  });
-
-  SocialProfiles.associate = models => {
-    SocialProfiles.belongsTo(models.Contacts, { foreignKey: 'contact_id' });
-    SocialProfiles.belongsTo(models.SocialProviders, { foreignKey: 'social_provider_id' });
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW,
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW,
+    },
   };
+
+  // Log the field definitions for debugging
+  console.log('SocialProfiles model definition:', JSON.stringify(modelDefinition, null, 2));
+
+  SocialProfiles.init(modelDefinition, {
+    sequelize,
+    modelName: 'SocialProfiles',
+    tableName: 'social_profiles',
+    timestamps: true,
+  });
 
   return SocialProfiles;
 };

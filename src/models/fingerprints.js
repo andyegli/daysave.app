@@ -1,39 +1,60 @@
-const { v4: uuidv4 } = require('uuid');
+'use strict';
+const { Model } = require('sequelize');
 
-/**
- * Fingerprints model for daysave.app v1.0.1
- * @param {Sequelize} sequelize - Sequelize instance
- * @param {DataTypes} DataTypes - Sequelize data types
- * @returns {Model} Fingerprints model
- */
 module.exports = (sequelize, DataTypes) => {
-  const Fingerprints = sequelize.define('Fingerprints', {
+  class Fingerprints extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      Fingerprints.belongsTo(models.UserProfiles, {
+        foreignKey: 'user_profile_id',
+        as: 'userProfile',
+      });
+    }
+  }
+
+  const modelDefinition = {
     id: {
       type: DataTypes.UUID,
-      defaultValue: () => uuidv4(),
+      defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
     user_profile_id: {
       type: DataTypes.UUID,
       allowNull: false,
+      references: {
+        model: 'user_profiles',
+        key: 'userId',
+      },
     },
-    ip_history: {
+    fingerprint_data: {
       type: DataTypes.JSON,
+      allowNull: true,
     },
-    locale: {
-      type: DataTypes.JSON,
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW,
     },
-    browser_headers: {
-      type: DataTypes.JSON,
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW,
     },
-  }, {
+  };
+
+  // Log the field definitions for debugging
+  console.log('Fingerprints model definition:', JSON.stringify(modelDefinition, null, 2));
+
+  Fingerprints.init(modelDefinition, {
+    sequelize,
+    modelName: 'Fingerprints',
     tableName: 'fingerprints',
     timestamps: true,
   });
-
-  Fingerprints.associate = models => {
-    Fingerprints.belongsTo(models.UserProfiles, { foreignKey: 'user_profile_id' });
-  };
 
   return Fingerprints;
 };

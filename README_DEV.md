@@ -324,5 +324,23 @@ views/login.ejs > setp 6
 
 
 npm install -g sequelize-cli nodemon dotenv
-npm install express sequelize mysql2 dotenv passport passport-google-oauth20 passport-azure-ad passport-github2 passport-appleid passport-twitter-oauth2 passport-facebook bcryptjs express-session ejs body-parser axios uuid
+npm install --save express sequelize mysql2 dotenv passport passport-google-oauth20 passport-azure-ad passport-github2 passport-appleid passport-twitter-oauth2 passport-facebook bcryptjs express-session ejs body-parser axios uuid csv-parse multer
 
+The app.js now uses sequelize.sync() without force: true, so you should run the migrations from Step 2 manually within the container:
+Install Sequelize CLI globally (npm install -g sequelize-cli).
+Run npx sequelize db:migrate and npx sequelize db:seed --seed scripts/seed.js after the container starts.
+
+Build and run the Docker environment with docker-compose -f .devcontainer/docker-compose.yml up --build.
+Test the application at http://localhost:3000.
+
+
+
+docker-compose -f .devcontainer/docker-compose.yml down
+docker volume rm daysave_v1_db_data
+docker rm -f $(docker ps -aq)
+docker rmi -f $(docker images -q)
+docker-compose -f .devcontainer/docker-compose.yml up --build
+
+
+docker-compose -f .devcontainer/docker-compose.yml up -d
+docker exec -it daysave_v1-app-1 node seed.js

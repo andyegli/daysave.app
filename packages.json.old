@@ -25,7 +25,9 @@
     "express-session": "^1.17.3",
     "ejs": "^3.1.9",
     "body-parser": "^1.20.2",
-    "axios": "^1.4.0"
+    "axios": "^1.4.0",
+    "csv-parse": "^5.3.0",
+    "multer": "^1.4.4"
 },
 "devDependencies": {
 "nodemon": "^3.0.1",

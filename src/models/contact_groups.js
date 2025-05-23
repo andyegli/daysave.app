@@ -1,35 +1,82 @@
-const { v4: uuidv4 } = require('uuid');
+'use strict';
+const { Model } = require('sequelize');
 
-/**
- * Contact Groups model for daysave.app v1.0.1
- * @param {Sequelize} sequelize - Sequelize instance
- * @param {DataTypes} DataTypes - Sequelize data types
- * @returns {Model} ContactGroups model
- */
 module.exports = (sequelize, DataTypes) => {
-  const ContactGroups = sequelize.define('ContactGroups', {
+  class ContactGroups extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      if (models.UserProfiles) {
+        ContactGroups.belongsTo(models.UserProfiles, {
+          foreignKey: 'user_profile_id',
+          as: 'userProfile',
+        });
+      } else {
+        console.warn('UserProfiles model not found during ContactGroups association setup');
+      }
+
+      if (models.Contacts) {
+        ContactGroups.hasMany(models.Contacts, {
+          foreignKey: 'group_id',
+          as: 'contacts',
+        });
+      } else {
+        console.warn('Contacts model not found during ContactGroups association setup');
+      }
+
+      if (models.ContactGroupMembers) {
+        ContactGroups.hasMany(models.ContactGroupMembers, {
+          foreignKey: 'group_id',
+          as: 'groupMembers',
+        });
+      } else {
+        console.warn('ContactGroupMembers model not found during ContactGroups association setup');
+      }
+    }
+  }
+
+  const modelDefinition = {
     id: {
       type: DataTypes.UUID,
-      defaultValue: () => uuidv4(),
+      defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
     user_profile_id: {
       type: DataTypes.UUID,
       allowNull: false,
+      references: {
+        model: 'user_profiles',
+        key: 'userId',
+      },
     },
     name: {
-      type: DataTypes.STRING(50),
+      type: DataTypes.STRING,
       allowNull: false,
     },
-  }, {
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW,
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW,
+    },
+  };
+
+  // Log the field definitions for debugging
+  console.log('ContactGroups model definition:', JSON.stringify(modelDefinition, null, 2));
+
+  ContactGroups.init(modelDefinition, {
+    sequelize,
+    modelName: 'ContactGroups',
     tableName: 'contact_groups',
     timestamps: true,
   });
-
-  ContactGroups.associate = models => {
-    ContactGroups.belongsTo(models.UserProfiles, { foreignKey: 'user_profile_id' });
-    ContactGroups.hasMany(models.ContactGroupMembers, { foreignKey: 'group_id' });
-  };
 
   return ContactGroups;
 };

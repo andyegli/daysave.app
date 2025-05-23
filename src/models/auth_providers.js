@@ -1,43 +1,53 @@
-const { v4: uuidv4 } = require('uuid');
+'use strict';
+const { Model } = require('sequelize');
 
-/**
- * Auth Providers model for daysave.app v1.0.1
- * @param {Sequelize} sequelize - Sequelize instance
- * @param {DataTypes} DataTypes - Sequelize data types
- * @returns {Model} AuthProviders model
- */
 module.exports = (sequelize, DataTypes) => {
-  const AuthProviders = sequelize.define('AuthProviders', {
+  class AuthProviders extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      AuthProviders.belongsTo(models.UserProfiles, {
+        foreignKey: 'user_profile_id',
+        as: 'userProfile',
+      });
+    }
+  }
+
+  const modelDefinition = {
     id: {
       type: DataTypes.UUID,
-      defaultValue: () => uuidv4(),
+      defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
     user_profile_id: {
       type: DataTypes.UUID,
       allowNull: false,
+      references: {
+        model: 'user_profiles',
+        key: 'userId',
+      },
     },
     provider: {
       type: DataTypes.ENUM('local', 'google', 'github', 'apple', 'passkey', 'microsoft', 'facebook', 'twitter', 'instagram'),
       allowNull: false,
     },
-    provider_user_id: {
-      type: DataTypes.STRING(255),
-    },
-    hashed_password: {
-      type: DataTypes.STRING(255),
-    },
-    passkey_data: {
-      type: DataTypes.JSON,
-    },
-  }, {
+    provider_user_id: DataTypes.STRING,
+    hashed_password: DataTypes.STRING,
+    passkey_data: DataTypes.JSON,
+  };
+
+  // Log the field definitions for debugging
+  console.log('AuthProviders model definition:', JSON.stringify(modelDefinition, null, 2));
+
+  AuthProviders.init(modelDefinition, {
+    sequelize,
+    modelName: 'AuthProviders',
     tableName: 'auth_providers',
     timestamps: false,
   });
-
-  AuthProviders.associate = models => {
-    AuthProviders.belongsTo(models.UserProfiles, { foreignKey: 'user_profile_id' });
-  };
 
   return AuthProviders;
 };

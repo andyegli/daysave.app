@@ -1,0 +1,44 @@
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ..:/workspace
+    working_dir: /workspace
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - ../.env
+    environment:
+      - NODE_ENV=${NODE_ENV:-development}
+      - PORT=${PORT:-3000}
+      - DB_HOST=${DB_HOST:-db}
+      - DB_DATABASE=${DB_DATABASE:-daysave_db}
+      - DB_USER=${DB_USER:-root}
+      - DB_PASSWORD=${DB_PASSWORD:-secret}
+      - DB_DIALECT=${DB_DIALECT:-mysql}
+      - COMPOSE_PROJECT_NAME=${PROJECT_NAME:-daysave_v1} # Set project name from PROJECT_NAME
+    command: /bin/sh -c "sleep 10 && npm install && node app.js"
+
+  db:
+    image: mysql:8.0
+    environment:
+      - MYSQL_DATABASE=${DB_DATABASE:-daysave_db}
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD:-secret}
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    command: /bin/sh -c "rm -rf /var/lib/mysql/* && exec docker-entrypoint.sh mysqld"
+
+volumes:
+  db_data:

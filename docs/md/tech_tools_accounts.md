@@ -56,6 +56,10 @@ n**pm:**                    The package manager for Node.js, used for installing
 
 **uuid:**                   A small helper for generating uuid's
 
+**csv-parse:**              A Node.js module designed to parse CSV (Comma Separated Values) data, converting it into JavaScript objects or arrays.
+
+**multer:**                A middleware for handling multipart/form-data, primarily used for uploading files.
+
 **bcryptjs:**              A popular library for hashing passwords in Node.js applications.
 
 **passport:**              A Authentication middleware for Node.js, supporting various authentication strategies including oAuth

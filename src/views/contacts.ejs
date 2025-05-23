@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>daysave.app v1.0.1 - Contacts</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #008AA0;
+      color: white;
+    }
+    .batch-actions {
+      margin: 20px 0;
+    }
+    button {
+      background-color: #FFD05D;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #e6b800;
+    }
+    .selected {
+      background-color: #e0f7fa;
+    }
+  </style>
+</head>
+<body>
+  <%- include('../partials/navbar') %>
+  <div>
+    <form action="/contacts/import" method="post" enctype="multipart/form-data">
+      <input type="file" name="csv" accept=".csv">
+      <button type="submit">Import CSV</button>
+    </form>
+    <table>
+      <thead>
+        <tr>
+          <th>Select</th>
+          <th>Name</th>
+          <th>Birthday</th>
+          <th>Phone</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% contacts.forEach(contact => { %>
+          <tr class="<%= selectedContacts.includes(contact.id) ? 'selected' : '' %>">
+            <td><input type="checkbox" onchange="toggleSelect('<%= contact.id %>')"></td>
+            <td><%= contact.first_name %> <%= contact.last_name || '' %></td>
+            <td><%= contact.birthday || 'N/A' %></td>
+            <td><%= JSON.stringify(contact.phone_numbers || {}) %></td>
+            <td>
+              <button onclick="editContact('<%= contact.id %>')">Edit</button>
+              <button onclick="deleteContact('<%= contact.id %>')">Delete</button>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+    <div class="batch-actions">
+      <button onclick="batchDelete()">Delete</button>
+      <button onclick="batchEdit()">Edit</button>
+      <button onclick="batchMove()">Move to Group</button>
+    </div>
+  </div>
+  <script>
+    let selectedContacts = [];
+
+    function toggleSelect(id) {
+      const index = selectedContacts.indexOf(id);
+      if (index === -1) {
+        selectedContacts.push(id);
+      } else {
+        selectedContacts.splice(index, 1);
+      }
+      updateSelection();
+    }
+
+    function updateSelection() {
+      document.querySelectorAll('tr').forEach(row => {
+        row.classList.toggle('selected', selectedContacts.includes(row.querySelector('td input').value));
+      });
+    }
+
+    function batchDelete() {
+      if (!selectedContacts.length) return alert('Select at least one contact');
+      fetch('/contacts/batch', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ids: selectedContacts, action: 'delete' }),
+      }).then(res => {
+        if (res.ok) location.reload();
+        else alert('Delete failed');
+      }).catch(err => alert('Error: ' + err));
+    }
+
+    function batchEdit() {
+      if (!selectedContacts.length) return alert('Select at least one contact');
+      const newName = prompt('New first name:');
+      if (!newName) return;
+      fetch('/contacts/batch', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ids: selectedContacts, action: 'edit', first_name: newName }),
+      }).then(res => {
+        if (res.ok) location.reload();
+        else alert('Edit failed');
+      }).catch(err => alert('Error: ' + err));
+    }
+
+    function batchMove() {
+      if (!selectedContacts.length) return alert('Select at least one contact');
+      const groupId = prompt('Enter group ID:');
+      if (!groupId) return;
+      fetch('/contacts/batch', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ids: selectedContacts, action: 'move', group_id: groupId }),
+      }).then(res => {
+        if (res.ok) location.reload();
+        else alert('Move failed');
+      }).catch(err => alert('Error: ' + err));
+    }
+
+    function editContact(id) {
+      const name = prompt('New first name:', document.querySelector(`tr[style*="selected"] td:nth-child(2)`).textContent);
+      if (name) fetch(`/contacts/${id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ first_name: name }) }).then(res => {
+        if (res.ok) location.reload();
+        else alert('Edit failed');
+      }).catch(err => alert('Error: ' + err));
+    }
+
+    function deleteContact(id) {
+      if (confirm('Are you sure?')) {
+        fetch(`/contacts/${id}`, { method: 'DELETE' }).then(res => {
+          if (res.ok) location.reload();
+          else alert('Delete failed');
+        }).catch(err => alert('Error: ' + err));
+      }
+    }
+  </script>
+</body>
+</html>

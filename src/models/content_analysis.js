@@ -1,46 +1,68 @@
-const { v4: uuidv4 } = require('uuid');
+'use strict';
+const { Model } = require('sequelize');
 
-/**
- * Content Analysis model for daysave.app v1.0.1 (AI backend placeholder)
- * @param {Sequelize} sequelize - Sequelize instance
- * @param {DataTypes} DataTypes - Sequelize data types
- * @returns {Model} ContentAnalysis model
- */
 module.exports = (sequelize, DataTypes) => {
-  const ContentAnalysis = sequelize.define('ContentAnalysis', {
+  class ContentAnalysis extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      if (models.Content) {
+        ContentAnalysis.belongsTo(models.Content, {
+          foreignKey: 'content_id',
+          as: 'content',
+        });
+      } else {
+        console.warn('Content model not found during ContentAnalysis association setup');
+      }
+    }
+  }
+
+  const modelDefinition = {
     id: {
       type: DataTypes.UUID,
-      defaultValue: () => uuidv4(),
+      defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
     content_id: {
       type: DataTypes.UUID,
       allowNull: false,
+      references: {
+        model: 'content',
+        key: 'id',
+      },
     },
-    keywords: {
+    analysis_type: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    result: {
       type: DataTypes.JSON,
+      allowNull: true,
     },
-    summary: {
-      type: DataTypes.TEXT,
-    },
-    transcription: {
-      type: DataTypes.TEXT,
-    },
-    objects: {
-      type: DataTypes.JSON,
-    },
-    created_at: {
+    createdAt: {
       type: DataTypes.DATE,
+      allowNull: false,
       defaultValue: DataTypes.NOW,
     },
-  }, {
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW,
+    },
+  };
+
+  // Log the field definitions for debugging
+  console.log('ContentAnalysis model definition:', JSON.stringify(modelDefinition, null, 2));
+
+  ContentAnalysis.init(modelDefinition, {
+    sequelize,
+    modelName: 'ContentAnalysis',
     tableName: 'content_analysis',
     timestamps: true,
   });
-
-  ContentAnalysis.associate = models => {
-    ContentAnalysis.belongsTo(models.Content, { foreignKey: 'content_id' });
-  };
 
   return ContentAnalysis;
 };

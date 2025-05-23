@@ -1,41 +1,69 @@
-const { v4: uuidv4 } = require('uuid');
+'use strict';
+const { Model } = require('sequelize');
 
-/**
- * MFA Methods model for daysave.app v1.0.1
- * @param {Sequelize} sequelize - Sequelize instance
- * @param {DataTypes} DataTypes - Sequelize data types
- * @returns {Model} MFAMethods model
- */
 module.exports = (sequelize, DataTypes) => {
-  const MFAMethods = sequelize.define('MFAMethods', {
+  class MfaMethods extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      MfaMethods.belongsTo(models.UserProfiles, {
+        foreignKey: 'user_profile_id',
+        as: 'userProfile',
+      });
+    }
+  }
+
+  const modelDefinition = {
     id: {
       type: DataTypes.UUID,
-      defaultValue: () => uuidv4(),
+      defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
     user_profile_id: {
       type: DataTypes.UUID,
       allowNull: false,
+      references: {
+        model: 'user_profiles',
+        key: 'userId',
+      },
     },
-    type: {
-      type: DataTypes.ENUM('totp', 'sms', 'email', 'backup_codes'),
+    method_type: {
+      type: DataTypes.ENUM('totp', 'sms', 'email', 'authenticator_app'),
       allowNull: false,
     },
-    config: {
-      type: DataTypes.JSON,
+    secret: {
+      type: DataTypes.STRING,
+      allowNull: true,
     },
-    is_primary: {
+    is_active: {
       type: DataTypes.BOOLEAN,
-      defaultValue: false,
+      allowNull: false,
+      defaultValue: true,
     },
-  }, {
-    tableName: 'mfa_methods',
-    timestamps: false,
-  });
-
-  MFAMethods.associate = models => {
-    MFAMethods.belongsTo(models.UserProfiles, { foreignKey: 'user_profile_id' });
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW,
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW,
+    },
   };
 
-  return MFAMethods;
+  // Log the field definitions for debugging
+  console.log('MfaMethods model definition:', JSON.stringify(modelDefinition, null, 2));
+
+  MfaMethods.init(modelDefinition, {
+    sequelize,
+    modelName: 'MfaMethods',
+    tableName: 'mfa_methods',
+    timestamps: true,
+  });
+
+  return MfaMethods;
 };
