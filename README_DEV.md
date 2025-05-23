@@ -356,3 +356,73 @@ Warning: This will delete all data in the database and remove all Docker artifac
 
 docker-compose --project-name daysave_v1 -f .devcontainer/docker-compose.yml down
 docker-compose --project-name daysave_v1 -f .devcontainer/docker-compose.yml up -d --build
+
+
+
+Step 1: Commands to Completely Rebuild the Container and Seed the Database
+To rebuild the container and reseed the database, follow these steps:
+
+1. Stop and Remove the Existing Containers
+This ensures a clean slate by stopping and removing the existing containers for the daysave_v1 project.
+
+docker compose --project-name daysave_v1 -f .devcontainer/docker-compose.yml down
+E
+xplanation:
+docker compose: Uses the integrated Docker Compose command (as docker-compose is deprecated in your Docker Desktop version).
+--project-name daysave_v1: Specifies the project name to avoid conflicts with other Docker projects.
+-f .devcontainer/docker-compose.yml: Points to the docker-compose.yml file in the .devcontainer directory.
+down: Stops and removes the containers, networks, and volumes defined in the compose file.
+
+2. Rebuild and Start the Containers
+This rebuilds the containers from scratch, ensuring all changes (e.g., updated dependencies, code) are applied.
+
+docker compose --project-name daysave_v1 -f .devcontainer/docker-compose.yml up -d --build --no-cache
+
+Explanation:
+up: Starts the containers defined in the compose file.
+-d: Runs the containers in detached mode (in the background).
+--build: Forces a rebuild of the container images.
+--no-cache: Ensures the rebuild doesn’t use cached layers, incorporating all changes.
+
+3. Seed the Database
+After the containers are running, seed the database to populate it with the test data (e.g., testuser with password123).
+
+docker exec -it daysave_v1-app-1 npm run seed
+
+Explanation:
+docker exec -it daysave_v1-app-1: Runs a command inside the daysave_v1-app-1 container interactively.
+npm run seed: Executes the seed script defined in package.json, which runs node ./src/seeders/seed.js to populate the database.
+Step 2: Verify the Application After Rebuild
+Check Container Status
+Confirm the containers are running:
+
+
+docker ps
+
+Expected Output:
+You should see daysave_v1-app-1 and daysave_v1-db-1 with a status of Up and port mapping 3000:3000 for the app container.
+
+Check the Logs
+Verify the application started successfully and the database was seeded:
+
+docker logs daysave_v1-app-1
+Expected Output:
+Look for:
+text
+
+Server running on port 3000
+Models loaded: [ ... ]
+Database seeded successfully!
+Ensure there are no errors related to model loading or database setup.
+
+Test the Application
+Login:
+Access http://localhost:3000/login.
+Use testuser and password123.
+Verify you’re redirected to /content.
+
+
+Debgging:
+docker exec -it daysave_v1-app-1 bash
+mysql -u root -p -h db -P 3306
+  USE daysave_db;
