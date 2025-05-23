@@ -1,40 +1,20 @@
-'use strict';
-const { Model } = require('sequelize');
+import { Model } from 'sequelize';
 
-module.exports = (sequelize, DataTypes) => {
+export default (sequelize, DataTypes) => {
   class PaymentTransactions extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
-      if (models.UserProfiles) {
-        PaymentTransactions.belongsTo(models.UserProfiles, {
-          foreignKey: 'user_profile_id',
-          as: 'userProfile',
-        });
-      } else {
-        console.warn('UserProfiles model not found during PaymentTransactions association setup');
-      }
-
-      if (models.Subscriptions) {
-        PaymentTransactions.belongsTo(models.Subscriptions, {
-          foreignKey: 'subscription_id',
-          as: 'subscription',
-        });
-      } else {
-        console.warn('Subscriptions model not found during PaymentTransactions association setup');
-      }
-
-      if (models.PaymentProviders) {
-        PaymentTransactions.belongsTo(models.PaymentProviders, {
-          foreignKey: 'provider_id',
-          as: 'provider',
-        });
-      } else {
-        console.warn('PaymentProviders model not found during PaymentTransactions association setup');
-      }
+      PaymentTransactions.belongsTo(models.UserProfiles, {
+        foreignKey: 'user_profile_id',
+        as: 'userProfile',
+      });
+      PaymentTransactions.belongsTo(models.Subscriptions, {
+        foreignKey: 'subscription_id',
+        as: 'subscription',
+      });
+      PaymentTransactions.belongsTo(models.PaymentProviders, {
+        foreignKey: 'provider_id',
+        as: 'provider',
+      });
     }
   }
 
@@ -80,7 +60,6 @@ module.exports = (sequelize, DataTypes) => {
     transaction_date: {
       type: DataTypes.DATE,
       allowNull: false,
-      defaultValue: DataTypes.NOW,
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -94,7 +73,6 @@ module.exports = (sequelize, DataTypes) => {
     },
   };
 
-  // Log the field definitions for debugging
   console.log('PaymentTransactions model definition:', JSON.stringify(modelDefinition, null, 2));
 
   PaymentTransactions.init(modelDefinition, {

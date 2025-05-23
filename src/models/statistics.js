@@ -1,22 +1,12 @@
-'use strict';
-const { Model } = require('sequelize');
+import { Model } from 'sequelize';
 
-module.exports = (sequelize, DataTypes) => {
+export default (sequelize, DataTypes) => {
   class Statistics extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
-      if (models.UserProfiles) {
-        Statistics.belongsTo(models.UserProfiles, {
-          foreignKey: 'user_profile_id',
-          as: 'userProfile',
-        });
-      } else {
-        console.warn('UserProfiles model not found during Statistics association setup');
-      }
+      Statistics.belongsTo(models.UserProfiles, {
+        foreignKey: 'user_profile_id',
+        as: 'userProfile',
+      });
     }
   }
 
@@ -45,7 +35,6 @@ module.exports = (sequelize, DataTypes) => {
     recorded_at: {
       type: DataTypes.DATE,
       allowNull: false,
-      defaultValue: DataTypes.NOW,
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -59,7 +48,6 @@ module.exports = (sequelize, DataTypes) => {
     },
   };
 
-  // Log the field definitions for debugging
   console.log('Statistics model definition:', JSON.stringify(modelDefinition, null, 2));
 
   Statistics.init(modelDefinition, {

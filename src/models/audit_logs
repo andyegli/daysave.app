@@ -1,22 +1,12 @@
-'use strict';
-const { Model } = require('sequelize');
+import { Model } from 'sequelize';
 
-module.exports = (sequelize, DataTypes) => {
-  class AuditLogs extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
+export default (sequelize, DataTypes) => {
+  class Tags extends Model {
     static associate(models) {
-      if (models.UserProfiles) {
-        AuditLogs.belongsTo(models.UserProfiles, {
-          foreignKey: 'user_profile_id',
-          as: 'userProfile',
-        });
-      } else {
-        console.warn('UserProfiles model not found during AuditLogs association setup');
-      }
+      Tags.hasMany(models.ContentTags, {
+        foreignKey: 'tag_id',
+        as: 'contentTags',
+      });
     }
   }
 
@@ -26,21 +16,10 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
-    user_profile_id: {
-      type: DataTypes.UUID,
-      allowNull: false,
-      references: {
-        model: 'user_profiles',
-        key: 'userId',
-      },
-    },
-    action: {
+    name: {
       type: DataTypes.STRING,
       allowNull: false,
-    },
-    details: {
-      type: DataTypes.JSON,
-      allowNull: true,
+      unique: true,
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -54,15 +33,14 @@ module.exports = (sequelize, DataTypes) => {
     },
   };
 
-  // Log the field definitions for debugging
-  console.log('AuditLogs model definition:', JSON.stringify(modelDefinition, null, 2));
+  console.log('Tags model definition:', JSON.stringify(modelDefinition, null, 2));
 
-  AuditLogs.init(modelDefinition, {
+  Tags.init(modelDefinition, {
     sequelize,
-    modelName: 'AuditLogs',
-    tableName: 'audit_logs',
+    modelName: 'Tags',
+    tableName: 'tags',
     timestamps: true,
   });
 
-  return AuditLogs;
+  return Tags;
 };

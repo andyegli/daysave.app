@@ -1,23 +1,12 @@
-'use strict';
-const { Model } = require('sequelize');
+import { Model } from 'sequelize';
 
-module.exports = (sequelize, DataTypes) => {
-  class RolePermissions extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
+export default (sequelize, DataTypes) => {
+  class Tags extends Model {
     static associate(models) {
-      // Defer association setup to avoid circular dependencies
-      if (models.UserProfiles) {
-        RolePermissions.belongsTo(models.UserProfiles, {
-          foreignKey: 'user_profile_id',
-          as: 'userProfile',
-        });
-      } else {
-        console.warn('UserProfiles model not found during RolePermissions association setup');
-      }
+      Tags.hasMany(models.ContentTags, {
+        foreignKey: 'tag_id',
+        as: 'contentTags',
+      });
     }
   }
 
@@ -27,17 +16,10 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
-    user_profile_id: {
-      type: DataTypes.UUID,
-      allowNull: false,
-      references: {
-        model: 'user_profiles',
-        key: 'userId',
-      },
-    },
-    permission: {
+    name: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -51,15 +33,14 @@ module.exports = (sequelize, DataTypes) => {
     },
   };
 
-  // Log the field definitions for debugging
-  console.log('RolePermissions model definition:', JSON.stringify(modelDefinition, null, 2));
+  console.log('Tags model definition:', JSON.stringify(modelDefinition, null, 2));
 
-  RolePermissions.init(modelDefinition, {
+  Tags.init(modelDefinition, {
     sequelize,
-    modelName: 'RolePermissions',
-    tableName: 'role_permissions',
+    modelName: 'Tags',
+    tableName: 'tags',
     timestamps: true,
   });
 
-  return RolePermissions;
+  return Tags;
 };

@@ -1,13 +1,7 @@
-'use strict';
-const { Model } = require('sequelize');
+import { Model } from 'sequelize';
 
-module.exports = (sequelize, DataTypes) => {
+export default (sequelize, DataTypes) => {
   class ContentSources extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
       ContentSources.hasMany(models.Content, {
         foreignKey: 'source_id',
@@ -23,12 +17,35 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
     },
     name: {
-      type: DataTypes.ENUM('youtube', 'facebook', 'instagram', 'upload', 'weblink', 'whatsapp', 'whatsappbusiness', 'teams', 'zoom', 'threema', 'linkedin', 'messenger', 'telegram', 'discord', 'snapchat', 'threads', 'slack', 'github', 'signal', 'gmail', 'simple', 'tiktok', 'revolut'),
+      type: DataTypes.ENUM(
+        'youtube',
+        'facebook',
+        'instagram',
+        'upload',
+        'weblink',
+        'whatsapp',
+        'whatsappbusiness',
+        'teams',
+        'zoom',
+        'threema',
+        'linkedin',
+        'messenger',
+        'telegram',
+        'discord',
+        'snapchat',
+        'threads',
+        'slack',
+        'github',
+        'signal',
+        'gmail',
+        'simple',
+        'tiktok',
+        'revolut'
+      ),
       allowNull: false,
     },
   };
 
-  // Log the field definitions for debugging
   console.log('ContentSources model definition:', JSON.stringify(modelDefinition, null, 2));
 
   ContentSources.init(modelDefinition, {

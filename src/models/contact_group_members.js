@@ -1,31 +1,16 @@
-'use strict';
-const { Model } = require('sequelize');
+import { Model } from 'sequelize';
 
-module.exports = (sequelize, DataTypes) => {
+export default (sequelize, DataTypes) => {
   class ContactGroupMembers extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
-      if (models.ContactGroups) {
-        ContactGroupMembers.belongsTo(models.ContactGroups, {
-          foreignKey: 'group_id',
-          as: 'group',
-        });
-      } else {
-        console.warn('ContactGroups model not found during ContactGroupMembers association setup');
-      }
-
-      if (models.Contacts) {
-        ContactGroupMembers.belongsTo(models.Contacts, {
-          foreignKey: 'contact_id',
-          as: 'contact',
-        });
-      } else {
-        console.warn('Contacts model not found during ContactGroupMembers association setup');
-      }
+      ContactGroupMembers.belongsTo(models.ContactGroups, {
+        foreignKey: 'group_id',
+        as: 'group',
+      });
+      ContactGroupMembers.belongsTo(models.Contacts, {
+        foreignKey: 'contact_id',
+        as: 'contact',
+      });
     }
   }
 
@@ -63,7 +48,6 @@ module.exports = (sequelize, DataTypes) => {
     },
   };
 
-  // Log the field definitions for debugging
   console.log('ContactGroupMembers model definition:', JSON.stringify(modelDefinition, null, 2));
 
   ContactGroupMembers.init(modelDefinition, {

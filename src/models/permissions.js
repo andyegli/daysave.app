@@ -1,15 +1,9 @@
-'use strict';
-const { Model } = require('sequelize');
+import { Model } from 'sequelize';
 
-module.exports = (sequelize, DataTypes) => {
+export default (sequelize, DataTypes) => {
   class Permissions extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
-      // No direct associations defined for now
+      // No associations defined in the original file
     }
   }
 
@@ -40,7 +34,6 @@ module.exports = (sequelize, DataTypes) => {
     },
   };
 
-  // Log the field definitions for debugging
   console.log('Permissions model definition:', JSON.stringify(modelDefinition, null, 2));
 
   Permissions.init(modelDefinition, {

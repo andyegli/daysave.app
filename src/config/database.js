@@ -1,4 +1,4 @@
-const { Sequelize } = require('sequelize');
+import { Sequelize } from 'sequelize';
 
 /**
  * Database configuration for daysave.app
@@ -10,7 +10,7 @@ const sequelize = new Sequelize(
   {
     host: process.env.DB_HOST || 'db',
     dialect: process.env.DB_DIALECT || 'mysql',
-    logging: process.env.NODE_ENV !== 'production' ? console.log : false, // Use console.log in development, disable in production
+    logging: process.env.NODE_ENV !== 'production' ? console.log : false,
     retry: {
       max: 5,
       timeout: 10000,
@@ -18,4 +18,4 @@ const sequelize = new Sequelize(
   }
 );
 
-module.exports = sequelize;
+export default sequelize;

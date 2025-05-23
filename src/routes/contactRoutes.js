@@ -1,10 +1,15 @@
-const express = require('express');
+import express from 'express';
+import contactController from '../controllers/contactController.js';
+import authMiddleware from '../middlewares/authMiddleware.js';
+
 const router = express.Router();
-const authMiddleware = require('../middlewares/authMiddleware');
-const contactController = require('../controllers/contactController');
 
-// Routes for contact management
-router.get('/contacts', authMiddleware.isAuthenticated, contactController.getAllContacts);
-router.post('/contacts', authMiddleware.isAuthenticated, contactController.createContact);
+router.get('/contact', authMiddleware.isAuthenticated, contactController.getAllContacts);
+router.get('/contact/create', authMiddleware.isAuthenticated, contactController.createContact);
+router.post('/contact', authMiddleware.isAuthenticated, contactController.postContact);
+router.get('/contact/:id', authMiddleware.isAuthenticated, contactController.getContact);
+router.get('/contact/:id/edit', authMiddleware.isAuthenticated, contactController.editContact);
+router.post('/contact/:id/update', authMiddleware.isAuthenticated, contactController.updateContact);
+router.post('/contact/:id/delete', authMiddleware.isAuthenticated, contactController.deleteContact);
 
-module.exports = router;
+export default router;

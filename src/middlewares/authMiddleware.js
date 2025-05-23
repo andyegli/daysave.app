@@ -1,17 +1,8 @@
-/**
- * Authentication middleware for daysave.app
- */
-const isAuthenticated = (req, res, next) => {
-  // Placeholder: Check if user is authenticated (e.g., via session or token)
-  const isLoggedIn = true; // Replace with actual auth logic (e.g., check req.session.user)
-
-  if (isLoggedIn) {
-    return next();
-  } else {
-    res.status(401).send('Unauthorized: Please log in to access this resource.');
-  }
-};
-
-module.exports = {
-  isAuthenticated,
+export default {
+  isAuthenticated(req, res, next) {
+    // Placeholder for authentication logic
+    // In a real app, this would check for a valid user session or token
+    console.log('Checking authentication...');
+    next(); // For now, always proceed
+  },
 };

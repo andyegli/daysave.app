@@ -1,13 +1,7 @@
-'use strict';
-const { Model } = require('sequelize');
+import { Model } from 'sequelize';
 
-module.exports = (sequelize, DataTypes) => {
+export default (sequelize, DataTypes) => {
   class Content extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
       Content.belongsTo(models.UserProfiles, {
         foreignKey: 'userId',
@@ -17,13 +11,21 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'content_id',
         as: 'comments',
       });
+      Content.hasMany(models.ContentShares, {
+        foreignKey: 'content_id',
+        as: 'shares',
+      });
+      Content.hasMany(models.ContentAnalysis, {
+        foreignKey: 'content_id',
+        as: 'analyses',
+      });
+      Content.hasMany(models.ContentTags, {
+        foreignKey: 'content_id',
+        as: 'contentTags',
+      });
       Content.belongsTo(models.ContentSources, {
         foreignKey: 'source_id',
         as: 'source',
-      });
-      Content.hasMany(models.ContentShares, {
-        foreignKey: 'content_id',
-        as: 'contentShares',
       });
     }
   }
@@ -70,7 +72,6 @@ module.exports = (sequelize, DataTypes) => {
     },
   };
 
-  // Log the field definitions for debugging
   console.log('Content model definition:', JSON.stringify(modelDefinition, null, 2));
 
   Content.init(modelDefinition, {

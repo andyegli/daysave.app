@@ -1,40 +1,20 @@
-'use strict';
-const { Model } = require('sequelize');
+import { Model } from 'sequelize';
 
-module.exports = (sequelize, DataTypes) => {
+export default (sequelize, DataTypes) => {
   class ContactGroups extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
-      if (models.UserProfiles) {
-        ContactGroups.belongsTo(models.UserProfiles, {
-          foreignKey: 'user_profile_id',
-          as: 'userProfile',
-        });
-      } else {
-        console.warn('UserProfiles model not found during ContactGroups association setup');
-      }
-
-      if (models.Contacts) {
-        ContactGroups.hasMany(models.Contacts, {
-          foreignKey: 'group_id',
-          as: 'contacts',
-        });
-      } else {
-        console.warn('Contacts model not found during ContactGroups association setup');
-      }
-
-      if (models.ContactGroupMembers) {
-        ContactGroups.hasMany(models.ContactGroupMembers, {
-          foreignKey: 'group_id',
-          as: 'groupMembers',
-        });
-      } else {
-        console.warn('ContactGroupMembers model not found during ContactGroups association setup');
-      }
+      ContactGroups.belongsTo(models.UserProfiles, {
+        foreignKey: 'user_profile_id',
+        as: 'userProfile',
+      });
+      ContactGroups.hasMany(models.Contacts, {
+        foreignKey: 'group_id',
+        as: 'contacts',
+      });
+      ContactGroups.hasMany(models.ContactGroupMembers, {
+        foreignKey: 'group_id',
+        as: 'groupMembers',
+      });
     }
   }
 
@@ -68,7 +48,6 @@ module.exports = (sequelize, DataTypes) => {
     },
   };
 
-  // Log the field definitions for debugging
   console.log('ContactGroups model definition:', JSON.stringify(modelDefinition, null, 2));
 
   ContactGroups.init(modelDefinition, {

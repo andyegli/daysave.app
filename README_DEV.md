@@ -339,8 +339,21 @@ docker-compose -f .devcontainer/docker-compose.yml down
 docker volume rm daysave_v1_db_data
 docker rm -f $(docker ps -aq)
 docker rmi -f $(docker images -q)
-docker-compose -f .devcontainer/docker-compose.yml up --build
+docker-compose --project-name daysave_v1 -f .devcontainer/docker-compose.yml up -d --build
 
 
 docker-compose -f .devcontainer/docker-compose.yml up -d
 docker exec -it daysave_v1-app-1 node seed.js
+
+Warning: This will delete all data in the database and remove all Docker artifacts. If you have data or images you need to preserve, back them up first.
+docker-compose -f .devcontainer/docker-compose.yml down
+docker volume rm daysave_v1_db_data
+docker rm -f $(docker ps -aq)
+docker rmi -f $(docker images -q)
+Warning: This will delete all data in the database and remove all Docker artifacts. If you have data or images you need to preserve, back them up first.
+
+docker-compose -f .devcontainer/docker-compose.yml up -d --build
+
+
+docker-compose --project-name daysave_v1 -f .devcontainer/docker-compose.yml down
+docker-compose --project-name daysave_v1 -f .devcontainer/docker-compose.yml up -d --build

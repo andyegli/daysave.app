@@ -1,22 +1,12 @@
-'use strict';
-const { Model } = require('sequelize');
+import { Model } from 'sequelize';
 
-module.exports = (sequelize, DataTypes) => {
+export default (sequelize, DataTypes) => {
   class Tags extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
-      if (models.ContentTags) {
-        Tags.hasMany(models.ContentTags, {
-          foreignKey: 'tag_id',
-          as: 'contentTags',
-        });
-      } else {
-        console.warn('ContentTags model not found during Tags association setup');
-      }
+      Tags.hasMany(models.ContentTags, {
+        foreignKey: 'tag_id',
+        as: 'contentTags',
+      });
     }
   }
 
@@ -43,7 +33,6 @@ module.exports = (sequelize, DataTypes) => {
     },
   };
 
-  // Log the field definitions for debugging
   console.log('Tags model definition:', JSON.stringify(modelDefinition, null, 2));
 
   Tags.init(modelDefinition, {

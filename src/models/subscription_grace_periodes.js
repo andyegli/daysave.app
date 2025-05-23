@@ -1,22 +1,12 @@
-'use strict';
-const { Model } = require('sequelize');
+import { Model } from 'sequelize';
 
-module.exports = (sequelize, DataTypes) => {
+export default (sequelize, DataTypes) => {
   class SubscriptionGracePeriods extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
-      if (models.Subscriptions) {
-        SubscriptionGracePeriods.belongsTo(models.Subscriptions, {
-          foreignKey: 'subscription_id',
-          as: 'subscription',
-        });
-      } else {
-        console.warn('Subscriptions model not found during SubscriptionGracePeriods association setup');
-      }
+      SubscriptionGracePeriods.belongsTo(models.Subscriptions, {
+        foreignKey: 'subscription_id',
+        as: 'subscription',
+      });
     }
   }
 
@@ -37,7 +27,6 @@ module.exports = (sequelize, DataTypes) => {
     start_date: {
       type: DataTypes.DATE,
       allowNull: false,
-      defaultValue: DataTypes.NOW,
     },
     end_date: {
       type: DataTypes.DATE,
@@ -59,7 +48,6 @@ module.exports = (sequelize, DataTypes) => {
     },
   };
 
-  // Log the field definitions for debugging
   console.log('SubscriptionGracePeriods model definition:', JSON.stringify(modelDefinition, null, 2));
 
   SubscriptionGracePeriods.init(modelDefinition, {

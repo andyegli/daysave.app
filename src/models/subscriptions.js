@@ -1,40 +1,20 @@
-'use strict';
-const { Model } = require('sequelize');
+import { Model } from 'sequelize';
 
-module.exports = (sequelize, DataTypes) => {
+export default (sequelize, DataTypes) => {
   class Subscriptions extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
-      if (models.UserProfiles) {
-        Subscriptions.belongsTo(models.UserProfiles, {
-          foreignKey: 'user_profile_id',
-          as: 'userProfile',
-        });
-      } else {
-        console.warn('UserProfiles model not found during Subscriptions association setup');
-      }
-
-      if (models.PaymentTransactions) {
-        Subscriptions.hasMany(models.PaymentTransactions, {
-          foreignKey: 'subscription_id',
-          as: 'transactions',
-        });
-      } else {
-        console.warn('PaymentTransactions model not found during Subscriptions association setup');
-      }
-
-      if (models.SubscriptionGracePeriods) {
-        Subscriptions.hasMany(models.SubscriptionGracePeriods, {
-          foreignKey: 'subscription_id',
-          as: 'gracePeriods',
-        });
-      } else {
-        console.warn('SubscriptionGracePeriods model not found during Subscriptions association setup');
-      }
+      Subscriptions.belongsTo(models.UserProfiles, {
+        foreignKey: 'user_profile_id',
+        as: 'userProfile',
+      });
+      Subscriptions.hasMany(models.PaymentTransactions, {
+        foreignKey: 'subscription_id',
+        as: 'transactions',
+      });
+      Subscriptions.hasMany(models.SubscriptionGracePeriods, {
+        foreignKey: 'subscription_id',
+        as: 'gracePeriods',
+      });
     }
   }
 
@@ -59,7 +39,6 @@ module.exports = (sequelize, DataTypes) => {
     start_date: {
       type: DataTypes.DATE,
       allowNull: false,
-      defaultValue: DataTypes.NOW,
     },
     end_date: {
       type: DataTypes.DATE,
@@ -77,7 +56,6 @@ module.exports = (sequelize, DataTypes) => {
     },
   };
 
-  // Log the field definitions for debugging
   console.log('Subscriptions model definition:', JSON.stringify(modelDefinition, null, 2));
 
   Subscriptions.init(modelDefinition, {

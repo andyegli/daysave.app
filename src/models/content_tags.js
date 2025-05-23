@@ -1,31 +1,16 @@
-'use strict';
-const { Model } = require('sequelize');
+import { Model } from 'sequelize';
 
-module.exports = (sequelize, DataTypes) => {
+export default (sequelize, DataTypes) => {
   class ContentTags extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
-      if (models.Content) {
-        ContentTags.belongsTo(models.Content, {
-          foreignKey: 'content_id',
-          as: 'content',
-        });
-      } else {
-        console.warn('Content model not found during ContentTags association setup');
-      }
-
-      if (models.Tags) {
-        ContentTags.belongsTo(models.Tags, {
-          foreignKey: 'tag_id',
-          as: 'tag',
-        });
-      } else {
-        console.warn('Tags model not found during ContentTags association setup');
-      }
+      ContentTags.belongsTo(models.Content, {
+        foreignKey: 'content_id',
+        as: 'content',
+      });
+      ContentTags.belongsTo(models.Tags, {
+        foreignKey: 'tag_id',
+        as: 'tag',
+      });
     }
   }
 
@@ -63,7 +48,6 @@ module.exports = (sequelize, DataTypes) => {
     },
   };
 
-  // Log the field definitions for debugging
   console.log('ContentTags model definition:', JSON.stringify(modelDefinition, null, 2));
 
   ContentTags.init(modelDefinition, {

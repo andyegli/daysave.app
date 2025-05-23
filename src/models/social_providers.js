@@ -1,22 +1,12 @@
-'use strict';
-const { Model } = require('sequelize');
+import { Model } from 'sequelize';
 
-module.exports = (sequelize, DataTypes) => {
+export default (sequelize, DataTypes) => {
   class SocialProviders extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
-      if (models.SocialProfiles) {
-        SocialProviders.hasMany(models.SocialProfiles, {
-          foreignKey: 'provider_id',
-          as: 'profiles',
-        });
-      } else {
-        console.warn('SocialProfiles model not found during SocialProviders association setup');
-      }
+      SocialProviders.hasMany(models.SocialProfiles, {
+        foreignKey: 'provider_id',
+        as: 'profiles',
+      });
     }
   }
 
@@ -43,7 +33,6 @@ module.exports = (sequelize, DataTypes) => {
     },
   };
 
-  // Log the field definitions for debugging
   console.log('SocialProviders model definition:', JSON.stringify(modelDefinition, null, 2));
 
   SocialProviders.init(modelDefinition, {

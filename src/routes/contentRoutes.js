@@ -1,12 +1,15 @@
-const express = require('express');
+import express from 'express';
+import contentController from '../controllers/contentController.js';
+import authMiddleware from '../middlewares/authMiddleware.js';
+
 const router = express.Router();
-const authMiddleware = require('../middlewares/authMiddleware');
 
-// Placeholder controller for content (we'll create this next)
-const contentController = require('../controllers/contentController');
-
-// Routes for content management
 router.get('/content', authMiddleware.isAuthenticated, contentController.getAllContent);
-router.post('/content', authMiddleware.isAuthenticated, contentController.createContent);
+router.get('/content/create', authMiddleware.isAuthenticated, contentController.createContent);
+router.post('/content', authMiddleware.isAuthenticated, contentController.postContent);
+router.get('/content/:id', authMiddleware.isAuthenticated, contentController.getContent);
+router.get('/content/:id/edit', authMiddleware.isAuthenticated, contentController.editContent);
+router.post('/content/:id/update', authMiddleware.isAuthenticated, contentController.updateContent);
+router.post('/content/:id/delete', authMiddleware.isAuthenticated, contentController.deleteContent);
 
-module.exports = router;
+export default router;

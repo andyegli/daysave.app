@@ -1,13 +1,7 @@
-'use strict';
-const { Model } = require('sequelize');
+import { Model } from 'sequelize';
 
-module.exports = (sequelize, DataTypes) => {
+export default (sequelize, DataTypes) => {
   class AuthProviders extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
       AuthProviders.belongsTo(models.UserProfiles, {
         foreignKey: 'user_profile_id',
@@ -31,15 +25,33 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     provider: {
-      type: DataTypes.ENUM('local', 'google', 'github', 'apple', 'passkey', 'microsoft', 'facebook', 'twitter', 'instagram'),
+      type: DataTypes.ENUM(
+        'local',
+        'google',
+        'github',
+        'apple',
+        'passkey',
+        'microsoft',
+        'facebook',
+        'twitter',
+        'instagram'
+      ),
       allowNull: false,
     },
-    provider_user_id: DataTypes.STRING,
-    hashed_password: DataTypes.STRING,
-    passkey_data: DataTypes.JSON,
+    provider_user_id: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    hashed_password: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    passkey_data: {
+      type: DataTypes.JSON,
+      allowNull: true,
+    },
   };
 
-  // Log the field definitions for debugging
   console.log('AuthProviders model definition:', JSON.stringify(modelDefinition, null, 2));
 
   AuthProviders.init(modelDefinition, {

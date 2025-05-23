@@ -1,24 +1,20 @@
-const express = require('express');
-const path = require('path');
-const contentRoutes = require('./src/routes/contentRoutes');
-const contactRoutes = require('./src/routes/contactRoutes');
-const authMiddleware = require('./src/middlewares/authMiddleware');
-const { Sequelize } = require('sequelize');
-const db = require('./src/models');
+import express from 'express';
+import { join } from 'path';
+import { Sequelize } from 'sequelize';
+import contentRoutes from './src/routes/contentRoutes.js';
+import contactRoutes from './src/routes/contactRoutes.js';
+import authMiddleware from './src/middlewares/authMiddleware.js';
 
-/**
- * Main application setup for daysave.app v1.0.1
- */
 const app = express();
 
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(join(new URL(import.meta.url).pathname, '../public')));
 
 // Template engine setup (EJS)
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', join(new URL(import.meta.url).pathname, '../views'));
 
 // Routes
 app.use('/', contentRoutes);
@@ -82,33 +78,32 @@ app.listen(PORT, async () => {
 
     // Use the main Sequelize instance to connect to the new database
     console.log('Connecting to the new database with main Sequelize instance...');
-    const sequelize = require('./src/config/database');
-    await sequelize.authenticate();
+    await db.sequelize.authenticate();
     console.log('Main connection established successfully');
 
     // Temporarily disable foreign key checks to isolate the issue
     console.log('Disabling foreign key checks...');
-    await sequelize.query('SET FOREIGN_KEY_CHECKS = 0');
+    await db.sequelize.query('SET FOREIGN_KEY_CHECKS = 0');
 
     console.log('Synchronizing database schema with force: true (drops existing tables)...');
-    await sequelize.sync({ force: true }); // Use force: true to drop and recreate tables
+    await db.sequelize.sync({ force: true });
     console.log('Database schema synchronized');
 
     // Re-enable foreign key checks
     console.log('Re-enabling foreign key checks...');
-    await sequelize.query('SET FOREIGN_KEY_CHECKS = 1');
+    await db.sequelize.query('SET FOREIGN_KEY_CHECKS = 1');
 
     console.log('Models loaded:', Object.keys(db));
     // Additional logging to verify table definitions
     console.log('Checking user_profiles table columns...');
-    const [userProfilesTable] = await sequelize.query("SHOW COLUMNS FROM user_profiles LIKE 'userId';");
+    const [userProfilesTable] = await db.sequelize.query("SHOW COLUMNS FROM user_profiles LIKE 'userId';");
     console.log('user_profiles.userId definition:', userProfilesTable);
 
     console.log('Checking if audit_logs table exists...');
-    const [tables] = await sequelize.query("SHOW TABLES LIKE 'audit_logs';");
+    const [tables] = await db.sequelize.query("SHOW TABLES LIKE 'audit_logs';");
     if (tables.length > 0) {
       console.log('audit_logs table exists, querying columns...');
-      const [auditLogsTable] = await sequelize.query("SHOW COLUMNS FROM audit_logs LIKE 'user_profile_id';");
+      const [auditLogsTable] = await db.sequelize.query("SHOW COLUMNS FROM audit_logs LIKE 'user_profile_id';");
       console.log('audit_logs.user_profile_id definition:', auditLogsTable);
     } else {
       console.warn('audit_logs table does not exist. Please ensure the AuditLogs model is correctly defined and loaded.');
@@ -119,4 +114,4 @@ app.listen(PORT, async () => {
   }
 });
 
-module.exports = app;
+export default app;
