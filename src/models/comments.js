@@ -14,56 +14,53 @@ export default (sequelize, DataTypes) => {
     }
   }
 
-  const modelDefinition = {
-    id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      primaryKey: true,
-    },
-    content_id: {
-      type: DataTypes.UUID,
-      allowNull: false,
-      references: {
-        model: 'content',
-        key: 'id',
+  Comments.init(
+    {
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+      },
+      content_id: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        references: {
+          model: 'content',
+          key: 'id',
+        },
+      },
+      commenter_id: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        references: {
+          model: 'user_profiles',
+          key: 'userId',
+        },
+      },
+      comment: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+      },
+      created_at: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
+      createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
       },
     },
-    commenter_id: {
-      type: DataTypes.UUID,
-      allowNull: false,
-      references: {
-        model: 'user_profiles',
-        key: 'userId',
-      },
-    },
-    comment: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
-    created_at: {
-      type: DataTypes.DATE,
-      allowNull: true,
-    },
-    createdAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW,
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW,
-    },
-  };
-
-  console.log('Comments model definition:', JSON.stringify(modelDefinition, null, 2));
-
-  Comments.init(modelDefinition, {
-    sequelize,
-    modelName: 'Comments',
-    tableName: 'comments',
-    timestamps: true,
-  });
+    {
+      sequelize,
+      modelName: 'Comments',
+      tableName: 'comments',
+      timestamps: true,
+    }
+  );
 
   return Comments;
 };

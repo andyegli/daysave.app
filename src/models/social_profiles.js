@@ -14,52 +14,49 @@ export default (sequelize, DataTypes) => {
     }
   }
 
-  const modelDefinition = {
-    id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      primaryKey: true,
-    },
-    user_profile_id: {
-      type: DataTypes.UUID,
-      allowNull: false,
-      references: {
-        model: 'user_profiles',
-        key: 'userId',
+  SocialProfiles.init(
+    {
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+      },
+      user_profile_id: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        references: {
+          model: 'user_profiles',
+          key: 'userId',
+        },
+      },
+      provider_id: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        references: {
+          model: 'social_providers',
+          key: 'id',
+        },
+      },
+      provider_user_id: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
       },
     },
-    provider_id: {
-      type: DataTypes.UUID,
-      allowNull: false,
-      references: {
-        model: 'social_providers',
-        key: 'id',
-      },
-    },
-    provider_user_id: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    createdAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW,
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW,
-    },
-  };
-
-  console.log('SocialProfiles model definition:', JSON.stringify(modelDefinition, null, 2));
-
-  SocialProfiles.init(modelDefinition, {
-    sequelize,
-    modelName: 'SocialProfiles',
-    tableName: 'social_profiles',
-    timestamps: true,
-  });
+    {
+      sequelize,
+      modelName: 'SocialProfiles',
+      tableName: 'social_profiles',
+      timestamps: true,
+    }
+  );
 
   return SocialProfiles;
 };

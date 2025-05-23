@@ -9,7 +9,7 @@ router.get('/content/create', authMiddleware.isAuthenticated, contentController.
 router.post('/content', authMiddleware.isAuthenticated, contentController.postContent);
 router.get('/content/:id', authMiddleware.isAuthenticated, contentController.getContent);
 router.get('/content/:id/edit', authMiddleware.isAuthenticated, contentController.editContent);
-router.post('/content/:id/update', authMiddleware.isAuthenticated, contentController.updateContent);
+router.post('/content/:id', authMiddleware.isAuthenticated, contentController.updateContent);
 router.post('/content/:id/delete', authMiddleware.isAuthenticated, contentController.deleteContent);
 
 export default router;

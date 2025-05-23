@@ -10,37 +10,34 @@ export default (sequelize, DataTypes) => {
     }
   }
 
-  const modelDefinition = {
-    id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      primaryKey: true,
+  PaymentProviders.init(
+    {
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+      },
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+      },
+      createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
     },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-    },
-    createdAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW,
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW,
-    },
-  };
-
-  console.log('PaymentProviders model definition:', JSON.stringify(modelDefinition, null, 2));
-
-  PaymentProviders.init(modelDefinition, {
-    sequelize,
-    modelName: 'PaymentProviders',
-    tableName: 'payment_providers',
-    timestamps: true,
-  });
+    {
+      sequelize,
+      modelName: 'PaymentProviders',
+      tableName: 'payment_providers',
+      timestamps: true,
+    }
+  );
 
   return PaymentProviders;
 };

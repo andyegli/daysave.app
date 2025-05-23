@@ -10,37 +10,34 @@ export default (sequelize, DataTypes) => {
     }
   }
 
-  const modelDefinition = {
-    id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      primaryKey: true,
+  SocialProviders.init(
+    {
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+      },
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+      },
+      createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
     },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-    },
-    createdAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW,
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW,
-    },
-  };
-
-  console.log('SocialProviders model definition:', JSON.stringify(modelDefinition, null, 2));
-
-  SocialProviders.init(modelDefinition, {
-    sequelize,
-    modelName: 'SocialProviders',
-    tableName: 'social_providers',
-    timestamps: true,
-  });
+    {
+      sequelize,
+      modelName: 'SocialProviders',
+      tableName: 'social_providers',
+      timestamps: true,
+    }
+  );
 
   return SocialProviders;
 };

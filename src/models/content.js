@@ -7,6 +7,10 @@ export default (sequelize, DataTypes) => {
         foreignKey: 'userId',
         as: 'user',
       });
+      Content.belongsTo(models.ContentSources, {
+        foreignKey: 'source_id',
+        as: 'source',
+      });
       Content.hasMany(models.Comments, {
         foreignKey: 'content_id',
         as: 'comments',
@@ -17,69 +21,64 @@ export default (sequelize, DataTypes) => {
       });
       Content.hasMany(models.ContentAnalysis, {
         foreignKey: 'content_id',
-        as: 'analyses',
+        as: 'analysis',
       });
-      Content.hasMany(models.ContentTags, {
+      Content.belongsToMany(models.Tags, {
+        through: models.ContentTags,
         foreignKey: 'content_id',
-        as: 'contentTags',
-      });
-      Content.belongsTo(models.ContentSources, {
-        foreignKey: 'source_id',
-        as: 'source',
+        otherKey: 'tag_id',
+        as: 'tags',
       });
     }
   }
 
-  const modelDefinition = {
-    id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      primaryKey: true,
-    },
-    userId: {
-      type: DataTypes.UUID,
-      allowNull: false,
-      references: {
-        model: 'user_profiles',
-        key: 'userId',
+  Content.init(
+    {
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+      },
+      userId: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        references: {
+          model: 'user_profiles',
+          key: 'userId',
+        },
+      },
+      title: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      body: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+      },
+      source_id: {
+        type: DataTypes.UUID,
+        allowNull: true,
+        references: {
+          model: 'content_sources',
+          key: 'id',
+        },
+      },
+      createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
       },
     },
-    title: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    body: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
-    source_id: {
-      type: DataTypes.UUID,
-      allowNull: true,
-      references: {
-        model: 'content_sources',
-        key: 'id',
-      },
-    },
-    createdAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW,
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW,
-    },
-  };
-
-  console.log('Content model definition:', JSON.stringify(modelDefinition, null, 2));
-
-  Content.init(modelDefinition, {
-    sequelize,
-    modelName: 'Content',
-    tableName: 'content',
-    timestamps: true,
-  });
+    {
+      sequelize,
+      modelName: 'Content',
+      tableName: 'content',
+      timestamps: true,
+    }
+  );
 
   return Content;
 };

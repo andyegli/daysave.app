@@ -10,48 +10,45 @@ export default (sequelize, DataTypes) => {
     }
   }
 
-  const modelDefinition = {
-    id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      primaryKey: true,
-    },
-    content_id: {
-      type: DataTypes.UUID,
-      allowNull: false,
-      references: {
-        model: 'content',
-        key: 'id',
+  ContentAnalysis.init(
+    {
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+      },
+      content_id: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        references: {
+          model: 'content',
+          key: 'id',
+        },
+      },
+      analysis_type: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      result: {
+        type: DataTypes.JSON,
+        allowNull: true,
+      },
+      createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
       },
     },
-    analysis_type: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    result: {
-      type: DataTypes.JSON,
-      allowNull: true,
-    },
-    createdAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW,
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW,
-    },
-  };
-
-  console.log('ContentAnalysis model definition:', JSON.stringify(modelDefinition, null, 2));
-
-  ContentAnalysis.init(modelDefinition, {
-    sequelize,
-    modelName: 'ContentAnalysis',
-    tableName: 'content_analysis',
-    timestamps: true,
-  });
+    {
+      sequelize,
+      modelName: 'ContentAnalysis',
+      tableName: 'content_analysis',
+      timestamps: true,
+    }
+  );
 
   return ContentAnalysis;
 };

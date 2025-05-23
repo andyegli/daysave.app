@@ -9,7 +9,7 @@ router.get('/contact/create', authMiddleware.isAuthenticated, contactController.
 router.post('/contact', authMiddleware.isAuthenticated, contactController.postContact);
 router.get('/contact/:id', authMiddleware.isAuthenticated, contactController.getContact);
 router.get('/contact/:id/edit', authMiddleware.isAuthenticated, contactController.editContact);
-router.post('/contact/:id/update', authMiddleware.isAuthenticated, contactController.updateContact);
+router.post('/contact/:id', authMiddleware.isAuthenticated, contactController.updateContact);
 router.post('/contact/:id/delete', authMiddleware.isAuthenticated, contactController.deleteContact);
 
 export default router;

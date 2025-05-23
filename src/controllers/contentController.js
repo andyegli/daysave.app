@@ -1,8 +1,7 @@
-import db from '../models/index.js';
-
 export default {
   async getAllContent(req, res) {
     try {
+      const db = (await import('../models/index.js')).default;
       const contents = await db.Content.findAll();
       res.render('content/index', { contents });
     } catch (error) {
@@ -17,6 +16,7 @@ export default {
 
   async postContent(req, res) {
     try {
+      const db = (await import('../models/index.js')).default;
       const { title, body } = req.body;
       await db.Content.create({ title, body });
       res.redirect('/content');
@@ -28,6 +28,7 @@ export default {
 
   async getContent(req, res) {
     try {
+      const db = (await import('../models/index.js')).default;
       const content = await db.Content.findByPk(req.params.id);
       if (!content) {
         return res.status(404).send('Content not found');
@@ -41,6 +42,7 @@ export default {
 
   async editContent(req, res) {
     try {
+      const db = (await import('../models/index.js')).default;
       const content = await db.Content.findByPk(req.params.id);
       if (!content) {
         return res.status(404).send('Content not found');
@@ -54,6 +56,7 @@ export default {
 
   async updateContent(req, res) {
     try {
+      const db = (await import('../models/index.js')).default;
       const { title, body } = req.body;
       const content = await db.Content.findByPk(req.params.id);
       if (!content) {
@@ -69,6 +72,7 @@ export default {
 
   async deleteContent(req, res) {
     try {
+      const db = (await import('../models/index.js')).default;
       const content = await db.Content.findByPk(req.params.id);
       if (!content) {
         return res.status(404).send('Content not found');

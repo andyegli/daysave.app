@@ -1,8 +1,7 @@
-import db from '../models/index.js';
-
 export default {
   async getAllContacts(req, res) {
     try {
+      const db = (await import('../models/index.js')).default;
       const contacts = await db.Contacts.findAll();
       res.render('contact/index', { contacts });
     } catch (error) {
@@ -17,6 +16,7 @@ export default {
 
   async postContact(req, res) {
     try {
+      const db = (await import('../models/index.js')).default;
       const { name, email, phone } = req.body;
       await db.Contacts.create({ name, email, phone });
       res.redirect('/contact');
@@ -28,6 +28,7 @@ export default {
 
   async getContact(req, res) {
     try {
+      const db = (await import('../models/index.js')).default;
       const contact = await db.Contacts.findByPk(req.params.id);
       if (!contact) {
         return res.status(404).send('Contact not found');
@@ -41,6 +42,7 @@ export default {
 
   async editContact(req, res) {
     try {
+      const db = (await import('../models/index.js')).default;
       const contact = await db.Contacts.findByPk(req.params.id);
       if (!contact) {
         return res.status(404).send('Contact not found');
@@ -54,6 +56,7 @@ export default {
 
   async updateContact(req, res) {
     try {
+      const db = (await import('../models/index.js')).default;
       const { name, email, phone } = req.body;
       const contact = await db.Contacts.findByPk(req.params.id);
       if (!contact) {
@@ -69,6 +72,7 @@ export default {
 
   async deleteContact(req, res) {
     try {
+      const db = (await import('../models/index.js')).default;
       const contact = await db.Contacts.findByPk(req.params.id);
       if (!contact) {
         return res.status(404).send('Contact not found');

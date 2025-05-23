@@ -3,48 +3,53 @@ import { Model } from 'sequelize';
 export default (sequelize, DataTypes) => {
   class Roles extends Model {
     static associate(models) {
-      Roles.hasMany(models.UserRoles, {
+      Roles.belongsToMany(models.Permissions, {
+        through: models.RolePermissions,
         foreignKey: 'role_id',
-        as: 'userRoles',
+        otherKey: 'permission_id',
+        as: 'permissions',
+      });
+      Roles.belongsToMany(models.UserProfiles, {
+        through: models.UserRoles,
+        foreignKey: 'role_id',
+        otherKey: 'user_profile_id',
+        as: 'users',
       });
     }
   }
 
-  const modelDefinition = {
-    id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      primaryKey: true,
+  Roles.init(
+    {
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+      },
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+      },
+      description: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
     },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-    },
-    description: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    createdAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW,
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW,
-    },
-  };
-
-  console.log('Roles model definition:', JSON.stringify(modelDefinition, null, 2));
-
-  Roles.init(modelDefinition, {
-    sequelize,
-    modelName: 'Roles',
-    tableName: 'roles',
-    timestamps: true,
-  });
+    {
+      sequelize,
+      modelName: 'Roles',
+      tableName: 'roles',
+      timestamps: true,
+    }
+  );
 
   return Roles;
 };

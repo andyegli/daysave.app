@@ -14,53 +14,49 @@ export default (sequelize, DataTypes) => {
     }
   }
 
-  const modelDefinition = {
-    id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      primaryKey: true,
-    },
-    content_id: {
-      type: DataTypes.UUID,
-      allowNull: false,
-      references: {
-        model: 'content',
-        key: 'id',
+  ContentShares.init(
+    {
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+      },
+      content_id: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        references: {
+          model: 'content',
+          key: 'id',
+        },
+      },
+      user_profile_id: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        references: {
+          model: 'user_profiles',
+          key: 'userId',
+        },
+      },
+      shared_at: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+      createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
       },
     },
-    user_profile_id: {
-      type: DataTypes.UUID,
-      allowNull: false,
-      references: {
-        model: 'user_profiles',
-        key: 'userId',
-      },
-    },
-    shared_at: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW,
-    },
-    createdAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW,
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW,
-    },
-  };
-
-  console.log('ContentShares model definition:', JSON.stringify(modelDefinition, null, 2));
-
-  ContentShares.init(modelDefinition, {
-    sequelize,
-    modelName: 'ContentShares',
-    tableName: 'content_shares',
-    timestamps: true,
-  });
+    {
+      sequelize,
+      modelName: 'ContentShares',
+      tableName: 'content_shares',
+      timestamps: true,
+    }
+  );
 
   return ContentShares;
 };
