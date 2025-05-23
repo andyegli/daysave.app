@@ -1,11 +1,11 @@
 import { Model } from 'sequelize';
 
 export default (sequelize, DataTypes) => {
-  class Tags extends Model {
+  class AuditLogs extends Model {
     static associate(models) {
-      Tags.hasMany(models.ContentTags, {
-        foreignKey: 'tag_id',
-        as: 'contentTags',
+      AuditLogs.belongsTo(models.UserProfiles, {
+        foreignKey: 'user_profile_id',
+        as: 'userProfile',
       });
     }
   }
@@ -16,10 +16,21 @@ export default (sequelize, DataTypes) => {
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
-    name: {
+    user_profile_id: {
+      type: DataTypes.UUID,
+      allowNull: false,
+      references: {
+        model: 'user_profiles',
+        key: 'userId',
+      },
+    },
+    action: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
+    },
+    details: {
+      type: DataTypes.JSON,
+      allowNull: true,
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -33,14 +44,14 @@ export default (sequelize, DataTypes) => {
     },
   };
 
-  console.log('Tags model definition:', JSON.stringify(modelDefinition, null, 2));
+  console.log('AuditLogs model definition:', JSON.stringify(modelDefinition, null, 2));
 
-  Tags.init(modelDefinition, {
+  AuditLogs.init(modelDefinition, {
     sequelize,
-    modelName: 'Tags',
-    tableName: 'tags',
+    modelName: 'AuditLogs',
+    tableName: 'audit_logs',
     timestamps: true,
   });
 
-  return Tags;
+  return AuditLogs;
 };
