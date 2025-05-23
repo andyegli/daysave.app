@@ -3,6 +3,6 @@ node_modules/
 dist/
 .devcontainer/build/
 docs/prompts/
-docs/md.ori
+docs/md_ori/
 out/
 
