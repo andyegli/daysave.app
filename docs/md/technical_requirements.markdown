@@ -9,5 +9,6 @@ Bootstrap with EJS partials
 
 Styling elemets primarily in public/CSS
 Images in /public/images
-Client side scripts in /public/js
+Client side scripts in /public/js  
+landing page has herp-section     
 

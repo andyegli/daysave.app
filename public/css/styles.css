@@ -1,93 +1,71 @@
-/* style.css for daysave.app v1.0.1 */
+/* Custom styles for Daysave App */
 body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #f4f4f4;
-}
-
-.content-grid {
+  background-color: #f8f9fa;
+  min-height: 100vh;
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  padding: 20px;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-.content-block {
-  background-color: white;
-  border: 2px solid;
-  border-radius: 5px;
-  padding: 15px;
-  width: 300px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s;
+h1, h2, h3 {
+  color: #343a40;
 }
 
-.content-block:hover {
-  transform: scale(1.02);
+.btn-primary {
+  transition: background-color 0.3s ease;
 }
 
-.content-block h3 {
-  margin: 0 0 10px;
-  color: #008AA0;
-  font-size: 18px;
+.btn-primary:hover {
+  background-color: #0056b3;
 }
 
-.preview {
-  margin: 10px 0;
-  color: #666;
-  font-style: italic;
+/* Replace inline styles for forms */
+.delete-form {
+  display: inline;
 }
 
-.tags .tag {
-  display: inline-block;
-  background-color: #16C3C6;
-  color: white;
-  padding: 3px 8px;
-  border-radius: 12px;
-  font-size: 12px;
-  margin-right: 5px;
-  margin-bottom: 5px;
+/* Navbar sticky */
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+footer {
+  margin-top: auto;
 }
 
-.comments p {
-  margin: 5px 0;
-  font-size: 14px;
-  color: #333;
-  border-left: 3px solid #20D6D1;
-  padding-left: 8px;
-}
-
-button {
-  background-color: #FFD05D;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
-  margin-top: 10px;
-}
-
-button:hover {
-  background-color: #e6b800;
-}
-
-.batch-actions {
-  margin: 20px;
-  display: flex;
-  gap: 10px;
-}
-
-.batch-actions button {
-  background-color: #008AA0;
-  color: white;
-}
-
-.batch-actions button:hover {
-  background-color: #006d80;
-}
-
-.selected {
-  background-color: #e0f7fa;
-  border-color: #008AA0 !important;
+/* Mobile-specific adjustments */
+@media (max-width: 576px) {
+  h1 {
+    font-size: 1.5rem;
+  }
+  h2 {
+    font-size: 1.25rem;
+  }
+  .container {
+    padding: 0 10px;
+  }
+  .card-body {
+    padding: 1rem;
+  }
+  .btn {
+    font-size: 0.875rem;
+    padding: 0.5rem 1rem;
+  }
+  .navbar-brand img {
+    height: 30px;
+  }
+  .navbar-brand {
+    font-size: 1rem;
+  }
+  .hero-section {
+    padding: 2rem 0;
+  }
+  .hero-section h1 {
+    font-size: 2rem;
+  }
+  .hero-section p {
+    font-size: 1rem;
+  }
 }

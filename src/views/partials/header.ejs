@@ -3,23 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Daysave App - Manage your content and contacts with ease.">
+  <meta name="keywords" content="content management, contact management, subscription app">
+  <meta property="og:title" content="<%= title || 'Daysave App' %>">
+  <meta property="og:description" content="Daysave App - Manage your content and contacts with ease.">
+  <meta property="og:image" content="/images/logo.png">
+  <meta property="og:url" content="http://localhost:3000">
+  <meta property="og:type" content="website">
   <title><%= title || 'Daysave App' %></title>
+  <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
   <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    body {
-      background-color: #f8f9fa;
-    }
-    h1, h2, h3 {
-      color: #343a40;
-    }
-    .btn-primary {
-      transition: background-color 0.3s ease;
-    }
-    .btn-primary:hover {
-      background-color: #0056b3;
-    }
-  </style>
+  <link href="/css/styles.css" rel="stylesheet">
 </head>
 <body>
   <%- include('nav') %>
-  <div class="container mt-5">
+  <main class="container mt-5 flex-grow-1">
