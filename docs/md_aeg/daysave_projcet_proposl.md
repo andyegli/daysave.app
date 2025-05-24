@@ -40,17 +40,14 @@ DaySave.app is designed to solve a modern digital problem: people frequently fin
 
 ### 1.1 Motivation and inspiration
 
-While "scripting" in IT  for a livetime and occationally "tinkering" with small applications I have joind FutureSkills MCSD51 to gain a more in depth and structured understanding of how software projects are comming to live. I have chosen this project as my project, knowing that it may exeed the complexity and scope of the class requirements. I am intrested in not only the basics but also how AI can support the learning and effects efficiency in aspiring developers. The application is derived from my dayly needs in storing a variate of content for futer reserch. 
+While "scripting" in IT  for a livetime and occationally "tinkering" with small applications I have joind FutureSkills MCSD51 to gain a more in depth and structured understanding of how software projects are comming to live. I have chosen daysave.app as my project, knowing that it may challanging in complexity and a strech in the scope of the class. I am intrested in not only the basics but also how AI can support the learning and effects efficiency in aspiring developers. The application is derived from my dayly needs in storing a variate of content for futer reserch. 
 
-I wentured out and bought a the daysave domain name to use in the project then started the reseach. (see alternatives_inspiration.md).
-
-To my surprise a found may similar projects some of them even opensource and some of them commersical.
+I wentured out and bought a the daysave domain name to use in the project then started the reseach. (see alternatives_inspiration.md).To my surprise I found may similar projects some of them even opensource and some of them commersical.
 
 I also tried to keep the techstack close to what has been tought in class but did want to explore technologies assiting advanced authentication (passoport) and ways to be able to change the database schema dynamically (Squalize). See the full techstack in [daysave.app/docs/md/tech_tools_accounts.md](https://github.com/andyegli/daysave.app/blob/main/docs/md/tech_tools_accounts.md)
 
-Since I have a need in my every day live to work with docker, clouod hosting and devops, I also wanted to learn more about devcontainers.
-And lastly I struggled producing quality diagrams untill i discovered PlantUML allowing me to generate these dynamically from code.
-Therefore I included PlantUML in my techstack.
+Since I have a need in my every day live to work with docker, clouod hosting and devops, I also wanted to learn more about devcontainers and try to creat the project in such a container.
+And lastly I struggled producing quality diagrams untill i discovered PlantUML allowing me to generate these dynamically from code. Therefore I included PlantUML in my techstack.
 
 ## 1.2. Project Team
 
@@ -65,8 +62,7 @@ Users of the platform are individuals who regularly browse digital content and w
 The expected outcome of this project is a functioning web application (Phase 1) that includes secure registration/login, a conent page
 to search and display saved content also features to tag, conmment, share content with contacts and manage contact groups. 
 
-In a fist step I am trying to implent the the a proper project structure and basics according to the work breakdown  
-see project_wbs.md. I would like to see the schema generation to come to live and also some initial pages
+In a fist step I am trying to implent the the a proper project structure on github and implement basics in accordance to the [work breakdown structure](https://github.com/andyegli/daysave.app/blob/main/docs/md/project_wbs.markdown).  I would like to see the schema generation to come to live and also some initial pages
 Landing page, Login page, Conent management, Contact management to meet the requiremens for the coourse.
 Depending on the progress I hope I will be able to present the project runing hosted in google cloud with is wehere we manage most of our clients systems in real live and provide servises for our customers.     
 
@@ -108,8 +104,8 @@ Privacy is a big topic and we will have to investigate how the privacy laws impa
 
 ## 3. User Stories and Use Cases 
 
-More aore and detailded user stories are documented in the repo at 
-[docs/md/daysave_user_stories.md](https://github.com/andyegli/daysave.app/blob/main/docs/md/daysave_user_stories.md)
+User stories are detailded and ocumented in the repo at 
+[docs/md/daysave_user_stories.md](https://github.com/andyegli/daysave.app/blob/main/docs/md_aeg/daysave_user_stories.md)
 
 At this stage we have not introduced a identification system for use cases and  user stories 
 
@@ -117,15 +113,15 @@ At this stage we have not introduced a identification system for use cases and  
 
 Here some of the basic user stories follwoing initial brain storiming:
 
-- As a guest, I want to be abler to explore the home page
+- As a guest, I want to be able to explore the home page
 
-- As a gures, I want to be able to register for a trial and become a user
+- As a guest, I want to be able to register for a trial and become a user
 
 - As a user, I want to save and categorize interesting content.  
 
 - As a user, I want to easily find my stored linkss a user, I want to have  
 
-- As a user, I want to securely log in to be abler to submit urls
+- As a user, I want to securely log in to be able to submit contnet url's
 
 - As a user, I want to share saved content with my contacts. 
 
@@ -155,8 +151,8 @@ Here some of the basic user stories follwoing initial brain storiming:
 ## 4. Ethical and Cultural Impact 
 
 The DaySave.app expands traditional NZ values in to a framework of responsible technology for 2025 and beyond: 
- - Equity: regardless of language, culture or device, user can engage with the platform fully. 
- - The content tagging system is designed to support all language and cultural expression	  
+ - Equity: regardless of culture or device, user can engage with the platform fully. 
+ - The content tagging & comments system is designed to support all language and cultural expression	  
  - Partnership: Involving diverse user groups in feedback loops. 
  - Protection: Encrypting user data securely while in transit or at rest. 
  - Respect Intellectual Property: No content is stored or copied 
@@ -197,13 +193,13 @@ The project includes several supporting diagrams:
  - Use Case Diagrams: Divided by user type UserAuth, UserContent, UserContacts, AdminPanel etc 
  - Database Schema: Normalized tables for users, content, tags, comments, contacts and relations etc
   
-These diagrams are included as supporting files and visual references in the project folder and pushed tho the git repo 
+Diagrams are included as supporting files and visual references. As they are produced the are pushed to the git repo.
 [/docs/diagrams/out/](https://github.com/andyegli/daysave.app/blob/main/docs/diagrams/out/)
 
 
 ## 8. References 
 
-Project references are managed in the repo at [docs/md/daysave_references.md](https://github.com/andyegli/daysave.app/blob/main/docs/md/daysave_references.md)
+Project references are managed in the repo at [docs/md/daysave_references.md](https://github.com/andyegli/daysave.app/blob/main/docs/md_aeg/daysave_references.md)
 
 Additionally here references that where provided as part of the project template:
 
