@@ -1,0 +1,19 @@
+@startuml login_sequence_encrypted
+title Encrypted Login Request Flow with Encryption
+
+actor User
+participant Express
+participant AuthMiddleware
+participant Sequelize
+database MySQL
+
+User ->> Express: POST /login (credentials)
+Express ->> AuthMiddleware: Verify credentials
+AuthMiddleware ->> Sequelize: Query auth_providers
+Sequelize ->> MySQL: SELECT provider dataP
+MySQL -->> Sequelize: Return data
+Sequelize -->> AuthMiddleware: Validated user
+AuthMiddleware ->> Express: Proceed
+Express -->> User: Redirect to /content
+
+@enduml

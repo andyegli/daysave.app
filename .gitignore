@@ -1,4 +1,6 @@
 node_modules/
+src/certs/
+src/config/secrets/
 .env
 dist/
 .devcontainer/build/

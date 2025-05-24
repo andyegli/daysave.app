@@ -1,0 +1,64 @@
+Implementation Notes Secure Storage at Rest (DevOps)
+
+1. Encrypt at the Host Filesystem Level
+Use encryption tools on the host to encrypt the volume mount location:
+
+Linux: LUKS or ecryptfs
+bash:
+
+# Example using LUKS on Linux
+sudo cryptsetup luksFormat /dev/sdX
+sudo cryptsetup luksOpen /dev/sdX encrypted_volume
+mkfs.ext4 /dev/mapper/encrypted_volume
+mount /dev/mapper/encrypted_volume /mnt/secure-mysql
+docker run -v /mnt/secure-mysql:/var/lib/mysql ...
+
+macOS: FileVault + encrypted Docker volumes
+
+Windows: BitLocker or encrypted VHDX drives
+
+2. Use Encrypted Overlay (User Space Tools)
+Mount Docker volumes through encrypted file systems like:
+
+gocryptfs (Go-based, FUSE)
+
+encfs (FUSE-based, older)
+
+bash:
+
+mkdir encrypted decrypted
+gocryptfs -init encrypted
+gocryptfs encrypted decrypted
+
+docker run -v $(pwd)/decrypted:/var/lib/mysql ...
+
+3. Use Encrypted Block Storage on the Cloud
+If you’re on:
+
+Google Cloud: Persistent Disks (default encrypted with Cloud KMS)
+
+AWS: EBS volumes (encryption enabled at creation)
+
+Azure: Encrypted Managed Disks
+
+You mount the encrypted cloud volume directly into your container with Docker Compose or Kubernetes.
+
+4. Encrypt Specific Data in the Application
+Encrypt fields like content.body, user_notes, api_keys before saving to the DB. This protects data even if the host or DB is compromised.
+
+For development:
+
+bash:
+
+gocryptfs ./encrypted-mysql ./decrypted-mysql
+docker run -v $(pwd)/decrypted-mysql:/var/lib/mysql ...
+
+For production (e.g. GCP):
+
+yaml:
+
+volumeMounts:
+  - name: encrypted-volume
+    mountPath: /var/lib/mysql
+persistentVolumeClaim:
+  claimName: gcp-pd-encrypted-claim

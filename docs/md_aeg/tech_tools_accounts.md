@@ -32,7 +32,7 @@
 
 **MS SQL Server 19 in container:** A containerized version of Microsoft SQL Server 2019 for development and testing.
 
-n**pm:**                    The package manager for Node.js, used for installing and managing JavaScript libraries.
+**npm:**                    The package manager for Node.js, used for installing and managing JavaScript libraries.
 
 **node-venv:**              A tool for creating isolated Node.js virtual environments.
 
