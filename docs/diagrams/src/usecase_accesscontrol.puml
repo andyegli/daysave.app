@@ -1,0 +1,44 @@
+@startuml daysave.app RBAC
+actor Guest
+actor TrialUser
+actor Subscriber
+actor Admin
+actor Contact
+
+rectangle "DaySave System" {
+  (Browse Homepage)
+  (Register/Login) 
+  (Save Content) 
+  (Comment on Shared Content) 
+  (Manage Users)
+  (AssumeProfile)
+  (View Profile)
+  (Deactivate Profile)
+  (Delete Profile)
+  (Extend Trial)
+}
+
+Guest --> (Browse Homepage)
+Guest --> (Register/Login)
+TrialUser --> (Browse Homepage)
+TrialUser --> (Register/Login)
+TrialUser --> (Save Content) 
+TrialUser --> (Comment on Shared Content) 
+Subscriber --> (Browse Homepage)
+Subscriber --> (Register/Login)
+Subscriber --> (Save Content) 
+Subscriber --> (Comment on Shared Content) 
+Contact --> (Browse Homepage)
+Contact --> (Register/Login)
+Contact --> (Comment on Shared Content) 
+TrialUser    --> (Register/Login)
+Contact --> (Comment on Shared Content) 
+Admin --> (Browse Homepage)
+Admin --> (Register/Login)
+Admin --> (Manage Users) 
+Admin --> (AssumeProfile)
+Admin --> (View Profile) 
+Admin --> (Deactivate Profile)
+Admin --> (Delete Profile)
+Admin --> (Extend Trial)   
+@enduml
