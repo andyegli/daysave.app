@@ -5,6 +5,8 @@ actor User
 rectangle ContactsSharing {
   ( Add/edit/delete contact or group )
   User --> ( Add/edit/delete contact or group )
+    ( Add, edit, delete contact in group )
+  User --> ( Add, edit, delete contact in group )
   ( Share content with contact )
   User --> ( Share content with contact )
   ( Manage visibility and access levels )
