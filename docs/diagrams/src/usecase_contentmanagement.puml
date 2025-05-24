@@ -16,7 +16,7 @@ rectangle ContentManagement {
   User --> ( View, sort, filter saved content )
   User --> ( Save content via web form or mobile share )
   User --> ( Timeline browsing )  
-  User --> ( Content moderation )
+  
 
 
   ( Manual content metadata edit ) <-- Admin
