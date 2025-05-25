@@ -7,8 +7,9 @@
 ## 👤 User Personas
 - **Archithect**: Designing the software Archidecture
 - **Guest**: An unregistered visitor exploring the app
-- **Member**: A registered user who can save, comment, and organize content
-- **Admin**: A privileged user who manages the system, users, tags, and moderation
+- **TrialUser: A registered user with limited funcctionality allowed access untill the end of the trial periode 
+- **Subscriber**: A registered user with access to his content untill the endof the subscribed periode who can save, comment, and organize content
+- **Admin**: A privileged user who manages the system, users, content, tags, and comment. 
 - **AIBackend**: Backend service for tagging, summarizing, and categorizing
 
 ## Authentication and Security
@@ -16,21 +17,22 @@ As a Archithect I:
 ### User Stories
 - I would like to use a flexible Authenticaion Methodes
 - I would like to use flexible 2FA Methodes
-- I would like to use Role-Based Access Control (RBAC)
-- I would like to follow the principle of least prifileges
+- I would like to use Role-Based Access Control (RBAC) and Permissions
+- I would like to follow the principle of least privileges
 - I would like to be able to rate limit access to API
 - I would kike to be able to detect bots accessing the system
 - I would kike to use MySQL with Sequelize and migrate.js for saver and easier database interaction
-- I would like to implemnt an API easier integration with mobiles and 3rd party applications 
-- I would like to use MVC architecture 
-- I would like to implement  
+- I would like to implemnt an API for easier integration with mobiles and 3rd party applications 
+- I would like to use MVC architecture for the pages
+- I would like to use ECMAScript Modules (ESM) syntax for uniform server and client code and better performance
+- I would like to implement and support subscription, payment_methodes and payments 
 - require guests to register before beeing able to authenticate
 - require users to be authenticated before using the application
 - like to offer the guest multiple option to register
 - like to offer users to authenticate using their preffered authentication methode
 - like to offer users to assign one or more 2fa methodes to a authentication methode
 - want a comprehencive audit log 
-- want users to be locke out after to many login attemps to throttle brute-force attempts
+- want users to be locked out after to many login attemps to throttle brute-force attempts
 - I want source IP's to be blocked if they abuse the system 
 
 ### Use Cases
@@ -46,13 +48,14 @@ As a Archithect I:
 ## Mobile & Accessibility
 
 ### User Stories
-As a User I:
+As a Guset / TrialUser / Subscriber / Admin I:
 
 - I want to register with my prefferd methode (UN/PW, Google, Microsoft, FB, Insta etc)
-- I want to be able to reste my password if I can not remember
+- I want to be able to reset my password if I can not remember
 - I want to be able to enable and use my prefferd 2fa metode
-- want to have a free trial period
-- want to be reminded before the trial expires
+- I want to be able to submit password and 2fa in one shot (example: password + otp)
+- want to have a free trial period (guest user )
+- want to be reminded before the trial expires (trialuser)
 - want to subscribe to the service and register payment methodes
 - as a user i want to select from plans which enable additional features
 - I want to submit intresting web social content so i can find and investigate later
@@ -76,7 +79,7 @@ _ I want to be avlel to share content with contacts
 - As a mobile user, I want offline caching of recent content.
 
 as a Admin I
-- would like to suspend and user_prfile to prevent a user from authenticating
+- would like to suspend/reactivate a user_prfile to prevent a user from authenticating
 - like to archive a user profile retaining data but preventing changes
 - would like to be able to remove and userprofile removing all userdata associated with a profile
 - would kike to have a overview of all submissions
