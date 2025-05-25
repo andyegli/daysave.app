@@ -84,6 +84,9 @@ As a Guset / TrialUser / Subscriber / Admin I:
 - I like to scroll through submitted content
 - I like to see a previw, of content_items along with title, sumary and tags while browsing content
 - I like to be able to seach for content 
+- I like all code to be structure in folder under /src and well documented within   
+- I want to managed all documentation in /docs
+- I want to have docs/md for markdown, docs/diagrams/src for .puml files and docs/diagrams/out for PlandUML server Graphical diagrams
 - I like to document all diagrams using PlantUML server .puml files
 - I like to use Squlizer and ORM for more secure and uniform schema managemnt
 - I want to be able to use the bootstrap frame work for styling
@@ -123,6 +126,7 @@ _ i like a profile_account page that shows account_details, payments, oustanding
 - I want to be able to remind users about content, contacts_dob, any contact_nots or to be able to set allerts and be reminded of them 
 - I like the reminder to support reminder_duration, reminder_interval and have the ability to pause reminders 
 - I like track comprehensive statistic on the use, devices, locatios, performance
+- i like to use advanced fingerprinting of connecting devices to be able to detect amomalies and identify exessive user profiles using the same devices or connecting from unusual locations
 
 
 as a Admin I
